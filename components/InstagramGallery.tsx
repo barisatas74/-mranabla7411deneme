@@ -11,6 +11,9 @@ const shots = [
   "photo-1571019613454-1cb2f99b2d8b",
 ];
 
+const INSTAGRAM_URL =
+  process.env.NEXT_PUBLIC_INSTAGRAM_URL || "https://instagram.com/lunarosa";
+
 export default function InstagramGallery() {
   return (
     <section className="bg-bone-100/60 py-24 md:py-32">
@@ -25,7 +28,9 @@ export default function InstagramGallery() {
             Etiketleyin, birlikte paylasalim.
             {" "}
             <a
-              href="#"
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="text-rose-600 underline-offset-4 hover:underline"
             >
               #lunarosamoment
@@ -37,7 +42,9 @@ export default function InstagramGallery() {
           {shots.map((id, index) => (
             <a
               key={id}
-              href="#"
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
               className="group relative aspect-square overflow-hidden bg-ink-950"
             >
               <Image

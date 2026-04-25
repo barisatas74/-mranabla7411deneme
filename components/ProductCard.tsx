@@ -6,7 +6,7 @@ import { useCart } from "@/components/CartContext";
 import { getCategoryName } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import { Product } from "@/types";
-import { ArrowUpRight, Heart } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
@@ -14,9 +14,11 @@ export default function ProductCard({ product }: { product: Product }) {
     product.oldPrice && product.oldPrice > product.price
       ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
       : null;
+  const isOutOfStock = product.stock === 0;
 
   function handleQuickAdd(event: React.MouseEvent<HTMLButtonElement>) {
     event.preventDefault();
+    if (isOutOfStock) return;
     addItem({
       product,
       quantity: 1,
@@ -49,39 +51,41 @@ export default function ProductCard({ product }: { product: Product }) {
           <div className="pointer-events-none absolute inset-0 ring-1 ring-inset ring-ink-900/0 transition duration-500 group-hover:ring-ink-900/10" />
 
           <div className="absolute left-3.5 top-3.5 flex flex-col gap-1.5">
-            {product.isNew && (
+            {isOutOfStock && (
+              <span className="bg-ink-950 px-2.5 py-1 text-[9px] font-medium uppercase tracking-editorial text-white">
+                Tukendi
+              </span>
+            )}
+            {!isOutOfStock && product.isNew && (
               <span className="bg-bone-50/95 px-2.5 py-1 text-[9px] font-medium uppercase tracking-editorial text-ink-900 backdrop-blur">
                 Yeni
               </span>
             )}
-            {discount && (
+            {!isOutOfStock && discount && (
               <span className="bg-ink-900 px-2.5 py-1 text-[9px] font-medium uppercase tracking-editorial text-white">
                 -%{discount}
               </span>
             )}
           </div>
 
-          <button
-            type="button"
-            aria-label="Favorilere ekle"
-            onClick={(event) => event.preventDefault()}
-            className="absolute right-3.5 top-3.5 flex h-9 w-9 translate-y-1 items-center justify-center rounded-full bg-bone-50/95 text-ink-900 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-hover:hover:bg-white group-hover:hover:text-rose-600 md:backdrop-blur"
-          >
-            <Heart strokeWidth={1.5} size={15} />
-          </button>
+          {isOutOfStock && (
+            <div className="pointer-events-none absolute inset-0 bg-bone-50/40" />
+          )}
 
-          <div className="absolute inset-x-3 bottom-3 flex translate-y-0 items-stretch gap-1.5 opacity-100 transition-all duration-500 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
-            <button
-              type="button"
-              onClick={handleQuickAdd}
-              className="flex-1 bg-ink-950/92 py-3 text-[10px] uppercase tracking-editorial text-white backdrop-blur transition-colors hover:bg-rose-600"
-            >
-              Sepete Ekle
-            </button>
-            <span className="flex w-11 items-center justify-center bg-ink-950/92 text-white backdrop-blur transition-colors hover:bg-rose-600">
-              <ArrowUpRight strokeWidth={1.5} size={14} />
-            </span>
-          </div>
+          {!isOutOfStock && (
+            <div className="absolute inset-x-3 bottom-3 flex translate-y-0 items-stretch gap-1.5 opacity-100 transition-all duration-500 md:translate-y-2 md:opacity-0 md:group-hover:translate-y-0 md:group-hover:opacity-100">
+              <button
+                type="button"
+                onClick={handleQuickAdd}
+                className="flex-1 bg-ink-950/92 py-3 text-[10px] uppercase tracking-editorial text-white backdrop-blur transition-colors hover:bg-rose-600"
+              >
+                Sepete Ekle
+              </button>
+              <span className="flex w-11 items-center justify-center bg-ink-950/92 text-white backdrop-blur transition-colors hover:bg-rose-600">
+                <ArrowUpRight strokeWidth={1.5} size={14} />
+              </span>
+            </div>
+          )}
         </div>
 
         <div className="pb-1 pt-4">

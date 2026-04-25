@@ -11,7 +11,11 @@ import {
   type ReactNode,
 } from "react";
 import { getProductById } from "@/data/products";
-import { isCouponValid, normalizeCouponCode } from "@/lib/commerce";
+import {
+  DEFAULT_COUPON_CODE,
+  isCouponValid,
+  normalizeCouponCode,
+} from "@/lib/commerce";
 import { CartItem, CartLine, Product } from "@/types";
 
 const STORAGE_KEY = "luna-rosa-cart";
@@ -133,10 +137,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const parsed = raw ? JSON.parse(raw) : [];
       const normalized = normalizeStoredState(parsed);
       setItems(normalized.items);
-      setCouponCode(normalized.couponCode);
+      setCouponCode(normalized.couponCode ?? DEFAULT_COUPON_CODE);
     } catch {
       setItems([]);
-      setCouponCode(null);
+      setCouponCode(DEFAULT_COUPON_CODE);
     } finally {
       setIsHydrated(true);
     }

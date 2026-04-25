@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo } from "react";
-import { usePathname } from "next/navigation";
-import { Bell, Menu, Search } from "lucide-react";
+import { useMemo, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { LogOut, Menu } from "lucide-react";
 
 const titleMap: Record<string, string> = {
   "/admin": "Dashboard",
@@ -18,6 +18,19 @@ export default function AdminTopbar({
   onOpenSidebar: () => void;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  async function handleLogout() {
+    setIsLoggingOut(true);
+    try {
+      await fetch("/api/admin/logout", { method: "POST" });
+    } finally {
+      router.push("/admin-giris");
+      router.refresh();
+    }
+  }
+
   const title = useMemo(() => {
     if (pathname.includes("/products/new")) {
       return "Yeni Urun";
@@ -54,20 +67,15 @@ export default function AdminTopbar({
       </div>
 
       <div className="flex items-center gap-3">
-        <div className="hidden items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 md:flex">
-          <Search size={15} className="text-slate-400" />
-          <span className="text-sm text-slate-400">Hizli arama yakinda</span>
-        </div>
         <button
           type="button"
-          className="rounded-full border border-slate-200 bg-white p-2.5 text-slate-700"
-          aria-label="Bildirimler"
+          onClick={handleLogout}
+          disabled={isLoggingOut}
+          className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-60"
         >
-          <Bell size={17} />
+          <LogOut size={14} />
+          {isLoggingOut ? "Cikiliyor..." : "Cikis"}
         </button>
-        <div className="hidden rounded-full bg-slate-950 px-4 py-2.5 text-sm font-medium text-white md:block">
-          Admin
-        </div>
       </div>
     </header>
   );

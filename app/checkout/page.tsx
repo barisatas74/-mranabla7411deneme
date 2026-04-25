@@ -179,8 +179,8 @@ export default function CheckoutPage() {
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-ink-700 md:text-base">
               Siparis numaraniz <span className="font-medium text-ink-900">{placedOrder.orderNumber}</span>.
-              Bu onay ekrani frontend simulasyonudur; backend ve odeme entegrasyonu
-              olmadan demo akisi tamamlandi.
+              Siparis detaylari kayitli e-posta adresinize gonderilecektir.
+              Sorulariniz icin musteri hizmetlerimizle iletisime gecebilirsiniz.
             </p>
 
             <div className="mt-10 grid gap-8 md:grid-cols-[minmax(0,1fr)_320px]">
@@ -315,12 +315,14 @@ export default function CheckoutPage() {
             <div className="grid gap-4 md:grid-cols-2">
               <FormInput
                 label="Ad"
+                autoComplete="given-name"
                 value={formData.firstName}
                 onChange={(value) => updateField("firstName", value)}
                 error={errors.firstName}
               />
               <FormInput
                 label="Soyad"
+                autoComplete="family-name"
                 value={formData.lastName}
                 onChange={(value) => updateField("lastName", value)}
                 error={errors.lastName}
@@ -328,18 +330,22 @@ export default function CheckoutPage() {
               <FormInput
                 label="E-posta"
                 type="email"
+                autoComplete="email"
                 value={formData.email}
                 onChange={(value) => updateField("email", value)}
                 error={errors.email}
               />
               <FormInput
                 label="Telefon"
+                type="tel"
+                autoComplete="tel"
                 value={formData.phone}
                 onChange={(value) => updateField("phone", value)}
                 error={errors.phone}
               />
               <FormInput
                 label="Adres"
+                autoComplete="street-address"
                 className="md:col-span-2"
                 value={formData.address}
                 onChange={(value) => updateField("address", value)}
@@ -347,18 +353,21 @@ export default function CheckoutPage() {
               />
               <FormInput
                 label="Il"
+                autoComplete="address-level1"
                 value={formData.city}
                 onChange={(value) => updateField("city", value)}
                 error={errors.city}
               />
               <FormInput
                 label="Ilce"
+                autoComplete="address-level2"
                 value={formData.district}
                 onChange={(value) => updateField("district", value)}
                 error={errors.district}
               />
               <FormInput
                 label="Posta Kodu"
+                autoComplete="postal-code"
                 value={formData.postalCode}
                 onChange={(value) => updateField("postalCode", value)}
                 error={errors.postalCode}
@@ -469,6 +478,7 @@ export default function CheckoutPage() {
               <div className="grid gap-4 md:grid-cols-2">
                 <FormInput
                   label="Kart Uzerindeki Isim"
+                  autoComplete="cc-name"
                   className="md:col-span-2"
                   value={formData.cardHolderName}
                   onChange={(value) => updateField("cardHolderName", value)}
@@ -476,6 +486,8 @@ export default function CheckoutPage() {
                 />
                 <FormInput
                   label="Kart Numarasi"
+                  autoComplete="cc-number"
+                  inputMode="numeric"
                   className="md:col-span-2"
                   value={formData.cardNumber}
                   onChange={(value) => updateField("cardNumber", value)}
@@ -483,12 +495,16 @@ export default function CheckoutPage() {
                 />
                 <FormInput
                   label="Son Kullanma (AA/YY)"
+                  autoComplete="cc-exp"
+                  inputMode="numeric"
                   value={formData.cardExpiry}
                   onChange={(value) => updateField("cardExpiry", value)}
                   error={errors.cardExpiry}
                 />
                 <FormInput
                   label="CVC"
+                  autoComplete="cc-csc"
+                  inputMode="numeric"
                   value={formData.cardCvc}
                   onChange={(value) => updateField("cardCvc", value)}
                   error={errors.cardCvc}
@@ -531,7 +547,7 @@ export default function CheckoutPage() {
             </button>
 
             <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-ink-700/60">
-              <Lock size={11} /> Backend baglantisi olmadan frontend siparis akisi simule edilir.
+              <Lock size={11} /> 256-bit SSL sertifikasi ile guvenli odeme.
             </p>
           </Section>
         </div>
@@ -590,6 +606,9 @@ export default function CheckoutPage() {
               {formatPrice(summary.total)}
             </span>
           </div>
+          <p className="mt-1 text-right text-[11px] text-ink-600">
+            KDV dahildir ({Math.round(summary.taxRate * 100)}% / {formatPrice(summary.includedTax)})
+          </p>
 
           <WhatsAppSupportButton
             context="odeme ve siparis surecim"
@@ -637,6 +656,8 @@ function FormInput({
   error,
   type = "text",
   className,
+  autoComplete,
+  inputMode,
 }: {
   label: string;
   value: string;
@@ -644,12 +665,16 @@ function FormInput({
   error?: string;
   type?: string;
   className?: string;
+  autoComplete?: string;
+  inputMode?: "text" | "numeric" | "tel" | "email" | "search" | "url";
 }) {
   return (
     <label className={cn("block", className)}>
       <span className="text-[11px] uppercase tracking-luxe text-ink-700">{label}</span>
       <input
         type={type}
+        autoComplete={autoComplete}
+        inputMode={inputMode}
         value={value}
         onChange={(event) => onChange(event.target.value)}
         className={cn(

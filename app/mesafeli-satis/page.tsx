@@ -24,9 +24,19 @@ export default function MesafeliSatisPage() {
       <p>
         Unvan: <strong>Luna Rosa</strong>
         <br />
-        E-posta: destek@lunarosa.com
+        Adres: <em>[Sirket merkez adresi]</em>
         <br />
-        Destek Hatti: +90 555 000 00 00
+        Vergi Dairesi / No: <em>[Vergi dairesi] / [VKN]</em>
+        <br />
+        Mersis No: <em>[Mersis numarasi]</em>
+        <br />
+        E-posta: hello@lunarosa.com
+        <br />
+        Destek Hatti: +90 850 222 12 34
+      </p>
+      <p className="text-[12px] text-ink-600">
+        Italik alanlar canlilanmadan once gercek sirket bilgileri ile
+        guncellenmelidir.
       </p>
 
       <h3>Alici</h3>
@@ -51,10 +61,14 @@ export default function MesafeliSatisPage() {
       <h2>Madde 4 - Teslimat</h2>
       <ul>
         <li>Urun, alicinin siparis formunda belirttigi adrese teslim edilir.</li>
-        <li>Standart teslimat sureleri urun sayfasinda ve checkout ekraninda belirtilir.</li>
+        <li>Standart teslimat suresi 1&ndash;3 is gunudur.</li>
         <li>
-          Aksi belirtilmedikce kargo bedeli aliciya aittir; kampanya kosullarinda
-          ucretsiz kargo uygulanabilir.
+          300 TL ve uzeri siparislerde kargo ucretsizdir; alti siparislerde
+          standart kargo bedeli 39 TL, ekspres teslimat 59 TL olarak siparis
+          ozetinde belirtilir.
+        </li>
+        <li>
+          Tum fiyatlar KDV dahildir (KDV orani siparis ozetinde gosterilir).
         </li>
       </ul>
 
@@ -74,9 +88,25 @@ export default function MesafeliSatisPage() {
         Tuketici Hakem Heyetleri ve Tuketici Mahkemeleri yetkilidir.
       </p>
 
+      <h2>Madde 7 - Iade ve Degisim</h2>
+      <p>
+        Alici, ambalaji acilmamis ve hijyen etiketi yerinde olan urunleri 14 gun
+        icinde iade edebilir. Iade talepleri{" "}
+        <a href="mailto:hello@lunarosa.com">hello@lunarosa.com</a> adresine
+        siparis numarasi ile birlikte iletilmelidir. Detaylar icin{" "}
+        <a href="/iade-politikasi">iade politikasi</a> sayfasini inceleyin.
+      </p>
+
+      <h2>Madde 8 - Yururluk</h2>
+      <p>
+        Bu sozlesme, alicinin siparis tamamlama adiminda elektronik ortamda kabul
+        etmesi ile yururluge girer ve siparise konu yukumlulukler tamamlanana
+        kadar gecerlidir.
+      </p>
+
       <p className="mt-10 text-[12px] text-ink-600">
-        Bu metin, yayin oncesi hukuki denetim gerektiren ornek bir sozlesme
-        kurgusudur.
+        Bu sozlesme metni, sirket bilgileri ve hukuki denetim ile birlikte
+        canliya alinmadan once nihai hale getirilmelidir.
       </p>
     </LegalLayout>
   );

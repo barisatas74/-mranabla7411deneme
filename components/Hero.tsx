@@ -71,22 +71,25 @@ export default function Hero() {
         </div>
 
         <div className="relative h-[480px] md:col-span-6 md:h-[680px]">
-          <div className="absolute right-0 top-0 h-[88%] w-[72%] overflow-hidden shadow-luxe img-reveal">
+          <div className="absolute right-0 top-0 h-[88%] w-[72%] overflow-hidden bg-powder-100 shadow-luxe img-reveal">
             <Image
               src="https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=1400&q=90"
               alt="Luna Rosa koleksiyonundan bir secki"
               fill
               priority
+              sizes="(max-width: 768px) 75vw, 45vw"
+              placeholder="empty"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-ink-950/20 via-transparent to-transparent" />
           </div>
 
-          <div className="absolute bottom-4 left-0 hidden h-[48%] w-[42%] overflow-hidden border-[6px] border-bone-50 shadow-card img-reveal md:block">
+          <div className="absolute bottom-4 left-0 hidden h-[48%] w-[42%] overflow-hidden border-[6px] border-bone-50 bg-bone-100 shadow-card img-reveal md:block">
             <Image
               src="https://images.unsplash.com/photo-1617922001439-4a2e6562f328?w=800&q=90"
               alt="Yakin cekim detay gorseli"
               fill
+              sizes="(max-width: 768px) 0vw, 25vw"
               className="object-cover"
             />
           </div>

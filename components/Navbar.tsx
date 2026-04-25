@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { Heart, Menu, Search, ShoppingBag, User } from "lucide-react";
+import { Menu, Search, ShoppingBag } from "lucide-react";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
 import { useCart } from "./CartContext";
+import SearchOverlay from "./SearchOverlay";
 import { cn } from "@/lib/utils";
 
 const navItems = [
@@ -27,6 +28,7 @@ const announcements = [
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const { itemCount } = useCart();
 
   useEffect(() => {
@@ -92,15 +94,14 @@ export default function Navbar() {
           </div>
 
           <div className="ml-2 flex items-center gap-0.5 md:ml-8 md:gap-1">
-            <IconButton label="Ara">
+            <button
+              type="button"
+              aria-label="Ara"
+              onClick={() => setSearchOpen(true)}
+              className="p-2.5 text-ink-900 transition-colors hover:text-rose-600"
+            >
               <Search strokeWidth={1.4} size={18} />
-            </IconButton>
-            <IconButton label="Hesabim" className="hidden md:inline-flex">
-              <User strokeWidth={1.4} size={18} />
-            </IconButton>
-            <IconButton label="Favoriler" className="hidden sm:inline-flex">
-              <Heart strokeWidth={1.4} size={18} />
-            </IconButton>
+            </button>
             <Link
               href="/cart"
               aria-label="Sepet"
@@ -123,6 +124,8 @@ export default function Navbar() {
         items={navItems}
         cartCount={itemCount}
       />
+
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
     </>
   );
 }
@@ -142,25 +145,5 @@ function NavLink({
       {children}
       <span className="absolute bottom-0 left-0 right-0 h-px origin-left scale-x-0 bg-rose-600 transition-transform duration-500 group-hover:scale-x-100" />
     </Link>
-  );
-}
-
-function IconButton({
-  children,
-  label,
-  className,
-}: {
-  children: React.ReactNode;
-  label: string;
-  className?: string;
-}) {
-  return (
-    <button
-      type="button"
-      aria-label={label}
-      className={cn("p-2.5 text-ink-900 transition-colors hover:text-rose-600", className)}
-    >
-      {children}
-    </button>
   );
 }

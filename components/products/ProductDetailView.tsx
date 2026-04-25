@@ -16,7 +16,6 @@ import { cn, formatPrice } from "@/lib/utils";
 import { Product } from "@/types";
 import {
   ChevronDown,
-  Heart,
   Minus,
   Plus,
   RotateCcw,
@@ -277,19 +276,20 @@ export default function ProductDetailView({ product }: { product: Product }) {
                 )}
               </button>
 
-              <button
-                type="button"
-                aria-label="Favorilere ekle"
-                className="flex h-[52px] items-center justify-center border border-ink-900/15 px-5 transition hover:border-rose-600 hover:text-rose-600"
-              >
-                <Heart strokeWidth={1.5} size={18} />
-              </button>
             </div>
 
-            <p className="mt-4 flex items-center gap-2 text-[11px] tracking-wider text-rose-600">
-              <Sparkles size={12} strokeWidth={1.5} />
-              Son {product.stock} adet, sinirli stok ve hizli gonderim
-            </p>
+            {product.stock > 0 && product.stock <= 5 && (
+              <p className="mt-4 flex items-center gap-2 text-[11px] tracking-wider text-rose-600">
+                <Sparkles size={12} strokeWidth={1.5} />
+                Son {product.stock} adet, sinirli stok ve hizli gonderim
+              </p>
+            )}
+            {product.stock === 0 && (
+              <p className="mt-4 flex items-center gap-2 text-[11px] tracking-wider text-ink-700">
+                <Sparkles size={12} strokeWidth={1.5} />
+                Bu urun gecici olarak tukendi.
+              </p>
+            )}
 
             <div className="mt-5">
               <WhatsAppProductButton productName={product.name} />

@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { Heart, Instagram, Search, ShoppingBag, User, X } from "lucide-react";
+import { Instagram, Search, ShoppingBag, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function MobileMenu({
@@ -93,22 +93,28 @@ export default function MobileMenu({
         </nav>
 
         <div className="mt-4 space-y-1 border-t border-ink-900/8 px-6 pt-5">
-          <MobileLink icon={<User strokeWidth={1.4} size={16} />} label="Hesabim" />
-          <MobileLink
-            icon={<Heart strokeWidth={1.4} size={16} />}
-            label="Favorilerim"
-          />
           <MobileLink
             icon={<ShoppingBag strokeWidth={1.4} size={16} />}
             label={`Sepetim${cartCount > 0 ? ` (${cartCount})` : ""}`}
             href="/cart"
             onClose={onClose}
           />
+          <MobileLink label="Hakkimizda" href="/hakkimizda" onClose={onClose} />
+          <MobileLink label="Iletisim" href="/iletisim" onClose={onClose} />
         </div>
 
         <div className="mt-auto px-6 py-6">
           <div className="mb-3 flex items-center gap-4 text-ink-700">
-            <a href="#" aria-label="Instagram" className="transition hover:text-rose-600">
+            <a
+              href={
+                process.env.NEXT_PUBLIC_INSTAGRAM_URL ||
+                "https://instagram.com/lunarosa"
+              }
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="transition hover:text-rose-600"
+            >
               <Instagram strokeWidth={1.4} size={18} />
             </a>
           </div>
@@ -127,7 +133,7 @@ function MobileLink({
   href = "#",
   onClose,
 }: {
-  icon: React.ReactNode;
+  icon?: React.ReactNode;
   label: string;
   href?: string;
   onClose?: () => void;
@@ -138,7 +144,7 @@ function MobileLink({
       onClick={onClose}
       className="flex items-center gap-3 py-2.5 text-sm text-ink-800 transition hover:text-rose-600"
     >
-      <span className="text-rose-600">{icon}</span>
+      {icon && <span className="text-rose-600">{icon}</span>}
       {label}
     </Link>
   );

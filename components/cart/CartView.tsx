@@ -14,7 +14,6 @@ import {
 import { formatPrice } from "@/lib/utils";
 import {
   ArrowRight,
-  Heart,
   Minus,
   Plus,
   RotateCcw,
@@ -47,7 +46,7 @@ export default function CartView() {
     const isValid = applyCoupon(promoCodeInput);
     setCouponFeedback(
       isValid
-        ? `${DEFAULT_COUPON_CODE} uygulandi, %10 indirim hesaba katildi.`
+        ? `${DEFAULT_COUPON_CODE} uygulandi, %30 indirim hesaba katildi.`
         : "Kupon kodu gecersiz veya tanimsiz."
     );
   }
@@ -180,13 +179,6 @@ export default function CartView() {
                     </p>
                   </div>
                   <div className="flex items-start gap-1">
-                    <button
-                      type="button"
-                      aria-label="Favorilere ekle"
-                      className="p-1 text-ink-500 transition hover:text-rose-600"
-                    >
-                      <Heart size={16} strokeWidth={1.5} />
-                    </button>
                     <button
                       type="button"
                       onClick={() => removeItem(line.id)}
@@ -330,6 +322,9 @@ export default function CartView() {
               {formatPrice(summary.total)}
             </span>
           </div>
+          <p className="mt-1 text-right text-[11px] text-ink-600">
+            KDV dahildir ({Math.round(summary.taxRate * 100)}% / {formatPrice(summary.includedTax)})
+          </p>
 
           <Link
             href="/checkout"

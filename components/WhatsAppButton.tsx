@@ -3,7 +3,9 @@
 import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
-const PHONE = "905550000000";
+const PHONE =
+  process.env.NEXT_PUBLIC_WHATSAPP_PHONE?.replace(/[^0-9]/g, "") ||
+  "905550000000";
 
 export function buildWhatsAppUrl(message: string) {
   return `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;

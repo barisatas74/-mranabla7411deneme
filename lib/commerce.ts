@@ -7,6 +7,7 @@ import {
 
 export const FREE_SHIPPING_LIMIT = 300;
 export const DEFAULT_COUPON_CODE = "ROSA30";
+export const TAX_RATE = 0.1;
 
 export const SHIPPING_METHODS: {
   id: ShippingMethod;
@@ -53,8 +54,12 @@ export function getShippingPrice(
   return subtotal >= FREE_SHIPPING_LIMIT || subtotal === 0 ? 0 : 39;
 }
 
+export const DEFAULT_COUPON_DISCOUNT_RATE = 0.3;
+
 export function getDiscountAmount(subtotal: number, couponCode?: string | null) {
-  return isCouponValid(couponCode) ? Math.round(subtotal * 0.1) : 0;
+  return isCouponValid(couponCode)
+    ? Math.round(subtotal * DEFAULT_COUPON_DISCOUNT_RATE)
+    : 0;
 }
 
 export function getCartSummary(
@@ -73,6 +78,7 @@ export function getCartSummary(
   const discount = getDiscountAmount(subtotal, options?.couponCode);
   const total = Math.max(0, subtotal + shipping - discount);
   const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_LIMIT - subtotal);
+  const includedTax = Math.round((total * TAX_RATE) / (1 + TAX_RATE));
 
   return {
     itemCount,
@@ -80,6 +86,8 @@ export function getCartSummary(
     shipping,
     discount,
     total,
+    includedTax,
+    taxRate: TAX_RATE,
     remainingForFreeShipping,
   };
 }

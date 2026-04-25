@@ -17,8 +17,12 @@ const cormorant = Cormorant_Garamond({
   weight: ["300", "400", "500", "600", "700"],
 });
 
+const SITE_URL =
+  process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
+  "https://www.lunarosa.com.tr";
+
 export const metadata: Metadata = {
-  metadataBase: new URL("https://www.lunarosa.com.tr"),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: "Luna Rosa | Premium Ic Giyim Koleksiyonu",
     template: "%s | Luna Rosa",
@@ -38,7 +42,7 @@ export const metadata: Metadata = {
     title: "Luna Rosa | Premium Ic Giyim Koleksiyonu",
     description:
       "Premium ic giyim, gecelik ve takim koleksiyonlarini Luna Rosa vitriniyle kesfedin.",
-    url: "https://www.lunarosa.com.tr",
+    url: SITE_URL,
     siteName: "Luna Rosa",
     locale: "tr_TR",
     type: "website",

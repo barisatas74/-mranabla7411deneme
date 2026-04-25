@@ -25,15 +25,15 @@ export default function CampaignBanner() {
             Edition limitee
           </span>
           <h2 className="mt-6 font-display text-[48px] leading-[1] tracking-tight md:text-[84px]">
-            Ikinci urunde
+            Tum sepete
             <br />
             <span className="font-italic-display text-rose-300">
-              yuzde 30 avantaj.
+              yuzde 30 indirim.
             </span>
           </h2>
           <p className="mt-6 max-w-md font-light leading-[1.8] text-white/70">
-            Belirli urunlerde ikinci urune ozel indirim otomatik olarak sepete
-            yansir. Kampanya secili urunlerde ve stoklarla sinirlidir.
+            ROSA30 kuponu sepetinize otomatik tanimlanir. Indirim tum
+            koleksiyonda gecerlidir; ek bir kod girmenize gerek yok.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
@@ -67,13 +67,13 @@ export default function CampaignBanner() {
             <div className="h-40 w-px bg-white/15" />
             <div className="flex flex-col items-start gap-3">
               <span className="text-[10px] uppercase tracking-editorial text-rose-300">
-                Kalan
+                Indirim
               </span>
               <span className="font-display text-5xl text-white">
-                05<span className="text-rose-300">:</span>23
+                %30
               </span>
               <span className="text-[10px] uppercase tracking-editorial text-white/50">
-                Gun ve saat
+                Tum koleksiyon
               </span>
             </div>
           </div>

@@ -10,11 +10,11 @@ export const metadata: Metadata = {
 };
 
 type ProductsPageProps = {
-  searchParams?: {
+  searchParams?: Promise<{
     category?: string | string[];
     filter?: string | string[];
     sort?: string | string[];
-  };
+  }>;
 };
 
 const validFilters = new Set<ProductFilter>(["all", "new", "sale"]);
@@ -29,10 +29,11 @@ function getSingleValue(value?: string | string[]) {
   return typeof value === "string" ? value : undefined;
 }
 
-export default function ProductsPage({ searchParams }: ProductsPageProps) {
-  const categoryParam = getSingleValue(searchParams?.category);
-  const filterParam = getSingleValue(searchParams?.filter);
-  const sortParam = getSingleValue(searchParams?.sort);
+export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+  const resolvedSearchParams = await searchParams;
+  const categoryParam = getSingleValue(resolvedSearchParams?.category);
+  const filterParam = getSingleValue(resolvedSearchParams?.filter);
+  const sortParam = getSingleValue(resolvedSearchParams?.sort);
 
   const initialCategory =
     categoryParam && isCategorySlug(categoryParam) ? categoryParam : "all";

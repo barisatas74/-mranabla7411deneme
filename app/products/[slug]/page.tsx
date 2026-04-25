@@ -4,15 +4,16 @@ import { getProductBySlug } from "@/data/products";
 import { notFound } from "next/navigation";
 
 type ProductDetailPageProps = {
-  params: {
+  params: Promise<{
     slug: string;
-  };
+  }>;
 };
 
-export function generateMetadata({
+export async function generateMetadata({
   params,
-}: ProductDetailPageProps): Metadata {
-  const product = getProductBySlug(params.slug);
+}: ProductDetailPageProps): Promise<Metadata> {
+  const { slug } = await params;
+  const product = getProductBySlug(slug);
 
   if (!product) {
     return {
@@ -37,8 +38,9 @@ export function generateMetadata({
   };
 }
 
-export default function ProductDetailPage({ params }: ProductDetailPageProps) {
-  const product = getProductBySlug(params.slug);
+export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
+  const { slug } = await params;
+  const product = getProductBySlug(slug);
 
   if (!product) {
     notFound();

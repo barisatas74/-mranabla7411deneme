@@ -10,9 +10,10 @@ export const metadata: Metadata = {
 export default async function AdminOrderDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const order = await orderService.getById(params.id);
+  const { id } = await params;
+  const order = await orderService.getById(id);
 
   if (!order) {
     return (

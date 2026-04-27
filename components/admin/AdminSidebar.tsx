@@ -46,7 +46,7 @@ export default function AdminSidebar({
       >
         <div className="flex items-center justify-between">
           <div>
-            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Luna Rosa</p>
+            <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Miss Bella</p>
             <h2 className="mt-2 text-2xl font-semibold tracking-tight">Admin</h2>
           </div>
           <button

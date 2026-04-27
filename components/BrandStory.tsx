@@ -10,7 +10,7 @@ export default function BrandStory() {
             <div className="relative h-[460px] overflow-hidden shadow-luxe img-reveal md:h-[620px]">
               <Image
                 src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=1200&q=90"
-                alt="Luna Rosa atolyeden bir gorunum"
+                alt="Miss Bella atolyeden bir gorunum"
                 fill
                 className="object-cover"
               />
@@ -23,12 +23,12 @@ export default function BrandStory() {
                 Zarafet, kendini iyi hissettigin anda baslar.
               </p>
               <p className="mt-4 text-[10px] uppercase tracking-editorial text-ink-600">
-                Luna Rosa Atolyesi
+                Miss Bella Atolyesi
               </p>
             </div>
 
             <span className="absolute -left-6 -top-6 hidden select-none font-italic-display text-[140px] leading-none text-rose-600/10 md:block">
-              L<span className="font-display not-italic">R</span>
+              M<span className="font-display not-italic">B</span>
             </span>
           </div>
 
@@ -44,7 +44,7 @@ export default function BrandStory() {
 
             <div className="mt-8 space-y-5 font-light leading-[1.85] text-ink-700">
               <p>
-                Luna Rosa, kadinlarin gunun her aninda kendini bakimli, guclu ve
+                Miss Bella, kadinlarin gunun her aninda kendini bakimli, guclu ve
                 rahat hissetmesi icin tasarlandi. Her urunde rafine siluetleri,
                 yumusak dokulari ve zamansiz cizgileri bir araya getiriyoruz.
               </p>

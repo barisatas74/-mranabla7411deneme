@@ -4,7 +4,7 @@ import LegalLayout from "@/components/LegalLayout";
 export const metadata: Metadata = {
   title: "Hakkimizda",
   description:
-    "Luna Rosa; premium ic giyim, gecelik ve butik koleksiyonlariyla zarafeti gunluk konfora dokunan butik bir markadir.",
+    "Miss Bella; premium ic giyim, gecelik ve butik koleksiyonlariyla zarafeti gunluk konfora dokunan butik bir markadir.",
 };
 
 export default function HakkimizdaPage() {
@@ -15,7 +15,7 @@ export default function HakkimizdaPage() {
       updated="25 Nisan 2026"
     >
       <p>
-        Luna Rosa; premium kumaslar, ince isciligi ve zamansiz cizgileri bir
+        Miss Bella; premium kumaslar, ince isciligi ve zamansiz cizgileri bir
         araya getiren butik bir ic giyim markasidir. Her parca; konforu,
         zarafeti ve dayanikliligi gozeterek Turkiye&apos;de ozenle uretilir.
       </p>
@@ -38,7 +38,7 @@ export default function HakkimizdaPage() {
       <h2>Iletisim</h2>
       <p>
         Marka, isbirligi veya basin sorulariniz icin{" "}
-        <a href="mailto:hello@lunarosa.com">hello@lunarosa.com</a> adresinden
+        <a href="mailto:hello@missbella.com">hello@missbella.com</a> adresinden
         bize ulasabilirsiniz.
       </p>
     </LegalLayout>

@@ -6,7 +6,7 @@ import { ProductFilter, ProductSort } from "@/types";
 export const metadata: Metadata = {
   title: "Urunler",
   description:
-    "Kategori, fiyat, renk ve beden filtreleri ile Luna Rosa urun katalgunu kesfedin.",
+    "Kategori, fiyat, renk ve beden filtreleri ile Miss Bella urun katalogunu kesfedin.",
 };
 
 type ProductsPageProps = {

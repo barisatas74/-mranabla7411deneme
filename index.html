@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Miss Bella | Premium Ic Giyim Koleksiyonu</title>
+  <meta name="description" content="Miss Bella; premium ic giyim, gecelik ve butik koleksiyonlarini modern e-ticaret deneyimiyle sunar." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            bone: { 50: "#fcfaf7", 100: "#f5f1ea" },
+            powder: { 50: "#fbeaee", 100: "#f5dde2" },
+            rose: { 300: "#f5c2cd", 400: "#e89aab", 600: "#c2546a", 700: "#a23f54" },
+            ink: { 500: "#7a7a82", 600: "#56565d", 700: "#3a3a40", 800: "#26262b", 900: "#16161a", 950: "#0c0c0d" },
+            champagne: { 100: "#f5ead4" },
+          },
+          fontFamily: {
+            display: ["'Cormorant Garamond'", "serif"],
+            body: ["Inter", "sans-serif"],
+            italic: ["'Cormorant Garamond'", "serif"],
+          },
+          letterSpacing: { editorial: "0.28em", luxe: "0.18em" },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: Inter, sans-serif; background: #fcfaf7; color: #16161a; }
+    .font-italic-display { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; }
+    .luxe-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.28em; color: #c2546a; }
+    .btn-luxe { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 0.875rem 1.75rem; font-size: 11px; text-transform: uppercase; letter-spacing: 0.18em; transition: all 300ms; }
+    .btn-luxe-dark { background: #0c0c0d; color: #fcfaf7; }
+    .btn-luxe-dark:hover { background: #c2546a; }
+    .btn-luxe-outline { border: 1px solid rgba(22,22,26,0.2); color: #16161a; }
+    .btn-luxe-outline:hover { border-color: #c2546a; color: #c2546a; }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    .animate-marquee { animation: marquee 35s linear infinite; }
+    .shadow-luxe { box-shadow: 0 30px 60px -20px rgba(22,22,26,0.25); }
+    .shadow-card { box-shadow: 0 12px 30px -12px rgba(22,22,26,0.18); }
+    .shadow-soft { box-shadow: 0 14px 36px -16px rgba(194,84,106,0.45); }
+  </style>
+</head>
+<body>
+
+<!-- Announcement Marquee -->
+<div class="overflow-hidden bg-ink-950 py-2.5 text-[10.5px] uppercase tracking-[0.28em] text-bone-50">
+  <div class="flex whitespace-nowrap animate-marquee">
+    <span class="px-8 opacity-80">300 TL uzeri ucretsiz kargo</span>
+    <span class="px-8 opacity-80">Ayni gun kargo</span>
+    <span class="px-8 opacity-80">14 gun kosulsuz iade</span>
+    <span class="px-8 opacity-80">Yeni sezon yayinda</span>
+    <span class="px-8 opacity-80">300 TL uzeri ucretsiz kargo</span>
+    <span class="px-8 opacity-80">Ayni gun kargo</span>
+    <span class="px-8 opacity-80">14 gun kosulsuz iade</span>
+    <span class="px-8 opacity-80">Yeni sezon yayinda</span>
+  </div>
+</div>
+
+<!-- Header -->
+<header class="sticky top-0 z-40 border-b border-ink-900/8 bg-bone-50/95 backdrop-blur-md">
+  <div class="mx-auto flex h-[76px] max-w-7xl items-center justify-between px-6">
+    <nav class="hidden flex-1 items-center gap-9 md:flex">
+      <a href="#" class="text-[11.5px] uppercase tracking-[0.28em] text-ink-800 hover:text-rose-600">Yeni Sezon</a>
+      <a href="#" class="text-[11.5px] uppercase tracking-[0.28em] text-ink-800 hover:text-rose-600">Sutyen</a>
+      <a href="#" class="text-[11.5px] uppercase tracking-[0.28em] text-ink-800 hover:text-rose-600">Kulot</a>
+    </nav>
+    <a href="/" class="flex flex-col items-center">
+      <span class="font-display text-[34px] leading-none text-ink-900">
+        Miss <span class="font-italic-display text-rose-600">Bella</span>
+      </span>
+      <span class="mt-1.5 text-[9px] uppercase tracking-[0.28em] text-ink-600">Zarafetin en ozel hali</span>
+    </a>
+    <nav class="hidden flex-1 items-center justify-end gap-9 md:flex">
+      <a href="#" class="text-[11.5px] uppercase tracking-[0.28em] text-ink-800 hover:text-rose-600">Takim</a>
+      <a href="#" class="text-[11.5px] uppercase tracking-[0.28em] text-ink-800 hover:text-rose-600">Gecelik</a>
+      <a href="#" class="text-[11.5px] uppercase tracking-[0.28em] text-ink-800 hover:text-rose-600">Indirim</a>
+    </nav>
+    <div class="ml-8 flex items-center gap-1">
+      <button aria-label="Ara" class="p-2.5 text-ink-900 hover:text-rose-600">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg>
+      </button>
+      <a href="#" aria-label="Favoriler" class="p-2.5 text-ink-900 hover:text-rose-600">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+      </a>
+      <a href="#" aria-label="Sepet" class="relative p-2.5 text-ink-900 hover:text-rose-600">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+      </a>
+    </div>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="relative overflow-hidden bg-bone-50">
+  <div class="absolute inset-0 bg-gradient-to-br from-powder-100 via-bone-50 to-bone-100"></div>
+  <div class="absolute top-1/3 -right-40 h-[600px] w-[600px] rounded-full bg-rose-300/35 blur-[140px]"></div>
+
+  <div class="relative mx-auto grid min-h-[calc(100vh-120px)] max-w-7xl items-center gap-10 px-6 py-14 md:grid-cols-12 md:gap-16 md:py-28">
+    <div class="md:col-span-6">
+      <div class="mb-6 flex items-center gap-3">
+        <span class="luxe-label">Spring Collection</span>
+        <span class="h-px w-16 bg-rose-600/40"></span>
+      </div>
+      <h1 class="font-display text-[56px] leading-[0.95] tracking-tight text-ink-900 md:text-[92px]">
+        Zarafetin<br />
+        <span class="font-italic-display text-rose-600">en ozel</span><br />
+        hali.
+      </h1>
+      <div class="mt-8 flex max-w-md items-start gap-5">
+        <span class="mt-2 h-px w-10 flex-shrink-0 bg-ink-900/30"></span>
+        <p class="text-[15px] font-light leading-[1.75] text-ink-700 md:text-[16px]">
+          Fransiz danteli, yumusak satenler ve guclu siluetlerle hazirlanan secili parcalar. Her tasarim, gunluk konforu premium bir hisle birlestirir.
+        </p>
+      </div>
+      <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+        <a href="#" class="btn-luxe btn-luxe-dark shadow-soft">Koleksiyonu Kesfet</a>
+        <a href="#" class="btn-luxe btn-luxe-outline">Yeni Gelenler</a>
+      </div>
+    </div>
+
+    <div class="relative h-[480px] md:col-span-6 md:h-[680px]">
+      <div class="absolute right-0 top-0 h-[88%] w-[72%] overflow-hidden bg-powder-100 shadow-luxe">
+        <img src="https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=1400&q=90" alt="Miss Bella koleksiyonundan bir secki" class="h-full w-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/20 via-transparent to-transparent"></div>
+      </div>
+      <div class="absolute -bottom-2 right-4 max-w-[200px] bg-bone-50 px-5 py-4 shadow-card">
+        <p class="text-[10px] uppercase tracking-[0.28em] text-rose-600">Editor's Pick</p>
+        <p class="mt-1 font-display text-base leading-tight text-ink-900">Rosa Dantel Takimi</p>
+        <div class="mt-1 flex items-baseline gap-2">
+          <span class="text-sm font-medium text-ink-900">1.290 TL</span>
+          <span class="text-[11px] text-ink-500 line-through">1.590 TL</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="relative border-t border-ink-900/8 bg-bone-50/60 backdrop-blur">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-center gap-x-10 gap-y-2 px-6 py-5 text-[10px] uppercase tracking-[0.28em] text-ink-700 md:justify-between">
+      <span>Ucretsiz kargo 300 TL+</span>
+      <span class="hidden md:inline">14 gun iade</span>
+      <span>Guvenli odeme</span>
+      <span class="hidden md:inline">Istanbul ayni gun</span>
+      <span>Ozel paketleme</span>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee values -->
+<div class="overflow-hidden border-y border-white/5 bg-ink-950 py-6 text-bone-50">
+  <div class="flex whitespace-nowrap animate-marquee">
+    <span class="flex items-center gap-8 px-8 font-italic-display text-2xl text-white/85 md:text-4xl">Fransiz Danteli <span class="font-display text-sm not-italic text-rose-300">✦</span></span>
+    <span class="flex items-center gap-8 px-8 font-italic-display text-2xl text-white/85 md:text-4xl">Saf Ipek <span class="font-display text-sm not-italic text-rose-300">✦</span></span>
+    <span class="flex items-center gap-8 px-8 font-italic-display text-2xl text-white/85 md:text-4xl">El Isciligi <span class="font-display text-sm not-italic text-rose-300">✦</span></span>
+    <span class="flex items-center gap-8 px-8 font-italic-display text-2xl text-white/85 md:text-4xl">Premium Kumas <span class="font-display text-sm not-italic text-rose-300">✦</span></span>
+    <span class="flex items-center gap-8 px-8 font-italic-display text-2xl text-white/85 md:text-4xl">Etik Uretim <span class="font-display text-sm not-italic text-rose-300">✦</span></span>
+    <span class="flex items-center gap-8 px-8 font-italic-display text-2xl text-white/85 md:text-4xl">Zamansiz Tasarim <span class="font-display text-sm not-italic text-rose-300">✦</span></span>
+    <span class="flex items-center gap-8 px-8 font-italic-display text-2xl text-white/85 md:text-4xl">Fransiz Danteli <span class="font-display text-sm not-italic text-rose-300">✦</span></span>
+    <span class="flex items-center gap-8 px-8 font-italic-display text-2xl text-white/85 md:text-4xl">Saf Ipek <span class="font-display text-sm not-italic text-rose-300">✦</span></span>
+  </div>
+</div>
+
+<!-- Categories -->
+<section class="bg-bone-50 py-20 md:py-28">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="mb-12 text-center">
+      <span class="luxe-label">Categories</span>
+      <h2 class="mt-4 font-display text-[40px] leading-[1.05] text-ink-900 md:text-[60px]">
+        Sezon <span class="font-italic-display text-rose-600">favorileri</span>
+      </h2>
+    </div>
+    <div class="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-5">
+      <a href="#" class="group relative aspect-[4/5] overflow-hidden bg-bone-100">
+        <img src="https://images.unsplash.com/photo-1583515558997-83406f8e024e?w=900&q=80" alt="Sutyenler" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/50 to-transparent"></div>
+        <div class="absolute inset-x-5 bottom-5 text-bone-50">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Zarif destek</p>
+          <p class="mt-2 font-display text-3xl">Sutyenler</p>
+        </div>
+      </a>
+      <a href="#" class="group relative aspect-[4/5] overflow-hidden bg-bone-100">
+        <img src="https://images.unsplash.com/photo-1594224457860-23bdb45f8b59?w=900&q=80" alt="Kulotlar" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/50 to-transparent"></div>
+        <div class="absolute inset-x-5 bottom-5 text-bone-50">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Yumusak dokunus</p>
+          <p class="mt-2 font-display text-3xl">Kulotlar</p>
+        </div>
+      </a>
+      <a href="#" class="group relative aspect-[4/5] overflow-hidden bg-bone-100">
+        <img src="https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=900&q=80" alt="Takimlar" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/50 to-transparent"></div>
+        <div class="absolute inset-x-5 bottom-5 text-bone-50">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Uyumun zarafeti</p>
+          <p class="mt-2 font-display text-3xl">Takimlar</p>
+        </div>
+      </a>
+      <a href="#" class="group relative aspect-[4/5] overflow-hidden bg-bone-100">
+        <img src="https://images.unsplash.com/photo-1617922001439-4a2e6562f328?w=900&q=80" alt="Gecelikler" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/50 to-transparent"></div>
+        <div class="absolute inset-x-5 bottom-5 text-bone-50">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Ipeksi geceler</p>
+          <p class="mt-2 font-display text-3xl">Gecelikler</p>
+        </div>
+      </a>
+      <a href="#" class="group relative aspect-[4/5] overflow-hidden bg-bone-100">
+        <img src="https://images.unsplash.com/photo-1606902965551-dce093cda6e7?w=900&q=80" alt="Sortlu Takimlar" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/50 to-transparent"></div>
+        <div class="absolute inset-x-5 bottom-5 text-bone-50">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Rahat luks</p>
+          <p class="mt-2 font-display text-3xl">Sortlu Takimlar</p>
+        </div>
+      </a>
+      <a href="#" class="group relative aspect-[4/5] overflow-hidden bg-bone-100">
+        <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=900&q=80" alt="Spor Ic Giyim" class="h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/50 to-transparent"></div>
+        <div class="absolute inset-x-5 bottom-5 text-bone-50">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Hareket ozgurlugu</p>
+          <p class="mt-2 font-display text-3xl">Spor Ic Giyim</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Trust Strip -->
+<section class="border-y border-ink-900/8 bg-bone-50/80">
+  <div class="mx-auto max-w-7xl px-6">
+    <ul class="grid grid-cols-2 gap-y-4 py-6 md:grid-cols-4">
+      <li class="flex items-center justify-center gap-3 md:justify-start">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c2546a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="1" y="3" width="15" height="13"/><polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        <div>
+          <span class="block text-[11px] font-medium uppercase tracking-[0.28em] text-ink-900">Ucretsiz Kargo</span>
+          <span class="block text-[10px] text-ink-600">300 TL ve uzeri</span>
+        </div>
+      </li>
+      <li class="flex items-center justify-center gap-3 md:justify-start">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c2546a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>
+        <div>
+          <span class="block text-[11px] font-medium uppercase tracking-[0.28em] text-ink-900">14 Gun Iade</span>
+          <span class="block text-[10px] text-ink-600">Hijyen kosulluyla</span>
+        </div>
+      </li>
+      <li class="flex items-center justify-center gap-3 md:justify-start">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c2546a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        <div>
+          <span class="block text-[11px] font-medium uppercase tracking-[0.28em] text-ink-900">Guvenli Odeme</span>
+          <span class="block text-[10px] text-ink-600">256-bit SSL</span>
+        </div>
+      </li>
+      <li class="flex items-center justify-center gap-3 md:justify-start">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#c2546a" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        <div>
+          <span class="block text-[11px] font-medium uppercase tracking-[0.28em] text-ink-900">Turkiye Uretimi</span>
+          <span class="block text-[10px] text-ink-600">Butik atolye</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<!-- Featured Products -->
+<section class="bg-bone-100/60 py-24 md:py-32">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="mb-14 text-center">
+      <span class="luxe-label">Les Favoris</span>
+      <h2 class="mt-5 font-display text-[42px] leading-[1.05] text-ink-900 md:text-[64px]">
+        Sezonun <span class="font-italic-display text-rose-600">en cok</span> begenilenleri
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-2 gap-x-4 gap-y-12 md:grid-cols-4 md:gap-x-6 md:gap-y-16">
+      <article class="group">
+        <a href="#" class="block">
+          <div class="relative aspect-[3/4] overflow-hidden bg-bone-100">
+            <img src="https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=1200&q=80" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" alt="" />
+            <span class="absolute left-3.5 top-3.5 bg-bone-50/95 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.28em] text-ink-900">Yeni</span>
+          </div>
+          <div class="pb-1 pt-4">
+            <p class="mb-1.5 text-[9.5px] uppercase tracking-[0.28em] text-rose-600">Takimlar</p>
+            <h3 class="truncate font-display text-[19px] leading-tight text-ink-900">Rosa Dantel Sutyen Takimi</h3>
+            <div class="mt-2.5 flex items-baseline gap-2">
+              <span class="text-[13px] font-medium text-ink-900">1.290 TL</span>
+              <span class="text-[11px] text-ink-500 line-through">1.590 TL</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="group">
+        <a href="#" class="block">
+          <div class="relative aspect-[3/4] overflow-hidden bg-bone-100">
+            <img src="https://images.unsplash.com/photo-1594224457860-23bdb45f8b59?w=1200&q=80" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" alt="" />
+          </div>
+          <div class="pb-1 pt-4">
+            <p class="mb-1.5 text-[9.5px] uppercase tracking-[0.28em] text-rose-600">Sutyenler</p>
+            <h3 class="truncate font-display text-[19px] leading-tight text-ink-900">Soft Touch Bralette</h3>
+            <div class="mt-2.5"><span class="text-[13px] font-medium text-ink-900">690 TL</span></div>
+          </div>
+        </a>
+      </article>
+
+      <article class="group">
+        <a href="#" class="block">
+          <div class="relative aspect-[3/4] overflow-hidden bg-bone-100">
+            <img src="https://images.unsplash.com/photo-1617922001439-4a2e6562f328?w=1200&q=80" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" alt="" />
+            <span class="absolute left-3.5 top-3.5 bg-bone-50/95 px-2.5 py-1 text-[9px] font-medium uppercase tracking-[0.28em] text-ink-900">Yeni</span>
+          </div>
+          <div class="pb-1 pt-4">
+            <p class="mb-1.5 text-[9.5px] uppercase tracking-[0.28em] text-rose-600">Gecelikler</p>
+            <h3 class="truncate font-display text-[19px] leading-tight text-ink-900">Ipek Saten Gecelik</h3>
+            <div class="mt-2.5 flex items-baseline gap-2">
+              <span class="text-[13px] font-medium text-ink-900">2.490 TL</span>
+              <span class="text-[11px] text-ink-500 line-through">2.890 TL</span>
+            </div>
+          </div>
+        </a>
+      </article>
+
+      <article class="group">
+        <a href="#" class="block">
+          <div class="relative aspect-[3/4] overflow-hidden bg-bone-100">
+            <img src="https://images.unsplash.com/photo-1583515558997-83406f8e024e?w=1200&q=80" class="h-full w-full object-cover transition duration-700 group-hover:scale-[1.04]" alt="" />
+          </div>
+          <div class="pb-1 pt-4">
+            <p class="mb-1.5 text-[9.5px] uppercase tracking-[0.28em] text-rose-600">Sutyenler</p>
+            <h3 class="truncate font-display text-[19px] leading-tight text-ink-900">Luks Push-Up Sutyen</h3>
+            <div class="mt-2.5"><span class="text-[13px] font-medium text-ink-900">1.190 TL</span></div>
+          </div>
+        </a>
+      </article>
+    </div>
+
+    <div class="mt-16 text-center">
+      <a href="#" class="btn-luxe btn-luxe-outline">Tum Urunleri Gor →</a>
+    </div>
+  </div>
+</section>
+
+<!-- Lookbook -->
+<section class="relative overflow-hidden bg-ink-950 py-20 text-bone-50 md:py-28">
+  <div class="absolute -left-40 top-0 h-[500px] w-[500px] rounded-full bg-rose-600/10 blur-[160px]"></div>
+  <div class="relative mx-auto max-w-7xl px-6">
+    <div class="mb-12 grid gap-6 md:mb-16 md:grid-cols-2 md:items-end">
+      <div>
+        <span class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Spring Edition 2026</span>
+        <h2 class="mt-5 font-display text-[40px] leading-[1.02] md:text-[68px]">
+          Bella <span class="font-italic-display text-rose-300">Lookbook</span>
+        </h2>
+      </div>
+      <p class="max-w-md text-sm leading-relaxed text-white/70 md:text-base md:justify-self-end">
+        Yeni sezonun yumusak siluetlerini, narin dantellerini ve saten dokunuslarini bir araya getiren editorial seri.
+      </p>
+    </div>
+    <div class="grid gap-3 md:grid-cols-12 md:auto-rows-[280px] md:gap-4">
+      <a href="#" class="group relative col-span-full row-span-2 block aspect-[3/4] overflow-hidden bg-ink-900 md:col-span-7 md:aspect-auto">
+        <img src="https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=1200&q=85" class="h-full w-full object-cover transition duration-1000 group-hover:scale-[1.04]" alt="" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/70 to-transparent"></div>
+        <div class="absolute inset-x-5 bottom-5">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Look 01</p>
+          <p class="mt-1 font-display text-3xl">Dantel & Saten</p>
+        </div>
+      </a>
+      <a href="#" class="group relative col-span-full block aspect-[4/5] overflow-hidden bg-ink-900 md:col-span-5">
+        <img src="https://images.unsplash.com/photo-1617922001439-4a2e6562f328?w=900&q=85" class="h-full w-full object-cover transition duration-1000 group-hover:scale-[1.04]" alt="" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/70 to-transparent"></div>
+        <div class="absolute inset-x-5 bottom-5">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Look 02</p>
+          <p class="mt-1 font-display text-3xl">Ipek Saten</p>
+        </div>
+      </a>
+      <a href="#" class="group relative col-span-full block aspect-[4/5] overflow-hidden bg-ink-900 md:col-span-5">
+        <img src="https://images.unsplash.com/photo-1606902965551-dce093cda6e7?w=900&q=85" class="h-full w-full object-cover transition duration-1000 group-hover:scale-[1.04]" alt="" />
+        <div class="absolute inset-0 bg-gradient-to-t from-ink-950/70 to-transparent"></div>
+        <div class="absolute inset-x-5 bottom-5">
+          <p class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Look 03</p>
+          <p class="mt-1 font-display text-3xl">Loungewear</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="bg-bone-50 py-20 md:py-28">
+  <div class="mx-auto max-w-7xl px-6">
+    <div class="mb-12">
+      <span class="luxe-label">Mektuplarinizdan</span>
+      <h2 class="mt-4 font-display text-[36px] leading-[1.05] text-ink-900 md:text-[56px]">
+        Musterilerimizin <span class="font-italic-display text-rose-600">notlari</span>
+      </h2>
+    </div>
+    <div class="grid gap-5 md:grid-cols-3 md:gap-6">
+      <article class="flex flex-col gap-5 border border-ink-900/8 bg-white p-7 shadow-card">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c2546a" opacity="0.4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+        <div class="flex gap-1">
+          <span class="text-rose-600">★★★★★</span>
+        </div>
+        <p class="font-italic-display text-[20px] leading-[1.5] text-ink-900">"Kumas kalitesi gercekten cok iyi, dantel detaylari zarif. Tam beden uyumu sagladi, tavsiye ederim."</p>
+        <div class="mt-auto border-t border-ink-900/8 pt-4">
+          <p class="font-display text-base text-ink-900">Elif K.</p>
+          <p class="mt-0.5 text-[10px] uppercase tracking-[0.28em] text-ink-600">Istanbul · Mart 2026</p>
+          <p class="mt-2 text-[11px] tracking-wide text-rose-600">✓ Dogrulanmis Alisveris</p>
+        </div>
+      </article>
+      <article class="flex flex-col gap-5 border border-ink-900/8 bg-white p-7 shadow-card">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c2546a" opacity="0.4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+        <div class="flex gap-1"><span class="text-rose-600">★★★★★</span></div>
+        <p class="font-italic-display text-[20px] leading-[1.5] text-ink-900">"Sade ama zarif bir tasarim. Kumasi ipeksi, gun boyu rahat hissettiriyor. Paketleme cok ozenliydi."</p>
+        <div class="mt-auto border-t border-ink-900/8 pt-4">
+          <p class="font-display text-base text-ink-900">Zeynep A.</p>
+          <p class="mt-0.5 text-[10px] uppercase tracking-[0.28em] text-ink-600">Ankara · Subat 2026</p>
+          <p class="mt-2 text-[11px] tracking-wide text-rose-600">✓ Dogrulanmis Alisveris</p>
+        </div>
+      </article>
+      <article class="flex flex-col gap-5 border border-ink-900/8 bg-white p-7 shadow-card">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#c2546a" opacity="0.4" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21c3 0 7-1 7-8V5c0-1.25-.756-2.017-2-2H4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2 1 0 1 0 1 1v1c0 1-1 2-2 2s-1 .008-1 1.031V20c0 1 0 1 1 1z"/><path d="M15 21c3 0 7-1 7-8V5c0-1.25-.757-2.017-2-2h-4c-1.25 0-2 .75-2 1.972V11c0 1.25.75 2 2 2h.75c0 2.25.25 4-2.75 4v3c0 1 0 1 1 1z"/></svg>
+        <div class="flex gap-1"><span class="text-rose-600">★★★★★</span></div>
+        <p class="font-italic-display text-[20px] leading-[1.5] text-ink-900">"Ozel gunler icin almistim, kumas ve dikis isciligi cok kaliteli. Tekrar siparis verecegim."</p>
+        <div class="mt-auto border-t border-ink-900/8 pt-4">
+          <p class="font-display text-base text-ink-900">Merve T.</p>
+          <p class="mt-0.5 text-[10px] uppercase tracking-[0.28em] text-ink-600">Izmir · Subat 2026</p>
+          <p class="mt-2 text-[11px] tracking-wide text-rose-600">✓ Dogrulanmis Alisveris</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="relative overflow-hidden bg-ink-950 text-bone-50">
+  <div class="relative border-b border-white/10">
+    <div class="mx-auto grid max-w-7xl items-center gap-10 px-6 py-16 md:grid-cols-2 md:py-20">
+      <div>
+        <span class="text-[10px] uppercase tracking-[0.28em] text-rose-300">Bulten</span>
+        <h3 class="mt-4 font-display text-[36px] leading-[1.05] md:text-[52px]">
+          Ayricaliklara<br />
+          <span class="font-italic-display text-rose-300">ilk sizin</span> erisin.
+        </h3>
+        <p class="mt-4 max-w-md text-sm text-white/60">
+          Yeni koleksiyonlar, ozel kampanyalar ve butik deneyiminden haberdar olun.
+        </p>
+      </div>
+      <form class="flex flex-col items-stretch gap-0 border border-white/15 bg-white/5 sm:flex-row" onsubmit="event.preventDefault(); alert('Tesekkurler! Bultene abone oldunuz.');">
+        <div class="flex items-center pl-5 pr-3">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f5c2cd" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+        </div>
+        <input type="email" required placeholder="E-posta adresiniz" class="flex-1 bg-transparent px-3 py-4 text-sm text-bone-50 outline-none placeholder:text-white/40" />
+        <button class="bg-rose-600 px-6 py-4 text-[11px] uppercase tracking-[0.28em] text-white hover:bg-rose-700">Abone Ol →</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="mx-auto grid max-w-7xl gap-10 px-6 pb-10 pt-16 md:grid-cols-4 md:gap-14">
+    <div class="md:col-span-2">
+      <span class="block font-display text-[34px] leading-none">
+        Miss <span class="font-italic-display text-rose-300">Bella</span>
+      </span>
+      <span class="mt-2 inline-block text-[10px] uppercase tracking-[0.28em] text-rose-300">Zarafetin en ozel hali</span>
+      <p class="mt-6 max-w-sm text-sm leading-[1.8] text-white/60">
+        Premium kumaslar, ince iscilik ve zamansiz cizgilerle tasarlanan butik ic giyim koleksiyonu.
+      </p>
+    </div>
+    <div>
+      <p class="mb-5 text-[10px] uppercase tracking-[0.28em] text-rose-300">Alisveris</p>
+      <ul class="space-y-3 text-sm text-white/70">
+        <li><a href="#" class="hover:text-white">Yeni Sezon</a></li>
+        <li><a href="#" class="hover:text-white">Tum Urunler</a></li>
+        <li><a href="#" class="hover:text-white">Sutyenler</a></li>
+        <li><a href="#" class="hover:text-white">Gecelikler</a></li>
+        <li><a href="#" class="hover:text-white">Indirim</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="mb-5 text-[10px] uppercase tracking-[0.28em] text-rose-300">Yardim</p>
+      <ul class="space-y-3 text-sm text-white/70">
+        <li><a href="#" class="hover:text-white">Hakkimizda</a></li>
+        <li><a href="#" class="hover:text-white">Iletisim</a></li>
+        <li><a href="#" class="hover:text-white">Iade Politikasi</a></li>
+        <li><a href="#" class="hover:text-white">KVKK Aydinlatma</a></li>
+        <li><a href="#" class="hover:text-white">Gizlilik</a></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="mx-auto flex max-w-7xl flex-col items-center justify-between gap-4 px-6 py-6 text-[10px] uppercase tracking-[0.28em] text-white/50 md:flex-row">
+      <p>© MMXXVI Miss Bella / Tum haklari saklidir</p>
+      <div class="flex items-center gap-3">
+        <span>Visa</span><span class="opacity-40">/</span>
+        <span>Mastercard</span><span class="opacity-40">/</span>
+        <span>Troy</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

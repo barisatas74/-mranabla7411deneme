@@ -17,7 +17,7 @@ export default function NewSeason() {
               İlkbahar
               <br />
               <span className="font-italic-display text-rose-600">
-                Rosa
+                Bella
               </span>{" "}
               2026
             </h2>

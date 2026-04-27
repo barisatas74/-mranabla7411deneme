@@ -4,7 +4,7 @@ import LegalLayout from "@/components/LegalLayout";
 export const metadata: Metadata = {
   title: "Gizlilik Politikasi",
   description:
-    "Luna Rosa internet sitesinde toplanan bilgiler, cerezler ve veri guvenligi uygulamalari hakkinda ozet bilgilendirme.",
+    "Miss Bella internet sitesinde toplanan bilgiler, cerezler ve veri guvenligi uygulamalari hakkinda ozet bilgilendirme.",
 };
 
 export default function GizlilikPage() {
@@ -15,7 +15,7 @@ export default function GizlilikPage() {
       updated="25 Nisan 2026"
     >
       <p>
-        Luna Rosa, ziyaretci ve musterilerinin kisisel verilerini korumayi oncelikli
+        Miss Bella, ziyaretci ve musterilerinin kisisel verilerini korumayi oncelikli
         kabul eder. Bu politika; internet sitemizi ziyaret ettiginizde hangi
         verilerin toplandigini, bu verilerin hangi amaclarla kullanildigini ve nasil
         korundugunu aciklar.
@@ -46,7 +46,7 @@ export default function GizlilikPage() {
       <h2>Iletisim</h2>
       <p>
         Gizlilik ve veri guvenligi ile ilgili sorulariniz icin{" "}
-        <a href="mailto:kvkk@lunarosa.com">kvkk@lunarosa.com</a> adresine
+        <a href="mailto:kvkk@missbella.com">kvkk@missbella.com</a> adresine
         ulasabilirsiniz.
       </p>
     </LegalLayout>

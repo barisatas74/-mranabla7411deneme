@@ -1,0 +1,293 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Miss Bella · Admin Paneli</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            rose: { 100: "#fde7eb", 300: "#f5c2cd", 600: "#c2546a", 700: "#a23f54" },
+            ink: { 500: "#7a7a82", 700: "#3a3a40", 900: "#16161a", 950: "#0c0c0d" },
+          },
+          fontFamily: {
+            display: ["'Cormorant Garamond'", "serif"],
+            body: ["Inter", "sans-serif"],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: Inter, sans-serif; background: #f7f5f1; color: #0f172a; }
+    .font-italic-display { font-family: 'Cormorant Garamond', serif; font-style: italic; font-weight: 500; }
+    .font-display { font-family: 'Cormorant Garamond', serif; }
+    .shadow-card { box-shadow: 0 12px 30px -12px rgba(15,23,42,0.18); }
+  </style>
+</head>
+<body>
+
+<!-- LOGIN VIEW (default visible) -->
+<div id="login-view" class="flex min-h-screen items-center justify-center px-4">
+  <form id="login-form" class="w-full max-w-sm space-y-5 border border-slate-200 bg-white p-8 shadow-card">
+    <div>
+      <p class="text-[10px] uppercase tracking-[0.28em] text-rose-600">Admin Paneli</p>
+      <h1 class="mt-2 font-display text-3xl text-ink-900">
+        Miss <span class="font-italic-display text-rose-600">Bella</span>
+      </h1>
+      <p class="mt-1 text-sm text-slate-500">Yonetim paneline giris yapin</p>
+    </div>
+
+    <label class="block">
+      <span class="text-[11px] uppercase tracking-[0.18em] text-slate-700">Kullanici Adi</span>
+      <input id="login-user" type="text" required value="admin" autocomplete="username"
+        class="mt-1.5 w-full border border-slate-300 bg-transparent px-4 py-3 text-sm outline-none focus:border-rose-600" />
+    </label>
+
+    <label class="block">
+      <span class="text-[11px] uppercase tracking-[0.18em] text-slate-700">Parola</span>
+      <input id="login-pass" type="password" required autocomplete="current-password"
+        class="mt-1.5 w-full border border-slate-300 bg-transparent px-4 py-3 text-sm outline-none focus:border-rose-600" />
+    </label>
+
+    <p id="login-error" class="hidden text-sm text-rose-600"></p>
+    <p class="text-[11px] text-slate-500">Demo parolasi: <code class="bg-slate-100 px-1.5 py-0.5">demo</code></p>
+
+    <button type="submit" class="w-full bg-ink-950 px-6 py-3.5 text-[11px] uppercase tracking-[0.18em] text-white hover:bg-rose-700">
+      Giris Yap
+    </button>
+  </form>
+</div>
+
+<!-- DASHBOARD VIEW (hidden until login) -->
+<div id="dashboard-view" class="hidden min-h-screen md:grid md:grid-cols-[280px_minmax(0,1fr)]">
+  <!-- Sidebar -->
+  <aside class="hidden border-r border-slate-200 bg-white md:block">
+    <div class="px-7 py-7">
+      <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Miss Bella</p>
+      <h2 class="mt-2 text-2xl font-semibold tracking-tight text-ink-900">Admin</h2>
+    </div>
+    <nav class="px-4">
+      <ul class="space-y-1">
+        <li><a class="flex items-center gap-3 rounded-xl bg-rose-100 px-4 py-3 text-sm font-medium text-rose-700" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Dashboard
+        </a></li>
+        <li><a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-slate-700 hover:bg-slate-100" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
+          Urunler
+        </a></li>
+        <li><a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-slate-700 hover:bg-slate-100" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          Kategoriler
+        </a></li>
+        <li><a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-slate-700 hover:bg-slate-100" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11H5a2 2 0 0 0-2 2v7h18v-7a2 2 0 0 0-2-2h-4"/><circle cx="12" cy="7" r="4"/></svg>
+          Siparisler
+        </a></li>
+        <li><a class="flex items-center gap-3 rounded-xl px-4 py-3 text-sm text-slate-700 hover:bg-slate-100" href="#">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+          Ayarlar
+        </a></li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- Main -->
+  <div class="min-w-0">
+    <!-- Topbar -->
+    <header class="sticky top-0 z-20 flex items-center justify-between gap-4 border-b border-slate-200 bg-[#f7f5f1]/90 px-4 py-4 backdrop-blur md:px-8">
+      <div>
+        <p class="text-xs uppercase tracking-[0.3em] text-slate-400">Miss Bella</p>
+        <h1 class="mt-1 text-xl font-semibold text-ink-900 md:text-2xl">Dashboard</h1>
+      </div>
+      <button id="logout-btn" class="inline-flex items-center gap-2 rounded-full bg-ink-950 px-4 py-2.5 text-sm font-medium text-white hover:bg-slate-800">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+        Cikis
+      </button>
+    </header>
+
+    <main class="px-4 py-6 md:px-8 md:py-8">
+      <!-- Stat cards -->
+      <section class="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div class="rounded-2xl border border-slate-200 bg-white p-5">
+          <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Toplam Urun</p>
+          <p class="mt-3 font-display text-4xl text-ink-900">8</p>
+          <p class="mt-1 text-xs text-emerald-600">+2 bu hafta</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5">
+          <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Toplam Siparis</p>
+          <p class="mt-3 font-display text-4xl text-ink-900">42</p>
+          <p class="mt-1 text-xs text-emerald-600">+8 bu hafta</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5">
+          <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Bekleyen</p>
+          <p class="mt-3 font-display text-4xl text-rose-600">5</p>
+          <p class="mt-1 text-xs text-slate-500">Hazirlaniyor</p>
+        </div>
+        <div class="rounded-2xl border border-slate-200 bg-white p-5">
+          <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Toplam Ciro</p>
+          <p class="mt-3 font-display text-4xl text-ink-900">68.420 TL</p>
+          <p class="mt-1 text-xs text-emerald-600">+%12 bu ay</p>
+        </div>
+      </section>
+
+      <!-- Recent orders -->
+      <section class="mt-8 rounded-2xl border border-slate-200 bg-white">
+        <div class="flex items-center justify-between border-b border-slate-200 px-6 py-5">
+          <div>
+            <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Son siparisler</p>
+            <h2 class="mt-1 text-xl font-semibold text-ink-900">Aktivite</h2>
+          </div>
+          <a href="#" class="text-xs uppercase tracking-[0.18em] text-rose-600 hover:text-rose-700">Tumunu gor →</a>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-slate-200 bg-slate-50/50 text-left text-[11px] uppercase tracking-[0.18em] text-slate-500">
+                <th class="px-6 py-3 font-medium">Siparis</th>
+                <th class="px-6 py-3 font-medium">Musteri</th>
+                <th class="px-6 py-3 font-medium">Durum</th>
+                <th class="px-6 py-3 font-medium">Tutar</th>
+                <th class="px-6 py-3 font-medium">Tarih</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100">
+              <tr>
+                <td class="px-6 py-4 font-medium text-ink-900">#LR-238947</td>
+                <td class="px-6 py-4 text-slate-700">Elif Karakas</td>
+                <td class="px-6 py-4"><span class="rounded-full bg-amber-100 px-3 py-1 text-xs text-amber-800">Hazirlaniyor</span></td>
+                <td class="px-6 py-4 text-slate-700">2.490 TL</td>
+                <td class="px-6 py-4 text-slate-500">25 Nis 2026</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-medium text-ink-900">#LR-238946</td>
+                <td class="px-6 py-4 text-slate-700">Zeynep Aydin</td>
+                <td class="px-6 py-4"><span class="rounded-full bg-emerald-100 px-3 py-1 text-xs text-emerald-800">Tamamlandi</span></td>
+                <td class="px-6 py-4 text-slate-700">1.290 TL</td>
+                <td class="px-6 py-4 text-slate-500">25 Nis 2026</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-medium text-ink-900">#LR-238945</td>
+                <td class="px-6 py-4 text-slate-700">Merve Tan</td>
+                <td class="px-6 py-4"><span class="rounded-full bg-blue-100 px-3 py-1 text-xs text-blue-800">Kargoda</span></td>
+                <td class="px-6 py-4 text-slate-700">3.180 TL</td>
+                <td class="px-6 py-4 text-slate-500">24 Nis 2026</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-medium text-ink-900">#LR-238944</td>
+                <td class="px-6 py-4 text-slate-700">Cansu Bal</td>
+                <td class="px-6 py-4"><span class="rounded-full bg-amber-100 px-3 py-1 text-xs text-amber-800">Hazirlaniyor</span></td>
+                <td class="px-6 py-4 text-slate-700">890 TL</td>
+                <td class="px-6 py-4 text-slate-500">24 Nis 2026</td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 font-medium text-ink-900">#LR-238943</td>
+                <td class="px-6 py-4 text-slate-700">Ayse Demir</td>
+                <td class="px-6 py-4"><span class="rounded-full bg-emerald-100 px-3 py-1 text-xs text-emerald-800">Tamamlandi</span></td>
+                <td class="px-6 py-4 text-slate-700">1.890 TL</td>
+                <td class="px-6 py-4 text-slate-500">23 Nis 2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Low stock -->
+      <section class="mt-8 grid gap-6 md:grid-cols-2">
+        <div class="rounded-2xl border border-slate-200 bg-white p-6">
+          <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Dusuk stok</p>
+          <h2 class="mt-1 text-xl font-semibold text-ink-900">Acil ilgi gerektiren</h2>
+          <ul class="mt-5 space-y-3">
+            <li class="flex items-center justify-between rounded-xl bg-rose-50 px-4 py-3">
+              <div>
+                <p class="text-sm font-medium text-ink-900">Dantel Detayli Body</p>
+                <p class="text-xs text-slate-600">SKU: LR-P8-18</p>
+              </div>
+              <span class="rounded-full bg-rose-600 px-3 py-1 text-xs font-medium text-white">6 adet</span>
+            </li>
+            <li class="flex items-center justify-between rounded-xl bg-rose-50 px-4 py-3">
+              <div>
+                <p class="text-sm font-medium text-ink-900">Ipek Saten Gecelik</p>
+                <p class="text-xs text-slate-600">SKU: LR-P3-13</p>
+              </div>
+              <span class="rounded-full bg-rose-600 px-3 py-1 text-xs font-medium text-white">8 adet</span>
+            </li>
+            <li class="flex items-center justify-between rounded-xl bg-amber-50 px-4 py-3">
+              <div>
+                <p class="text-sm font-medium text-ink-900">Rosa Dantel Sutyen Takimi</p>
+                <p class="text-xs text-slate-600">SKU: LR-P1-11</p>
+              </div>
+              <span class="rounded-full bg-amber-600 px-3 py-1 text-xs font-medium text-white">12 adet</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="rounded-2xl border border-slate-200 bg-white p-6">
+          <p class="text-xs uppercase tracking-[0.18em] text-slate-500">Hizli islemler</p>
+          <h2 class="mt-1 text-xl font-semibold text-ink-900">Yonetim</h2>
+          <div class="mt-5 grid grid-cols-2 gap-3">
+            <a href="#" class="rounded-xl border border-slate-200 bg-slate-50 p-4 hover:border-rose-600 hover:bg-rose-50">
+              <p class="font-display text-2xl text-ink-900">+</p>
+              <p class="text-sm font-medium text-ink-900">Yeni Urun</p>
+              <p class="text-xs text-slate-500">Katalogda yeni urun ekle</p>
+            </a>
+            <a href="#" class="rounded-xl border border-slate-200 bg-slate-50 p-4 hover:border-rose-600 hover:bg-rose-50">
+              <p class="font-display text-2xl text-ink-900">⚙</p>
+              <p class="text-sm font-medium text-ink-900">Ayarlar</p>
+              <p class="text-xs text-slate-500">Genel mağaza ayarlari</p>
+            </a>
+            <a href="#" class="rounded-xl border border-slate-200 bg-slate-50 p-4 hover:border-rose-600 hover:bg-rose-50">
+              <p class="font-display text-2xl text-ink-900">📦</p>
+              <p class="text-sm font-medium text-ink-900">Siparisler</p>
+              <p class="text-xs text-slate-500">Bekleyen siparisleri yonet</p>
+            </a>
+            <a href="#" class="rounded-xl border border-slate-200 bg-slate-50 p-4 hover:border-rose-600 hover:bg-rose-50">
+              <p class="font-display text-2xl text-ink-900">📊</p>
+              <p class="text-sm font-medium text-ink-900">Kategoriler</p>
+              <p class="text-xs text-slate-500">Kategori yapilandirmasi</p>
+            </a>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</div>
+
+<script>
+  const loginView = document.getElementById("login-view");
+  const dashboardView = document.getElementById("dashboard-view");
+  const loginForm = document.getElementById("login-form");
+  const errorEl = document.getElementById("login-error");
+  const logoutBtn = document.getElementById("logout-btn");
+
+  loginForm.addEventListener("submit", function (event) {
+    event.preventDefault();
+    const user = document.getElementById("login-user").value.trim();
+    const pass = document.getElementById("login-pass").value;
+    if (user === "admin" && pass === "demo") {
+      errorEl.classList.add("hidden");
+      loginView.classList.add("hidden");
+      dashboardView.classList.remove("hidden");
+    } else {
+      errorEl.textContent = "Kullanici adi veya parola hatali. (admin / demo)";
+      errorEl.classList.remove("hidden");
+    }
+  });
+
+  logoutBtn.addEventListener("click", function () {
+    dashboardView.classList.add("hidden");
+    loginView.classList.remove("hidden");
+    document.getElementById("login-pass").value = "";
+  });
+</script>
+
+</body>
+</html>

@@ -4,7 +4,7 @@ import LegalLayout from "@/components/LegalLayout";
 export const metadata: Metadata = {
   title: "Mesafeli Satis Sozlesmesi",
   description:
-    "Luna Rosa internet sitesi uzerinden verilen siparislere uygulanacak mesafeli satis sozlesmesi metni.",
+    "Miss Bella internet sitesi uzerinden verilen siparislere uygulanacak mesafeli satis sozlesmesi metni.",
 };
 
 export default function MesafeliSatisPage() {
@@ -16,13 +16,13 @@ export default function MesafeliSatisPage() {
     >
       <h2>Madde 1 - Taraflar</h2>
       <p>
-        Isbu sozlesme; satici sifatiyla Luna Rosa ile internet sitesi uzerinden
+        Isbu sozlesme; satici sifatiyla Miss Bella ile internet sitesi uzerinden
         siparis veren alici arasinda, elektronik ortamda kabul edilerek kurulmustur.
       </p>
 
       <h3>Satici</h3>
       <p>
-        Unvan: <strong>Luna Rosa</strong>
+        Unvan: <strong>Miss Bella</strong>
         <br />
         Adres: <em>[Sirket merkez adresi]</em>
         <br />
@@ -30,7 +30,7 @@ export default function MesafeliSatisPage() {
         <br />
         Mersis No: <em>[Mersis numarasi]</em>
         <br />
-        E-posta: hello@lunarosa.com
+        E-posta: hello@missbella.com
         <br />
         Destek Hatti: +90 850 222 12 34
       </p>
@@ -46,7 +46,7 @@ export default function MesafeliSatisPage() {
 
       <h2>Madde 2 - Konu</h2>
       <p>
-        Bu sozlesmenin konusu, alicinin Luna Rosa internet sitesi uzerinden siparis
+        Bu sozlesmenin konusu, alicinin Miss Bella internet sitesi uzerinden siparis
         ettigi urun veya urunlerin satisi ve teslimi ile taraflarin hak ve
         yukumluluklerinin belirlenmesidir.
       </p>
@@ -92,7 +92,7 @@ export default function MesafeliSatisPage() {
       <p>
         Alici, ambalaji acilmamis ve hijyen etiketi yerinde olan urunleri 14 gun
         icinde iade edebilir. Iade talepleri{" "}
-        <a href="mailto:hello@lunarosa.com">hello@lunarosa.com</a> adresine
+        <a href="mailto:hello@missbella.com">hello@missbella.com</a> adresine
         siparis numarasi ile birlikte iletilmelidir. Detaylar icin{" "}
         <a href="/iade-politikasi">iade politikasi</a> sayfasini inceleyin.
       </p>

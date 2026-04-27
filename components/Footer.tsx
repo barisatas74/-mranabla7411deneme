@@ -112,7 +112,7 @@ export default function Footer() {
       <Container className="grid gap-10 pb-10 pt-16 md:grid-cols-5 md:gap-14">
         <div className="md:col-span-2">
           <span className="block font-display text-[34px] leading-none">
-            Luna <span className="font-italic-display text-rose-300">Rosa</span>
+            Miss <span className="font-italic-display text-rose-300">Bella</span>
           </span>
           <span className="mt-2 inline-block text-[10px] uppercase tracking-editorial text-rose-300">
             Zarafetin en ozel hali
@@ -163,7 +163,7 @@ export default function Footer() {
 
       <div className="border-t border-white/8">
         <Container className="flex flex-col items-center justify-between gap-4 py-6 text-[10px] uppercase tracking-editorial text-white/50 md:flex-row">
-          <p>© MMXXVI Luna Rosa / Tum haklari saklidir</p>
+          <p>© MMXXVI Miss Bella / Tum haklari saklidir</p>
           <div className="flex items-center gap-4">
             <Link href="/gizlilik" className="hover:text-white">
               Gizlilik

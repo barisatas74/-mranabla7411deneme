@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 
-const STORAGE_KEY = "luna-rosa-cookie-consent";
+const STORAGE_KEY = "miss-bella-cookie-consent";
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);

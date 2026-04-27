@@ -228,14 +228,14 @@ export const adminOrders: AdminOrder[] = [
 ];
 
 export const adminSettings: AdminSettings = {
-  storeName: "Luna Rosa Admin",
-  supportEmail: "destek@lunarosa.com.tr",
+  storeName: "Miss Bella Admin",
+  supportEmail: "destek@missbella.com.tr",
   supportPhone: "+90 212 000 00 00",
   whatsappNumber: "905550000000",
   address: "Nisantasi, Sisli / Istanbul",
   freeShippingLimit: 300,
   taxRate: 20,
-  instagramUrl: "https://instagram.com/lunarosa",
+  instagramUrl: "https://instagram.com/missbella",
   cargoLeadTime: "1-3 is gunu",
   maintenanceMode: false,
 };

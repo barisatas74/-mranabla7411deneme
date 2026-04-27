@@ -4,7 +4,7 @@ import LegalLayout from "@/components/LegalLayout";
 export const metadata: Metadata = {
   title: "Iade ve Degisim Politikasi",
   description:
-    "Luna Rosa siparislerinde iade, degisim, hasar bildirimi ve geri odeme surecleri hakkinda bilgilendirme.",
+    "Miss Bella siparislerinde iade, degisim, hasar bildirimi ve geri odeme surecleri hakkinda bilgilendirme.",
 };
 
 export default function IadePage() {
@@ -15,7 +15,7 @@ export default function IadePage() {
       updated="25 Nisan 2026"
     >
       <p>
-        Luna Rosa olarak, satin aldiginiz urunlerden memnuniyetinizi onemsiyoruz.
+        Miss Bella olarak, satin aldiginiz urunlerden memnuniyetinizi onemsiyoruz.
         Siparisinize iliskin iade ve degisim taleplerinizi asagidaki kosullar
         cercevesinde degerlendiriyoruz.
       </p>
@@ -45,7 +45,7 @@ export default function IadePage() {
       <h3>1. Talep Olusturma</h3>
       <p>
         Siparis numaraniz ile birlikte{" "}
-        <a href="mailto:iade@lunarosa.com">iade@lunarosa.com</a> adresine ya da
+        <a href="mailto:iade@missbella.com">iade@missbella.com</a> adresine ya da
         WhatsApp destek hattimiza ulasin.
       </p>
 
@@ -70,7 +70,7 @@ export default function IadePage() {
 
       <h2>Iletisim</h2>
       <p>
-        Destek icin <a href="mailto:destek@lunarosa.com">destek@lunarosa.com</a>{" "}
+        Destek icin <a href="mailto:destek@missbella.com">destek@missbella.com</a>{" "}
         adresine yazabilir veya WhatsApp uzerinden ulasabilirsiniz.
       </p>
     </LegalLayout>

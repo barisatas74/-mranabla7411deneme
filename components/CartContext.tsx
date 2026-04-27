@@ -18,7 +18,7 @@ import {
 } from "@/lib/commerce";
 import { CartItem, CartLine, Product } from "@/types";
 
-const STORAGE_KEY = "luna-rosa-cart";
+const STORAGE_KEY = "miss-bella-cart";
 
 type StoredCartState = {
   items: CartItem[];

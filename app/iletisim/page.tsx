@@ -7,7 +7,7 @@ import { Mail, MapPin, Phone, Instagram } from "lucide-react";
 export const metadata: Metadata = {
   title: "Iletisim",
   description:
-    "Luna Rosa musteri hizmetleri; siparis, iade, kargo ve isbirligi sorulariniz icin iletisim kanallari.",
+    "Miss Bella musteri hizmetleri; siparis, iade, kargo ve isbirligi sorulariniz icin iletisim kanallari.",
 };
 
 export default function IletisimPage() {
@@ -35,8 +35,8 @@ export default function IletisimPage() {
           <ul className="mt-6 space-y-5 text-sm text-ink-800">
             <li className="flex items-start gap-3">
               <Mail size={16} strokeWidth={1.5} className="mt-1 text-rose-600" />
-              <a href="mailto:hello@lunarosa.com" className="hover:text-rose-600">
-                hello@lunarosa.com
+              <a href="mailto:hello@missbella.com" className="hover:text-rose-600">
+                hello@missbella.com
               </a>
             </li>
             <li className="flex items-start gap-3">
@@ -48,18 +48,18 @@ export default function IletisimPage() {
             <li className="flex items-start gap-3">
               <Instagram size={16} strokeWidth={1.5} className="mt-1 text-rose-600" />
               <a
-                href="https://instagram.com/lunarosa"
+                href="https://instagram.com/missbella"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="hover:text-rose-600"
               >
-                @lunarosa
+                @missbella
               </a>
             </li>
             <li className="flex items-start gap-3">
               <MapPin size={16} strokeWidth={1.5} className="mt-1 text-rose-600" />
               <span>
-                Luna Rosa Tasarim Atolyesi
+                Miss Bella Tasarim Atolyesi
                 <br />
                 Istanbul, Turkiye
               </span>

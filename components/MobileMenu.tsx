@@ -2,7 +2,7 @@
 
 import { useEffect } from "react";
 import Link from "next/link";
-import { Instagram, Search, ShoppingBag, X } from "lucide-react";
+import { Heart, Instagram, Search, ShoppingBag, X } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function MobileMenu({
@@ -48,7 +48,7 @@ export default function MobileMenu({
         <div className="flex h-20 items-center justify-between border-b border-ink-900/8 px-6">
           <div className="flex flex-col">
             <span className="font-display text-[26px] leading-none text-ink-900">
-              Luna <span className="font-italic-display text-rose-600">Rosa</span>
+              Miss <span className="font-italic-display text-rose-600">Bella</span>
             </span>
             <span className="mt-1 text-[9px] uppercase tracking-editorial text-ink-600">
               Boutique
@@ -99,6 +99,12 @@ export default function MobileMenu({
             href="/cart"
             onClose={onClose}
           />
+          <MobileLink
+            icon={<Heart strokeWidth={1.4} size={16} />}
+            label="Favorilerim"
+            href="/favorilerim"
+            onClose={onClose}
+          />
           <MobileLink label="Hakkimizda" href="/hakkimizda" onClose={onClose} />
           <MobileLink label="Iletisim" href="/iletisim" onClose={onClose} />
         </div>
@@ -119,7 +125,7 @@ export default function MobileMenu({
             </a>
           </div>
           <p className="text-[10px] uppercase tracking-editorial text-ink-500">
-            © Luna Rosa · Est. 2020
+            © Miss Bella · Est. 2020
           </p>
         </div>
       </aside>

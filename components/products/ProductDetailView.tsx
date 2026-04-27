@@ -6,7 +6,9 @@ import Breadcrumb from "@/components/Breadcrumb";
 import Container from "@/components/Container";
 import ProductCard from "@/components/ProductCard";
 import { useCart } from "@/components/CartContext";
+import { useWishlist } from "@/components/WishlistContext";
 import { WhatsAppProductButton } from "@/components/WhatsAppButton";
+import SizeGuideModal from "@/components/SizeGuideModal";
 import {
   getCategoryName,
   getRelatedProducts,
@@ -16,6 +18,7 @@ import { cn, formatPrice } from "@/lib/utils";
 import { Product } from "@/types";
 import {
   ChevronDown,
+  Heart,
   Minus,
   Plus,
   RotateCcw,
@@ -32,6 +35,7 @@ type VariantErrors = {
 
 export default function ProductDetailView({ product }: { product: Product }) {
   const { addItem } = useCart();
+  const { has: hasFavorite, toggle: toggleFavorite } = useWishlist();
   const relatedProducts = useMemo(
     () => getRelatedProducts(product.id, product.category, 4),
     [product.category, product.id]
@@ -206,9 +210,7 @@ export default function ProductDetailView({ product }: { product: Product }) {
                     {selectedSize ?? "Secim yapilmadi"}
                   </span>
                 </p>
-                <span className="text-[10px] uppercase tracking-editorial text-rose-600">
-                  Stok: {product.stock}
-                </span>
+                <SizeGuideModal />
               </div>
               <div className="flex flex-wrap gap-2">
                 {product.sizes.map((size) => (
@@ -276,6 +278,27 @@ export default function ProductDetailView({ product }: { product: Product }) {
                 )}
               </button>
 
+              <button
+                type="button"
+                onClick={() => toggleFavorite(product.id)}
+                aria-label={
+                  hasFavorite(product.id)
+                    ? "Favorilerden cikar"
+                    : "Favorilere ekle"
+                }
+                className={cn(
+                  "flex h-[52px] items-center justify-center border px-5 transition",
+                  hasFavorite(product.id)
+                    ? "border-rose-600 bg-rose-600/5 text-rose-600"
+                    : "border-ink-900/15 hover:border-rose-600 hover:text-rose-600"
+                )}
+              >
+                <Heart
+                  strokeWidth={1.5}
+                  size={18}
+                  className={hasFavorite(product.id) ? "fill-rose-600" : ""}
+                />
+              </button>
             </div>
 
             {product.stock > 0 && product.stock <= 5 && (

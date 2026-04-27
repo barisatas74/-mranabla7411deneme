@@ -1,17 +1,21 @@
 import type { Metadata } from "next";
 import Hero from "@/components/Hero";
 import CategoryShowcase from "@/components/CategoryShowcase";
+import TrustStrip from "@/components/TrustStrip";
 import FeaturedProducts from "@/components/FeaturedProducts";
+import BestSellers from "@/components/BestSellers";
 import NewSeason from "@/components/NewSeason";
+import Lookbook from "@/components/Lookbook";
 import CampaignBanner from "@/components/CampaignBanner";
 import BrandStory from "@/components/BrandStory";
+import Testimonials from "@/components/Testimonials";
 import InstagramGallery from "@/components/InstagramGallery";
 import TrustBadges from "@/components/TrustBadges";
 
 export const metadata: Metadata = {
   title: "Anasayfa",
   description:
-    "Luna Rosa anasayfasinda premium ic giyim koleksiyonlari, yeni sezon secimleri ve one cikan urunleri kesfedin.",
+    "Miss Bella anasayfasinda premium ic giyim koleksiyonlari, yeni sezon secimleri ve one cikan urunleri kesfedin.",
 };
 
 export default function HomePage() {
@@ -20,10 +24,14 @@ export default function HomePage() {
       <Hero />
       <Marquee />
       <CategoryShowcase />
+      <TrustStrip />
       <FeaturedProducts />
+      <BestSellers />
       <NewSeason />
+      <Lookbook />
       <CampaignBanner />
       <BrandStory />
+      <Testimonials />
       <TrustBadges />
       <InstagramGallery />
     </>

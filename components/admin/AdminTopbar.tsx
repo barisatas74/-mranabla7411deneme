@@ -59,7 +59,7 @@ export default function AdminTopbar({
           <Menu size={18} />
         </button>
         <div>
-          <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Luna Rosa</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-400">Miss Bella</p>
           <h1 className="mt-1 text-xl font-semibold text-slate-950 md:text-2xl">
             {title}
           </h1>

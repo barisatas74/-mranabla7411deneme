@@ -25,7 +25,7 @@ export default function FloatingWhatsApp() {
   return (
     <a
       href={buildWhatsAppUrl(
-        "Merhaba, Luna Rosa koleksiyonu hakkinda bilgi almak istiyorum."
+        "Merhaba, Miss Bella koleksiyonu hakkinda bilgi almak istiyorum."
       )}
       target="_blank"
       rel="noopener noreferrer"

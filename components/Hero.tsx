@@ -11,7 +11,7 @@ export default function Hero() {
       <div className="absolute -bottom-40 -left-32 h-[500px] w-[500px] rounded-full bg-champagne-100/80 blur-[140px]" />
 
       <span className="pointer-events-none absolute left-10 top-24 hidden select-none font-display text-[180px] leading-none text-rose-600/5 md:block">
-        L<span className="font-italic-display">R</span>
+        M<span className="font-italic-display">B</span>
       </span>
       <span className="pointer-events-none absolute bottom-16 right-10 hidden select-none font-display text-[120px] italic leading-none text-ink-900/4 md:block">
         couture
@@ -74,7 +74,7 @@ export default function Hero() {
           <div className="absolute right-0 top-0 h-[88%] w-[72%] overflow-hidden bg-powder-100 shadow-luxe img-reveal">
             <Image
               src="https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=1400&q=90"
-              alt="Luna Rosa koleksiyonundan bir secki"
+              alt="Miss Bella koleksiyonundan bir secki"
               fill
               priority
               sizes="(max-width: 768px) 75vw, 45vw"
@@ -96,7 +96,7 @@ export default function Hero() {
 
           <div className="absolute left-4 top-8 hidden flex-col items-center gap-3 text-ink-900 md:flex">
             <span className="writing-vertical rotate-180 text-[10px] uppercase tracking-editorial [writing-mode:vertical-rl]">
-              No 001 Rosa Edition
+              No 001 Bella Edition
             </span>
             <span className="h-16 w-px bg-ink-900/25" />
           </div>

@@ -4,7 +4,7 @@ import LegalLayout from "@/components/LegalLayout";
 export const metadata: Metadata = {
   title: "KVKK Aydinlatma Metni",
   description:
-    "Luna Rosa musteri verilerinin hangi hukuki sebeplerle ve hangi amaclarla islendigi hakkinda KVKK aydinlatma metni.",
+    "Miss Bella musteri verilerinin hangi hukuki sebeplerle ve hangi amaclarla islendigi hakkinda KVKK aydinlatma metni.",
 };
 
 export default function KvkkPage() {
@@ -15,16 +15,16 @@ export default function KvkkPage() {
       updated="25 Nisan 2026"
     >
       <p>
-        6698 sayili Kisisel Verilerin Korunmasi Kanunu kapsaminda Luna Rosa olarak,
+        6698 sayili Kisisel Verilerin Korunmasi Kanunu kapsaminda Miss Bella olarak,
         veri sorumlusu sifatiyla isledigimiz kisisel veriler ve bu verilere iliskin
         haklariniz konusunda sizi bilgilendiriyoruz.
       </p>
 
       <h2>Veri Sorumlusu</h2>
       <p>
-        <strong>Luna Rosa</strong>
+        <strong>Miss Bella</strong>
         <br />
-        E-posta: kvkk@lunarosa.com
+        E-posta: kvkk@missbella.com
         <br />
         Destek Hatti: +90 555 000 00 00
       </p>
@@ -65,7 +65,7 @@ export default function KvkkPage() {
       <h2>Basvuru Yontemi</h2>
       <p>
         KVKK kapsamindaki taleplerinizi{" "}
-        <a href="mailto:kvkk@lunarosa.com">kvkk@lunarosa.com</a> adresine
+        <a href="mailto:kvkk@missbella.com">kvkk@missbella.com</a> adresine
         yazili olarak iletebilirsiniz. Basvurulariniz mevzuatta belirtilen sureler
         icinde degerlendirilir.
       </p>

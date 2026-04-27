@@ -40,7 +40,7 @@ export async function generateMetadata({
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://www.lunarosa.com.tr";
+  "https://www.missbella.com.tr";
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { slug } = await params;
@@ -57,7 +57,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     description: product.description,
     image: product.images,
     sku: product.id.toUpperCase(),
-    brand: { "@type": "Brand", name: "Luna Rosa" },
+    brand: { "@type": "Brand", name: "Miss Bella" },
     offers: {
       "@type": "Offer",
       url: `${SITE_URL}/products/${product.slug}`,

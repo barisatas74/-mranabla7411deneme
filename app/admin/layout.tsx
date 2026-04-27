@@ -4,7 +4,7 @@ import AdminShell from "@/components/admin/AdminShell";
 
 export const metadata: Metadata = {
   title: "Admin",
-  description: "Luna Rosa admin paneli mock yonetim arayuzu.",
+  description: "Miss Bella admin paneli yonetim arayuzu.",
   robots: {
     index: false,
     follow: false,

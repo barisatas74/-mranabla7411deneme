@@ -4,7 +4,7 @@ import { categories } from "@/data/categories";
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://www.lunarosa.com.tr";
+  "https://www.missbella.com.tr";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date();

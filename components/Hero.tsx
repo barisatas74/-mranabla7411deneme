@@ -13,8 +13,8 @@ export default function Hero() {
       <span className="pointer-events-none absolute left-10 top-24 hidden select-none font-display text-[180px] leading-none text-rose-600/5 md:block">
         M<span className="font-italic-display">B</span>
       </span>
-      <span className="pointer-events-none absolute bottom-16 right-10 hidden select-none font-display text-[120px] italic leading-none text-ink-900/4 md:block">
-        couture
+      <span className="pointer-events-none absolute bottom-36 right-8 hidden select-none font-italic-display text-[98px] leading-none text-rose-600/8 md:block lg:bottom-28 lg:right-14 lg:text-[128px]">
+        dantel
       </span>
 
       <Container className="relative grid min-h-[calc(100vh-120px)] items-center gap-10 py-14 md:grid-cols-12 md:gap-16 md:py-28">
@@ -68,13 +68,52 @@ export default function Hero() {
               </div>
             ))}
           </div>
+
+          <div className="mt-10 grid max-w-lg gap-3 sm:grid-cols-2">
+            <div className="border border-rose-600/15 bg-white/55 px-4 py-4 backdrop-blur">
+              <p className="text-[10px] uppercase tracking-editorial text-rose-600">
+                Editor Secimi
+              </p>
+              <p className="mt-2 font-display text-xl leading-tight text-ink-900">
+                Rosa Dantel Takimi
+              </p>
+              <p className="mt-2 text-xs leading-5 text-ink-700">
+                Pudra ve siyah renk secenekleriyle yeni sezonun imza parcasi.
+              </p>
+            </div>
+            <div className="border border-ink-900/10 bg-bone-50/70 px-4 py-4 backdrop-blur">
+              <p className="text-[10px] uppercase tracking-editorial text-ink-600">
+                Koleksiyon Notu
+              </p>
+              <div className="mt-3 flex items-center gap-2">
+                <span className="h-4 w-4 rounded-full bg-[#f5c2cd] ring-1 ring-ink-900/10" />
+                <span className="h-4 w-4 rounded-full bg-[#0c0c0d] ring-1 ring-ink-900/10" />
+                <span className="h-px flex-1 bg-ink-900/15" />
+                <span className="text-[11px] font-medium text-ink-900">
+                  XS - L
+                </span>
+              </div>
+              <p className="mt-3 text-xs leading-5 text-ink-700">
+                Gunluk konforu dantel detaylariyla birlestiren yumusak form.
+              </p>
+            </div>
+          </div>
         </div>
 
         <div className="relative h-[480px] md:col-span-6 md:h-[680px]">
+          <div className="absolute -left-2 top-2 z-10 hidden w-[180px] border border-rose-600/15 bg-bone-50/90 px-4 py-3 shadow-card backdrop-blur md:block">
+            <p className="text-[9px] uppercase tracking-editorial text-rose-600">
+              Bella Edition
+            </p>
+            <p className="mt-1 font-display text-[22px] leading-none text-ink-900">
+              No 001
+            </p>
+          </div>
+
           <div className="absolute right-0 top-0 h-[88%] w-[72%] overflow-hidden bg-powder-100 shadow-luxe img-reveal">
             <Image
-              src="https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=1400&q=90"
-              alt="Miss Bella koleksiyonundan bir secki"
+              src="https://images.unsplash.com/photo-1762195020450-4447ebcf8de5?w=1400&q=90&auto=format&fit=crop"
+              alt="Rosa Dantel Sutyen Takimi"
               fill
               priority
               sizes="(max-width: 768px) 75vw, 45vw"
@@ -86,8 +125,8 @@ export default function Hero() {
 
           <div className="absolute bottom-4 left-0 hidden h-[48%] w-[42%] overflow-hidden border-[6px] border-bone-50 bg-bone-100 shadow-card img-reveal md:block">
             <Image
-              src="https://images.unsplash.com/photo-1617922001439-4a2e6562f328?w=800&q=90"
-              alt="Yakin cekim detay gorseli"
+              src="https://images.unsplash.com/photo-1762195025289-f6b87a0fef14?w=800&q=90&auto=format&fit=crop"
+              alt="Rosa Dantel Takimi detay gorseli"
               fill
               sizes="(max-width: 768px) 0vw, 25vw"
               className="object-cover"
@@ -101,7 +140,7 @@ export default function Hero() {
             <span className="h-16 w-px bg-ink-900/25" />
           </div>
 
-          <div className="fade-up absolute -bottom-2 right-4 max-w-[200px] bg-bone-50 px-5 py-4 shadow-card md:right-0">
+          <div className="fade-up absolute -bottom-2 right-4 max-w-[220px] bg-bone-50 px-5 py-4 shadow-card md:right-0">
             <p className="text-[10px] uppercase tracking-editorial text-rose-600">
               Editor&apos;s Pick
             </p>
@@ -114,6 +153,15 @@ export default function Hero() {
                 1.590 TL
               </span>
             </div>
+          </div>
+
+          <div className="absolute bottom-16 left-8 hidden max-w-[220px] border border-white/70 bg-bone-50/85 px-5 py-4 shadow-soft backdrop-blur md:block">
+            <p className="text-[10px] uppercase tracking-editorial text-ink-600">
+              Dantel Detayi
+            </p>
+            <p className="mt-2 text-sm leading-6 text-ink-800">
+              Hafif destek, yumusak astar ve zarif cizgiler.
+            </p>
           </div>
         </div>
       </Container>

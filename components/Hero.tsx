@@ -13,7 +13,7 @@ export default function Hero() {
       <span className="pointer-events-none absolute left-10 top-24 hidden select-none font-display text-[180px] leading-none text-rose-600/5 md:block">
         M<span className="font-italic-display">B</span>
       </span>
-      <span className="pointer-events-none absolute right-8 top-[68%] hidden -translate-y-1/2 select-none font-italic-display text-[92px] leading-none text-rose-600/8 md:block lg:right-14 lg:top-[74%] lg:text-[118px]">
+      <span className="pointer-events-none absolute right-8 top-[73%] hidden -translate-y-1/2 select-none font-italic-display text-[92px] leading-none text-rose-600/8 md:block lg:right-14 lg:top-[80%] lg:text-[118px]">
         dantel
       </span>
 

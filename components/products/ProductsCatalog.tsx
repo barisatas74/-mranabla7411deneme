@@ -47,6 +47,7 @@ export default function ProductsCatalog({
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
   const [priceMin, setPriceMin] = useState(String(priceBounds.min));
   const [priceMax, setPriceMax] = useState(String(priceBounds.max));
+  const [filtersOpen, setFiltersOpen] = useState(false);
 
   const deferredSearchQuery = useDeferredValue(searchQuery);
 
@@ -111,26 +112,58 @@ export default function ProductsCatalog({
     <>
       <Breadcrumb items={[{ label: "Koleksiyon" }]} />
 
-      <section className="relative overflow-hidden bg-gradient-to-b from-powder-100 via-bone-50 to-bone-50 py-12 md:py-16">
+      <section className="relative overflow-hidden bg-gradient-to-b from-powder-100 via-bone-50 to-bone-50 py-10 md:py-16">
         <span className="pointer-events-none absolute right-6 top-0 hidden select-none font-italic-display text-[180px] leading-none text-rose-600/5 md:block">
           Boutique
         </span>
 
         <Container className="relative text-center">
           <span className="luxe-label">La Boutique</span>
-          <h1 className="mt-5 font-display text-[42px] leading-none text-ink-900 md:text-[78px]">
+          <h1 className="mt-4 font-display text-[36px] leading-[1.04] text-ink-900 md:mt-5 md:text-[78px] md:leading-none">
             Tum <span className="font-italic-display text-rose-600">Urunler</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-2xl text-sm leading-relaxed text-ink-700 md:text-base">
+          <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-ink-700 md:mt-5 md:text-base">
             Arama, fiyat araligi, beden ve renk filtreleri ile koleksiyonu gercek
             bir magaza akisi gibi tarayin.
           </p>
         </Container>
       </section>
 
-      <Container className="py-10 md:py-12">
+      <Container className="py-7 md:py-12">
         <div className="grid gap-8 lg:grid-cols-[280px_minmax(0,1fr)] lg:gap-10">
-          <aside className="h-fit rounded-[28px] border border-ink-900/10 bg-white p-5 shadow-card md:p-6 lg:sticky lg:top-28">
+          <div className="lg:hidden">
+            <button
+              type="button"
+              onClick={() => setFiltersOpen((current) => !current)}
+              className="flex w-full items-center justify-between border border-ink-900/12 bg-white px-4 py-3.5 text-left shadow-card"
+              aria-expanded={filtersOpen}
+            >
+              <span className="inline-flex items-center gap-2 text-[11px] font-medium uppercase tracking-editorial text-ink-900">
+                <SlidersHorizontal size={15} className="text-rose-600" />
+                Filtreler
+                {activeFacetCount > 0 && (
+                  <span className="rounded-full bg-rose-600 px-2 py-0.5 text-[9px] text-white">
+                    {activeFacetCount}
+                  </span>
+                )}
+              </span>
+              <ChevronDown
+                size={16}
+                strokeWidth={1.5}
+                className={cn(
+                  "text-ink-700 transition-transform",
+                  filtersOpen && "rotate-180"
+                )}
+              />
+            </button>
+          </div>
+
+          <aside
+            className={cn(
+              "h-fit border border-ink-900/10 bg-white p-5 shadow-card md:p-6 lg:sticky lg:top-28 lg:block lg:rounded-[28px]",
+              filtersOpen ? "block" : "hidden"
+            )}
+          >
             <div className="flex items-center justify-between gap-3 border-b border-ink-900/10 pb-4">
               <div className="flex items-center gap-2">
                 <SlidersHorizontal size={16} className="text-rose-600" />
@@ -219,9 +252,9 @@ export default function ProductsCatalog({
             </div>
           </aside>
 
-          <div>
+          <div className="min-w-0">
             <div className="flex flex-col gap-5 border-b border-ink-900/10 pb-8">
-              <div className="flex gap-2 overflow-x-auto px-1 pb-1 no-scrollbar">
+              <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 no-scrollbar md:mx-0 md:px-1">
                 <FilterPill
                   label="Tumu"
                   count={products.length}
@@ -246,14 +279,14 @@ export default function ProductsCatalog({
               </div>
 
               <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-                <div className="flex flex-wrap gap-2">
+                <div className="grid grid-cols-1 gap-2 sm:flex sm:flex-wrap">
                   {filterOptions.map((option) => (
                     <button
                       key={option.value}
                       type="button"
                       onClick={() => setActiveFilter(option.value)}
                       className={cn(
-                        "rounded-full border px-4 py-2 text-[10px] uppercase tracking-editorial transition",
+                        "rounded-full border px-3 py-2 text-center text-[10px] uppercase tracking-editorial transition sm:px-4",
                         activeFilter === option.value
                           ? "border-ink-950 bg-ink-950 text-white"
                           : "border-ink-900/15 text-ink-700 hover:border-ink-900"
@@ -264,20 +297,20 @@ export default function ProductsCatalog({
                   ))}
                 </div>
 
-                <div className="flex flex-wrap items-center gap-3 self-start md:self-auto">
+                <div className="grid gap-3 sm:flex sm:flex-wrap sm:items-center md:self-auto">
                   <button
                     type="button"
                     onClick={resetAllFilters}
-                    className="inline-flex items-center gap-2 text-[10px] uppercase tracking-editorial text-ink-700 transition hover:text-rose-600"
+                    className="inline-flex items-center justify-center gap-2 border border-ink-900/10 px-4 py-2.5 text-[10px] uppercase tracking-editorial text-ink-700 transition hover:text-rose-600 sm:border-0 sm:px-0 sm:py-0"
                   >
                     <X size={12} />
                     Tumunu Sifirla
                   </button>
-                  <div className="relative">
+                  <div className="relative w-full sm:w-auto">
                     <select
                       value={sort}
                       onChange={(event) => setSort(event.target.value as ProductSort)}
-                      className="cursor-pointer appearance-none border border-ink-900/15 bg-transparent py-2.5 pl-4 pr-9 text-[11px] uppercase tracking-editorial outline-none focus:border-ink-900"
+                      className="w-full cursor-pointer appearance-none border border-ink-900/15 bg-transparent py-2.5 pl-4 pr-9 text-[11px] uppercase tracking-editorial outline-none focus:border-ink-900 sm:w-auto"
                     >
                       <option value="featured">One Cikanlar</option>
                       <option value="new">Yeni Gelenler</option>
@@ -294,7 +327,7 @@ export default function ProductsCatalog({
               </div>
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center justify-between gap-3">
+            <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
               <p className="text-[10px] uppercase tracking-editorial text-ink-600">
                 {filteredProducts.length} urun gosteriliyor
               </p>
@@ -330,7 +363,7 @@ export default function ProductsCatalog({
             </div>
 
             {filteredProducts.length > 0 ? (
-              <div className="mt-6 grid grid-cols-2 gap-x-4 gap-y-10 md:gap-x-6 md:gap-y-14 lg:grid-cols-3 xl:grid-cols-4">
+              <div className="mt-6 grid grid-cols-2 gap-x-3 gap-y-9 sm:gap-x-4 md:gap-x-6 md:gap-y-14 lg:grid-cols-3 xl:grid-cols-4">
                 {filteredProducts.map((product) => (
                   <ProductCard key={product.id} product={product} />
                 ))}

@@ -18,8 +18,8 @@ export const products: Product[] = [
     price: 1290,
     oldPrice: 1590,
     images: [
-      img("photo-1617019114583-affb34d1b3cd"),
-      img("photo-1583515558997-83406f8e024e"),
+      img("photo-1762195020450-4447ebcf8de5"),
+      img("photo-1762195025289-f6b87a0fef14"),
     ],
     colors: [
       { name: "Pudra", hex: "#f5c2cd" },
@@ -39,8 +39,8 @@ export const products: Product[] = [
     category: "sutyenler",
     price: 690,
     images: [
-      img("photo-1594224457860-23bdb45f8b59"),
-      img("photo-1606902965551-dce093cda6e7"),
+      img("photo-1763192788440-5036b6c90841"),
+      img("photo-1763193045573-ab54818f63a3"),
     ],
     colors: [
       { name: "Pudra", hex: "#fadce3" },
@@ -61,8 +61,8 @@ export const products: Product[] = [
     price: 2490,
     oldPrice: 2890,
     images: [
-      img("photo-1617922001439-4a2e6562f328"),
-      img("photo-1617019114583-affb34d1b3cd"),
+      img("photo-1770294759243-664b21a8ac38"),
+      img("photo-1767972463565-5a9387059b01"),
     ],
     colors: [
       { name: "Sampanya", hex: "#f4e6d8" },
@@ -82,8 +82,8 @@ export const products: Product[] = [
     category: "kulotlar",
     price: 290,
     images: [
-      img("photo-1606902965551-dce093cda6e7"),
-      img("photo-1594224457860-23bdb45f8b59"),
+      img("photo-1594956668048-e86c9a562529"),
+      img("photo-1652859921946-c1e9547e4097"),
     ],
     colors: [
       { name: "Pudra", hex: "#fadce3" },
@@ -102,8 +102,8 @@ export const products: Product[] = [
     category: "sutyenler",
     price: 1190,
     images: [
-      img("photo-1583515558997-83406f8e024e"),
-      img("photo-1617019114583-affb34d1b3cd"),
+      img("photo-1768794521439-5315a232a0e4"),
+      img("photo-1763192788440-5036b6c90841"),
     ],
     colors: [
       { name: "Siyah", hex: "#0c0c0d" },
@@ -123,8 +123,8 @@ export const products: Product[] = [
     price: 1490,
     oldPrice: 1790,
     images: [
-      img("photo-1606902965551-dce093cda6e7"),
-      img("photo-1617922001439-4a2e6562f328"),
+      img("photo-1766056278798-39cabf7ca628"),
+      img("photo-1770294759243-664b21a8ac38"),
     ],
     colors: [
       { name: "Pudra", hex: "#fadce3" },
@@ -143,8 +143,8 @@ export const products: Product[] = [
     category: "spor",
     price: 590,
     images: [
-      img("photo-1571019613454-1cb2f99b2d8b"),
-      img("photo-1594224457860-23bdb45f8b59"),
+      img("photo-1649345946706-afbf86eee046"),
+      img("photo-1554244933-d876deb6b2ff"),
     ],
     colors: [
       { name: "Siyah", hex: "#0c0c0d" },
@@ -162,8 +162,8 @@ export const products: Product[] = [
     category: "takimlar",
     price: 1890,
     images: [
-      img("photo-1617019114583-affb34d1b3cd"),
-      img("photo-1617922001439-4a2e6562f328"),
+      img("photo-1762195018101-aaf20980f726"),
+      img("photo-1762195018375-6eaf4799a42b"),
     ],
     colors: [
       { name: "Siyah", hex: "#0c0c0d" },

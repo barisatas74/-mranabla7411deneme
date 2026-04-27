@@ -6,7 +6,7 @@ export const categories: Category[] = [
     name: "Sutyenler",
     slug: "sutyenler",
     image:
-      "https://images.unsplash.com/photo-1583515558997-83406f8e024e?w=900&q=80",
+      "https://images.unsplash.com/photo-1763192788440-5036b6c90841?w=900&q=80&auto=format&fit=crop",
     tagline: "Zarif destek",
   },
   {
@@ -14,7 +14,7 @@ export const categories: Category[] = [
     name: "Kulotlar",
     slug: "kulotlar",
     image:
-      "https://images.unsplash.com/photo-1594224457860-23bdb45f8b59?w=900&q=80",
+      "https://images.unsplash.com/photo-1594956668048-e86c9a562529?w=900&q=80&auto=format&fit=crop",
     tagline: "Yumusak dokunus",
   },
   {
@@ -22,7 +22,7 @@ export const categories: Category[] = [
     name: "Takimlar",
     slug: "takimlar",
     image:
-      "https://images.unsplash.com/photo-1617019114583-affb34d1b3cd?w=900&q=80",
+      "https://images.unsplash.com/photo-1762195020450-4447ebcf8de5?w=900&q=80&auto=format&fit=crop",
     tagline: "Uyumun zarafeti",
   },
   {
@@ -30,7 +30,7 @@ export const categories: Category[] = [
     name: "Gecelikler",
     slug: "gecelikler",
     image:
-      "https://images.unsplash.com/photo-1617922001439-4a2e6562f328?w=900&q=80",
+      "https://images.unsplash.com/photo-1770294759243-664b21a8ac38?w=900&q=80&auto=format&fit=crop",
     tagline: "Ipeksi geceler",
   },
   {
@@ -38,7 +38,7 @@ export const categories: Category[] = [
     name: "Sortlu Takimlar",
     slug: "sortlu-takimlar",
     image:
-      "https://images.unsplash.com/photo-1606902965551-dce093cda6e7?w=900&q=80",
+      "https://images.unsplash.com/photo-1766056278798-39cabf7ca628?w=900&q=80&auto=format&fit=crop",
     tagline: "Rahat luks",
   },
   {
@@ -46,7 +46,7 @@ export const categories: Category[] = [
     name: "Spor Ic Giyim",
     slug: "spor",
     image:
-      "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=900&q=80",
+      "https://images.unsplash.com/photo-1649345946706-afbf86eee046?w=900&q=80&auto=format&fit=crop",
     tagline: "Hareket ozgurlugu",
   },
 ];

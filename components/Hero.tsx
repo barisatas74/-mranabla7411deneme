@@ -13,11 +13,11 @@ export default function Hero() {
       <span className="pointer-events-none absolute left-10 top-24 hidden select-none font-display text-[180px] leading-none text-rose-600/5 md:block">
         M<span className="font-italic-display">B</span>
       </span>
-      <span className="pointer-events-none absolute bottom-36 right-8 hidden select-none font-italic-display text-[98px] leading-none text-rose-600/8 md:block lg:bottom-28 lg:right-14 lg:text-[128px]">
+      <span className="pointer-events-none absolute right-8 top-[62%] hidden -translate-y-1/2 select-none font-italic-display text-[92px] leading-none text-rose-600/8 md:block lg:right-14 lg:top-[68%] lg:text-[118px]">
         dantel
       </span>
 
-      <Container className="relative grid min-h-[calc(100vh-120px)] items-center gap-10 py-14 md:grid-cols-12 md:gap-16 md:py-28">
+      <Container className="relative grid min-h-[calc(100vh-120px)] items-center gap-10 py-12 md:grid-cols-12 md:gap-14 md:py-20">
         <div className="fade-up md:col-span-6">
           <div className="mb-6 flex items-center gap-3">
             <span className="luxe-label plain text-rose-600">
@@ -34,7 +34,7 @@ export default function Hero() {
             hali.
           </h1>
 
-          <div className="mt-8 flex max-w-md items-start gap-5">
+          <div className="mt-7 flex max-w-md items-start gap-5">
             <span className="mt-2 h-px w-10 flex-shrink-0 bg-ink-900/30" />
             <p className="text-[15px] font-light leading-[1.75] text-ink-700 md:text-[16px]">
               Fransiz danteli, yumusak satenler ve guclu siluetlerle hazirlanan
@@ -43,7 +43,7 @@ export default function Hero() {
             </p>
           </div>
 
-          <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link href="/products" className="btn-luxe btn-luxe-dark shadow-soft">
               Koleksiyonu Kesfet <ArrowRight strokeWidth={1.5} size={15} />
             </Link>
@@ -52,7 +52,7 @@ export default function Hero() {
             </Link>
           </div>
 
-          <div className="mt-14 grid max-w-md grid-cols-3 gap-4">
+          <div className="mt-9 grid max-w-md grid-cols-3 gap-4">
             {[
               ["Fransiz", "Danteli"],
               ["El", "Isciligi"],
@@ -69,23 +69,23 @@ export default function Hero() {
             ))}
           </div>
 
-          <div className="mt-10 grid max-w-lg gap-3 sm:grid-cols-2">
-            <div className="border border-rose-600/15 bg-white/55 px-4 py-4 backdrop-blur">
+          <div className="mt-6 grid max-w-lg gap-3 sm:grid-cols-2">
+            <div className="border border-rose-600/15 bg-white/55 px-4 py-3.5 backdrop-blur">
               <p className="text-[10px] uppercase tracking-editorial text-rose-600">
                 Editor Secimi
               </p>
-              <p className="mt-2 font-display text-xl leading-tight text-ink-900">
+              <p className="mt-1.5 font-display text-lg leading-tight text-ink-900">
                 Rosa Dantel Takimi
               </p>
-              <p className="mt-2 text-xs leading-5 text-ink-700">
+              <p className="mt-1.5 text-xs leading-5 text-ink-700">
                 Pudra ve siyah renk secenekleriyle yeni sezonun imza parcasi.
               </p>
             </div>
-            <div className="border border-ink-900/10 bg-bone-50/70 px-4 py-4 backdrop-blur">
+            <div className="border border-ink-900/10 bg-bone-50/70 px-4 py-3.5 backdrop-blur">
               <p className="text-[10px] uppercase tracking-editorial text-ink-600">
                 Koleksiyon Notu
               </p>
-              <div className="mt-3 flex items-center gap-2">
+              <div className="mt-2 flex items-center gap-2">
                 <span className="h-4 w-4 rounded-full bg-[#f5c2cd] ring-1 ring-ink-900/10" />
                 <span className="h-4 w-4 rounded-full bg-[#0c0c0d] ring-1 ring-ink-900/10" />
                 <span className="h-px flex-1 bg-ink-900/15" />
@@ -93,14 +93,14 @@ export default function Hero() {
                   XS - L
                 </span>
               </div>
-              <p className="mt-3 text-xs leading-5 text-ink-700">
+              <p className="mt-2 text-xs leading-5 text-ink-700">
                 Gunluk konforu dantel detaylariyla birlestiren yumusak form.
               </p>
             </div>
           </div>
         </div>
 
-        <div className="relative h-[480px] md:col-span-6 md:h-[680px]">
+        <div className="relative h-[480px] md:col-span-6 md:h-[620px]">
           <div className="absolute -left-2 top-2 z-10 hidden w-[180px] border border-rose-600/15 bg-bone-50/90 px-4 py-3 shadow-card backdrop-blur md:block">
             <p className="text-[9px] uppercase tracking-editorial text-rose-600">
               Bella Edition

@@ -21,7 +21,7 @@ export default function InstagramGallery() {
         <div className="mb-12 text-center md:mb-16">
           <span className="luxe-label">@lunarosa</span>
           <h2 className="mt-5 font-display text-[38px] leading-[1.05] text-ink-900 md:text-[58px]">
-            <span className="font-italic-display text-rose-600">Instagram</span>
+            <span className="font-italic-display text-gradient-fuchsia">Instagram</span>
             &apos;da biz
           </h2>
           <p className="mt-4 font-light text-ink-700">

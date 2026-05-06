@@ -6,9 +6,10 @@ import { ArrowRight } from "lucide-react";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-bone-50">
-      <div className="absolute inset-0 bg-gradient-to-br from-powder-100 via-bone-50 to-bone-100" />
-      <div className="absolute top-1/3 -right-40 h-[600px] w-[600px] rounded-full bg-rose-200/35 blur-[140px]" />
-      <div className="absolute -bottom-40 -left-32 h-[500px] w-[500px] rounded-full bg-champagne-100/80 blur-[140px]" />
+      <div className="absolute inset-0 bg-gradient-to-br from-powder-100 via-bone-50 to-powder-200/60" />
+      <div className="absolute top-1/3 -right-40 h-[600px] w-[600px] rounded-full bg-rose-400/40 blur-[140px]" />
+      <div className="absolute -bottom-40 -left-32 h-[500px] w-[500px] rounded-full bg-rose-300/50 blur-[140px]" />
+      <div className="absolute top-10 left-1/3 h-[320px] w-[320px] rounded-full bg-champagne-200/40 blur-[120px]" />
 
       <span className="pointer-events-none absolute left-10 top-24 hidden select-none font-display text-[180px] leading-none text-rose-600/5 md:block">
         M<span className="font-italic-display">B</span>
@@ -29,7 +30,7 @@ export default function Hero() {
           <h1 className="font-display text-[56px] leading-[0.95] tracking-tight text-ink-900 md:text-[92px]">
             Zarafetin
             <br />
-            <span className="font-italic-display text-rose-600">en ozel</span>
+            <span className="font-italic-display text-gradient-fuchsia">en ozel</span>
             <br />
             hali.
           </h1>
@@ -44,7 +45,7 @@ export default function Hero() {
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-            <Link href="/products" className="btn-luxe btn-luxe-dark shadow-soft">
+            <Link href="/products" className="btn-luxe btn-luxe-rose shadow-luxe">
               Koleksiyonu Kesfet <ArrowRight strokeWidth={1.5} size={15} />
             </Link>
             <Link href="/products?filter=new" className="btn-luxe btn-luxe-outline">
@@ -70,7 +71,7 @@ export default function Hero() {
           </div>
 
           <div className="mt-6 grid max-w-lg gap-3 sm:grid-cols-2">
-            <div className="border border-rose-600/15 bg-white/55 px-4 py-3.5 backdrop-blur">
+            <div className="glass-card hover-lift px-4 py-3.5">
               <p className="text-[10px] uppercase tracking-editorial text-rose-600">
                 Editor Secimi
               </p>
@@ -81,12 +82,12 @@ export default function Hero() {
                 Pudra ve siyah renk secenekleriyle yeni sezonun imza parcasi.
               </p>
             </div>
-            <div className="border border-ink-900/10 bg-bone-50/70 px-4 py-3.5 backdrop-blur">
-              <p className="text-[10px] uppercase tracking-editorial text-ink-600">
+            <div className="glass-card hover-lift px-4 py-3.5">
+              <p className="text-[10px] uppercase tracking-editorial text-rose-600">
                 Koleksiyon Notu
               </p>
               <div className="mt-2 flex items-center gap-2">
-                <span className="h-4 w-4 rounded-full bg-[#f5c2cd] ring-1 ring-ink-900/10" />
+                <span className="h-4 w-4 rounded-full bg-[#ff8cc3] ring-1 ring-ink-900/10" />
                 <span className="h-4 w-4 rounded-full bg-[#0c0c0d] ring-1 ring-ink-900/10" />
                 <span className="h-px flex-1 bg-ink-900/15" />
                 <span className="text-[11px] font-medium text-ink-900">
@@ -101,7 +102,7 @@ export default function Hero() {
         </div>
 
         <div className="relative h-[480px] md:col-span-6 md:h-[620px]">
-          <div className="absolute -left-2 top-2 z-10 hidden w-[180px] border border-rose-600/15 bg-bone-50/90 px-4 py-3 shadow-card backdrop-blur md:block">
+          <div className="glass-card float-slow absolute -left-2 top-2 z-10 hidden w-[180px] px-4 py-3 md:block">
             <p className="text-[9px] uppercase tracking-editorial text-rose-600">
               Bella Edition
             </p>
@@ -140,7 +141,7 @@ export default function Hero() {
             <span className="h-16 w-px bg-ink-900/25" />
           </div>
 
-          <div className="fade-up absolute -bottom-2 right-4 max-w-[220px] bg-bone-50 px-5 py-4 shadow-card md:right-0">
+          <div className="glass-card hover-lift fade-up absolute -bottom-2 right-4 max-w-[220px] px-5 py-4 md:right-0">
             <p className="text-[10px] uppercase tracking-editorial text-rose-600">
               Editor&apos;s Pick
             </p>
@@ -155,8 +156,8 @@ export default function Hero() {
             </div>
           </div>
 
-          <div className="absolute bottom-16 left-8 hidden max-w-[220px] border border-white/70 bg-bone-50/85 px-5 py-4 shadow-soft backdrop-blur md:block">
-            <p className="text-[10px] uppercase tracking-editorial text-ink-600">
+          <div className="glass-card float-slow absolute bottom-16 left-8 hidden max-w-[220px] px-5 py-4 md:block">
+            <p className="text-[10px] uppercase tracking-editorial text-rose-600">
               Dantel Detayi
             </p>
             <p className="mt-2 text-sm leading-6 text-ink-800">

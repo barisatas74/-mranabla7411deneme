@@ -43,7 +43,7 @@ export default function FavoritesPage() {
             <span className="luxe-label">Favoris</span>
             <h1 className="mt-5 font-display text-[42px] leading-[1.05] text-ink-900 md:text-[64px]">
               Henuz{" "}
-              <span className="font-italic-display text-rose-600">favori</span>{" "}
+              <span className="font-italic-display text-gradient-fuchsia">favori</span>{" "}
               yok
             </h1>
             <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-ink-700 md:text-base">

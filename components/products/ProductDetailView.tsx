@@ -385,7 +385,7 @@ export default function ProductDetailView({ product }: { product: Product }) {
             <div className="mb-10">
               <span className="luxe-label">Vous aimerez aussi</span>
               <h2 className="mt-3 font-display text-[32px] text-ink-900 md:text-[48px]">
-                Benzer <span className="font-italic-display text-rose-600">parcalar</span>
+                Benzer <span className="font-italic-display text-gradient-fuchsia">parcalar</span>
               </h2>
             </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-x-6 md:gap-y-12">

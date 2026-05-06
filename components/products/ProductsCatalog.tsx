@@ -120,7 +120,7 @@ export default function ProductsCatalog({
         <Container className="relative text-center">
           <span className="luxe-label">La Boutique</span>
           <h1 className="mt-4 font-display text-[36px] leading-[1.04] text-ink-900 md:mt-5 md:text-[78px] md:leading-none">
-            Tum <span className="font-italic-display text-rose-600">Urunler</span>
+            Tum <span className="font-italic-display text-gradient-fuchsia">Urunler</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-ink-700 md:mt-5 md:text-base">
             Arama, fiyat araligi, beden ve renk filtreleri ile koleksiyonu gercek

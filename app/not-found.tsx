@@ -7,7 +7,7 @@ export default function NotFound() {
     <Container className="py-24 text-center md:py-36">
       <span className="luxe-label">Sayfa Bulunamadi</span>
       <h1 className="mt-5 font-display text-[80px] leading-none text-ink-900 md:text-[140px]">
-        4<span className="font-italic-display text-rose-600">0</span>4
+        4<span className="font-italic-display text-gradient-fuchsia">0</span>4
       </h1>
       <p className="mx-auto mt-4 max-w-sm text-sm leading-relaxed text-ink-700 md:text-base">
         Aradiginiz sayfa bulunamadi. Dilerseniz anasayfaya donebilir veya

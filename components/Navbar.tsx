@@ -58,7 +58,7 @@ export default function Navbar() {
 
   return (
     <>
-      <div className="overflow-hidden bg-ink-950 py-2.5 text-[10.5px] uppercase tracking-editorial text-bone-50">
+      <div className="overflow-hidden bg-vivid-gradient py-2.5 text-[10.5px] uppercase tracking-editorial text-white">
         <div className="flex whitespace-nowrap animate-marquee">
           {[...announcements, ...announcements, ...announcements].map((text, index) => (
             <span key={`${text}-${index}`} className="px-8 opacity-80">
@@ -100,7 +100,7 @@ export default function Navbar() {
 
           <Link href="/" className="flex flex-col items-center group">
             <span className="font-display text-[28px] leading-none text-ink-900 transition-colors duration-500 group-hover:text-rose-600 md:text-[34px]">
-              Miss <span className="font-italic-display text-rose-600">Bella</span>
+              Miss <span className="font-italic-display text-gradient-fuchsia">Bella</span>
             </span>
             <span className="mt-1.5 hidden text-[9px] uppercase tracking-editorial text-ink-600 md:block">
               Zarafetin en ozel hali

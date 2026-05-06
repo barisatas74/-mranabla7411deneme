@@ -48,7 +48,7 @@ export default function MobileMenu({
         <div className="flex h-20 items-center justify-between border-b border-ink-900/8 px-6">
           <div className="flex flex-col">
             <span className="font-display text-[26px] leading-none text-ink-900">
-              Miss <span className="font-italic-display text-rose-600">Bella</span>
+              Miss <span className="font-italic-display text-gradient-fuchsia">Bella</span>
             </span>
             <span className="mt-1 text-[9px] uppercase tracking-editorial text-ink-600">
               Boutique

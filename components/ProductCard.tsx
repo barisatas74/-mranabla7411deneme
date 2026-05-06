@@ -82,7 +82,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 </span>
               )}
               {!isOutOfStock && discount && (
-                <span className="bg-ink-900 px-2 py-1 text-[8.5px] font-medium uppercase tracking-[0.18em] text-white sm:px-2.5 sm:text-[9px] sm:tracking-editorial">
+                <span className="bg-fuchsia-gradient px-2 py-1 text-[8.5px] font-medium uppercase tracking-[0.18em] text-white shadow-[0_8px_20px_-10px_rgba(238,42,139,0.7)] sm:px-2.5 sm:text-[9px] sm:tracking-editorial">
                   -%{discount}
                 </span>
               )}
@@ -125,7 +125,7 @@ export default function ProductCard({ product }: { product: Product }) {
                 <button
                   type="button"
                   onClick={handleQuickAdd}
-                  className="min-h-10 flex-1 bg-ink-950/92 px-2 py-2.5 text-[9px] uppercase tracking-[0.18em] text-white backdrop-blur transition-colors hover:bg-rose-600 sm:py-3 sm:text-[10px] sm:tracking-editorial"
+                  className="min-h-10 flex-1 bg-ink-950/92 px-2 py-2.5 text-[9px] uppercase tracking-[0.18em] text-white backdrop-blur transition-all duration-300 hover:bg-fuchsia-gradient hover:shadow-[0_10px_28px_-12px_rgba(238,42,139,0.7)] sm:py-3 sm:text-[10px] sm:tracking-editorial"
                 >
                   Sepete Ekle
                 </button>

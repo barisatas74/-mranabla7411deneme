@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Container from "./Container";
 import ProductCard from "./ProductCard";
+import Reveal from "./Reveal";
 import { getFeaturedProducts } from "@/data/products";
 import { ArrowUpRight } from "lucide-react";
 
@@ -16,30 +17,32 @@ export default function FeaturedProducts() {
       </div>
 
       <Container>
-        <div className="text-center mb-14 md:mb-20">
+        <Reveal variant="up" className="text-center mb-14 md:mb-20">
           <span className="luxe-label">Les Favoris</span>
           <h2 className="font-display text-[42px] md:text-[64px] leading-[1.05] text-ink-900 mt-5">
             Sezonun{" "}
-            <span className="font-italic-display text-rose-600">en çok</span>
+            <span className="font-italic-display text-gradient-fuchsia">en çok</span>
             <br className="md:hidden" /> beğenilenleri
           </h2>
           <p className="text-ink-700 mt-5 max-w-md mx-auto font-light leading-relaxed">
             Müşterilerimizin gönlüne dokunmuş, editörlerimizin özenle seçtiği
             imza parçalar.
           </p>
-        </div>
+        </Reveal>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-x-4 md:gap-x-6 gap-y-12 md:gap-y-16">
-          {items.map((p) => (
-            <ProductCard key={p.id} product={p} />
+          {items.map((p, i) => (
+            <Reveal key={p.id} variant="up" delay={i * 60}>
+              <ProductCard product={p} />
+            </Reveal>
           ))}
         </div>
 
-        <div className="mt-16 md:mt-20 text-center">
-          <Link href="/products" className="btn-luxe btn-luxe-outline">
+        <Reveal variant="up" className="mt-16 md:mt-20 text-center">
+          <Link href="/products" className="btn-luxe btn-luxe-rose">
             Tüm Ürünleri Gör <ArrowUpRight strokeWidth={1.5} size={14} />
           </Link>
-        </div>
+        </Reveal>
       </Container>
     </section>
   );

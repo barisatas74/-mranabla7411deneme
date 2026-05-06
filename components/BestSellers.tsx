@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Container from "./Container";
 import ProductCard from "./ProductCard";
+import Reveal from "./Reveal";
 import { products, sortProducts } from "@/data/products";
 import { ArrowUpRight, Crown } from "lucide-react";
 
@@ -21,7 +22,7 @@ export default function BestSellers() {
             </span>
             <h2 className="mt-4 font-display text-[36px] leading-[1.05] text-ink-900 md:text-[56px]">
               Cok{" "}
-              <span className="font-italic-display text-rose-600">satanlar</span>
+              <span className="font-italic-display text-gradient-fuchsia">satanlar</span>
             </h2>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-700 md:text-base">
               Bu sezonun en cok tercih edilen parcalari. Sinirli stok ile devam
@@ -39,12 +40,12 @@ export default function BestSellers() {
 
         <div className="mt-12 grid grid-cols-2 gap-x-4 gap-y-12 md:gap-x-6 md:gap-y-14 lg:grid-cols-4">
           {items.map((product, index) => (
-            <div key={product.id} className="relative">
-              <span className="absolute -top-3 left-2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-ink-950 font-display text-[13px] text-bone-50 shadow-card">
+            <Reveal key={product.id} variant="up" delay={index * 70} className="relative">
+              <span className="absolute -top-3 left-2 z-10 flex h-7 w-7 items-center justify-center rounded-full bg-fuchsia-gradient font-display text-[13px] text-white shadow-luxe">
                 {index + 1}
               </span>
               <ProductCard product={product} />
-            </div>
+            </Reveal>
           ))}
         </div>
       </Container>

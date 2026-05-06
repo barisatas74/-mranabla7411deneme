@@ -16,7 +16,7 @@ export default function NewSeason() {
             <h2 className="font-display text-[42px] md:text-[68px] leading-[1.02] text-ink-900 mt-5">
               İlkbahar
               <br />
-              <span className="font-italic-display text-rose-600">
+              <span className="font-italic-display text-gradient-fuchsia">
                 Bella
               </span>{" "}
               2026

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import Container from "./Container";
+import Reveal from "./Reveal";
 import { categories } from "@/data/categories";
 import { ArrowUpRight } from "lucide-react";
 
@@ -9,15 +10,15 @@ export default function CategoryShowcase() {
     <section className="py-24 md:py-32 bg-bone-50 relative">
       <Container>
         <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-14 md:mb-20">
-          <div className="max-w-xl">
+          <Reveal variant="up" className="max-w-xl">
             <span className="luxe-label">La Collection</span>
             <h2 className="font-display text-[42px] md:text-[68px] leading-[1.02] text-ink-900 mt-5">
               Her an için
               <br />
-              <span className="font-italic-display text-rose-600">zarafet</span>.
+              <span className="font-italic-display text-gradient-fuchsia">zarafet</span>.
             </h2>
-          </div>
-          <div className="md:max-w-sm">
+          </Reveal>
+          <Reveal variant="up" delay={150} className="md:max-w-sm">
             <p className="text-ink-700 leading-relaxed font-light">
               Özenle seçilmiş kumaşlar, hassas detaylar ve zamansız siluetlerle
               tasarlanan koleksiyonlarımızda kendinize özel parçaları keşfedin.
@@ -25,7 +26,7 @@ export default function CategoryShowcase() {
             <Link href="/products" className="btn-link mt-5 text-ink-900">
               Tümünü Keşfet <ArrowUpRight strokeWidth={1.5} size={14} />
             </Link>
-          </div>
+          </Reveal>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-5">
@@ -39,10 +40,15 @@ export default function CategoryShowcase() {
               "md:col-span-5 aspect-[4/5]",
             ];
             return (
-              <Link
+              <Reveal
                 key={c.id}
+                variant="up"
+                delay={i * 80}
+                className={layout[i] || "aspect-square"}
+              >
+              <Link
                 href={`/products?category=${c.slug}`}
-                className={`group relative overflow-hidden bg-ink-950 ${layout[i] || "aspect-square"}`}
+                className={`group relative block h-full w-full overflow-hidden bg-ink-950`}
               >
                 <Image
                   src={c.image}
@@ -51,7 +57,7 @@ export default function CategoryShowcase() {
                   className="object-cover transition-all duration-[1200ms] ease-out group-hover:scale-[1.06] opacity-95 group-hover:opacity-100"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink-950/80 via-ink-950/10 to-transparent" />
-                <div className="absolute inset-0 bg-rose-900/0 group-hover:bg-rose-900/10 transition duration-700" />
+                <div className="absolute inset-0 bg-gradient-to-tr from-rose-600/0 via-rose-500/0 to-rose-400/0 group-hover:from-rose-700/40 group-hover:via-rose-500/15 group-hover:to-transparent transition duration-700" />
 
                 <div className="absolute top-5 left-5 flex items-center gap-2">
                   <span className="w-8 h-px bg-white/60" />
@@ -79,6 +85,7 @@ export default function CategoryShowcase() {
                   </span>
                 </div>
               </Link>
+              </Reveal>
             );
           })}
         </div>

@@ -89,7 +89,7 @@ export default function Testimonials() {
             <span className="luxe-label">Mektuplarinizdan</span>
             <h2 className="mt-4 font-display text-[36px] leading-[1.05] text-ink-900 md:text-[56px]">
               Musterilerimizin{" "}
-              <span className="font-italic-display text-rose-600">notlari</span>
+              <span className="font-italic-display text-gradient-fuchsia">notlari</span>
             </h2>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-700 md:text-base">
               Gercek dogrulanmis siparislerden gelen yorumlar. Markamizi sectiginiz

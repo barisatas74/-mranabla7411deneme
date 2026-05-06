@@ -81,7 +81,7 @@ export default function CartView() {
             </div>
             <span className="luxe-label">Panier Vide</span>
             <h1 className="mt-5 font-display text-[42px] leading-[1.05] text-ink-900 md:text-[64px]">
-              Sepetiniz <span className="font-italic-display text-rose-600">bos</span>
+              Sepetiniz <span className="font-italic-display text-gradient-fuchsia">bos</span>
             </h1>
             <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-ink-700 md:text-base">
               Koleksiyondan urun eklediginizde secimleriniz burada listelenecek.

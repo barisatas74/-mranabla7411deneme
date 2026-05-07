@@ -150,6 +150,10 @@ body {
   background-clip: text;
   color: transparent;
   animation: shimmerSlide 6s linear infinite;
+  display: inline-block;
+  padding-right: 0.12em;
+  padding-left: 0.04em;
+  margin-right: -0.08em;
 }
 @keyframes shimmerSlide {
   to { background-position: -200% center; }
@@ -309,6 +313,12 @@ body {
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
+  display: inline-block;
+  padding-right: 0.12em;
+  padding-left: 0.04em;
+  margin-right: -0.08em;
+  line-height: 1.05;
+  /* italic harflerin sag tarafini kirpmamak icin */
 }
 
 .glow-fuchsia {

@@ -73,7 +73,7 @@ export default function ProductCard({ product }: { product: Product }) {
             <div className="absolute left-2 top-2 flex max-w-[calc(100%-3.5rem)] flex-col gap-1.5 sm:left-3.5 sm:top-3.5">
               {isOutOfStock && (
                 <span className="bg-ink-950 px-2 py-1 text-[8.5px] font-medium uppercase tracking-[0.18em] text-white sm:px-2.5 sm:text-[9px] sm:tracking-editorial">
-                  Tukendi
+                  Tükendi
                 </span>
               )}
               {!isOutOfStock && product.isNew && (
@@ -91,7 +91,7 @@ export default function ProductCard({ product }: { product: Product }) {
             <div className="absolute right-2 top-2 flex flex-col gap-2 sm:right-3.5 sm:top-3.5">
               <button
                 type="button"
-                aria-label={isFavorite ? "Favorilerden cikar" : "Favorilere ekle"}
+                aria-label={isFavorite ? "Favorilerden çıkar" : "Favorilere ekle"}
                 onClick={handleToggleFavorite}
                 className={cn(
                   "flex h-8 w-8 items-center justify-center rounded-full bg-bone-50/95 backdrop-blur transition sm:h-9 sm:w-9",
@@ -108,7 +108,7 @@ export default function ProductCard({ product }: { product: Product }) {
               </button>
               <button
                 type="button"
-                aria-label="Hizli bakis"
+                aria-label="Hızlı bakış"
                 onClick={handleQuickView}
                 className="hidden h-9 w-9 translate-y-1 items-center justify-center rounded-full bg-bone-50/95 text-ink-700 opacity-0 backdrop-blur transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100 group-hover:hover:text-rose-600 md:flex"
               >

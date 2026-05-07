@@ -16,51 +16,51 @@ type Testimonial = {
 const testimonials: Testimonial[] = [
   {
     name: "Elif K.",
-    city: "Istanbul",
+    city: "İstanbul",
     rating: 5,
-    text: "Kumas kalitesi gercekten cok iyi, dantel detaylari zarif. Tam beden uyumu sagladi, tavsiye ederim.",
-    product: "Rosa Dantel Sutyen Takimi",
+    text: "Kumaş kalitesi gerçekten çok iyi, dantel detayları zarif. Tam beden uyumu sağladı, tavsiye ederim.",
+    product: "Rosa Dantel Sütyen Takımı",
     date: "Mart 2026",
   },
   {
     name: "Zeynep A.",
     city: "Ankara",
     rating: 5,
-    text: "Sade ama zarif bir tasarim. Kumasi ipeksi, gun boyu rahat hissettiriyor. Paketleme cok ozenliydi.",
+    text: "Sade ama zarif bir tasarım. Kumaşı ipeksi, gün boyu rahat hissettiriyor. Paketleme çok özenliydi.",
     product: "Soft Touch Bralette",
-    date: "Subat 2026",
+    date: "Şubat 2026",
   },
   {
     name: "Merve T.",
-    city: "Izmir",
+    city: "İzmir",
     rating: 5,
-    text: "Ozel gunler icin almistim, kumas ve dikis isciligi cok kaliteli. Tekrar siparis verecegim.",
-    product: "Ipek Saten Gecelik",
-    date: "Subat 2026",
+    text: "Özel günler için almıştım, kumaş ve dikiş işçiliği çok kaliteli. Tekrar sipariş vereceğim.",
+    product: "İpek Saten Gecelik",
+    date: "Şubat 2026",
   },
   {
     name: "Cansu B.",
     city: "Bursa",
     rating: 4,
-    text: "Hizli kargo ve sik paketleme. Renk fotograftaki gibi geldi, beden tablosu dogru bilgi verdi.",
-    product: "Klasik Brazilian Kulot",
+    text: "Hızlı kargo ve şık paketleme. Renk fotoğraftaki gibi geldi, beden tablosu doğru bilgi verdi.",
+    product: "Klasik Brazilian Külot",
     date: "Ocak 2026",
   },
   {
-    name: "Ayse D.",
+    name: "Ayşe D.",
     city: "Antalya",
     rating: 5,
-    text: "Dantel detaylari gercekten butik bir is. Hem konforlu hem zarif. Iade kosullari da net acik.",
-    product: "Dantel Detayli Body",
+    text: "Dantel detayları gerçekten butik bir iş. Hem konforlu hem zarif. İade koşulları da net açık.",
+    product: "Dantel Detaylı Body",
     date: "Ocak 2026",
   },
   {
     name: "Selin M.",
-    city: "Istanbul",
+    city: "İstanbul",
     rating: 5,
-    text: "Pijama takimimden cok memnunum. Saten dokunusu cok yumusak, ev rahatligini buton bir doku ile birlestirmis.",
-    product: "Sortlu Pijama Takimi",
-    date: "Aralik 2025",
+    text: "Pijama takımımdan çok memnunum. Saten dokunuşu çok yumuşak, ev rahatlığını butik bir doku ile birleştirmiş.",
+    product: "Şortlu Pijama Takımı",
+    date: "Aralık 2025",
   },
 ];
 
@@ -86,21 +86,21 @@ export default function Testimonials() {
       <Container>
         <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
           <div>
-            <span className="luxe-label">Mektuplarinizdan</span>
+            <span className="luxe-label">Mektuplarınızdan</span>
             <h2 className="mt-4 font-display text-[36px] leading-[1.05] text-ink-900 md:text-[56px]">
-              Musterilerimizin{" "}
-              <span className="font-italic-display text-gradient-fuchsia">notlari</span>
+              Müşterilerimizin{" "}
+              <span className="font-italic-display text-gradient-fuchsia">notları</span>
             </h2>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-700 md:text-base">
-              Gercek dogrulanmis siparislerden gelen yorumlar. Markamizi sectiginiz
-              icin tesekkur ederiz.
+              Gerçek doğrulanmış siparişlerden gelen yorumlar. Markamızı seçtiğiniz
+              için teşekkür ederiz.
             </p>
           </div>
 
           <div className="flex items-center gap-2">
             <button
               type="button"
-              aria-label="Onceki yorum"
+              aria-label="Önceki yorum"
               onClick={prev}
               className="flex h-11 w-11 items-center justify-center border border-ink-900/15 text-ink-700 transition hover:border-rose-600 hover:text-rose-600"
             >
@@ -155,7 +155,7 @@ export default function Testimonials() {
                   {item.city} · {item.date}
                 </p>
                 <p className="mt-2 text-[11px] tracking-wide text-rose-600">
-                  ✓ Dogrulanmis Alisveris · {item.product}
+                  ✓ Doğrulanmış Alışveriş · {item.product}
                 </p>
               </div>
             </article>

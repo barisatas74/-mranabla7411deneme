@@ -147,7 +147,7 @@ export function AdminFeedbackProvider({
                 onClick={() => closeConfirm(false)}
                 className="flex-1 rounded-full border border-slate-200 px-5 py-3 text-sm font-medium text-slate-900 transition hover:border-slate-950"
               >
-                {confirmState.cancelLabel ?? "Vazgec"}
+                {confirmState.cancelLabel ?? "Vazgeç"}
               </button>
               <button
                 type="button"

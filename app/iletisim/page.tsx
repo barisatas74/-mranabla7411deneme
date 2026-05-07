@@ -5,33 +5,33 @@ import { WhatsAppSupportButton } from "@/components/WhatsAppButton";
 import { Mail, MapPin, Phone, Instagram } from "lucide-react";
 
 export const metadata: Metadata = {
-  title: "Iletisim",
+  title: "İletişim",
   description:
-    "Miss Bella musteri hizmetleri; siparis, iade, kargo ve isbirligi sorulariniz icin iletisim kanallari.",
+    "Miss Bella müşteri hizmetleri; sipariş, iade, kargo ve işbirliği sorularınız için iletişim kanalları.",
 };
 
 export default function IletisimPage() {
   return (
     <>
-      <Breadcrumb items={[{ label: "Iletisim" }]} />
+      <Breadcrumb items={[{ label: "İletişim" }]} />
 
       <section className="border-b border-ink-900/8 bg-gradient-to-b from-powder-100 to-bone-50 py-12 text-center md:py-20">
         <Container>
-          <span className="luxe-label">Bize Ulasin</span>
+          <span className="luxe-label">Bize Ulaşın</span>
           <h1 className="mt-4 font-display text-[40px] leading-[1.05] text-ink-900 md:text-[64px]">
-            Iletisim
+            İletişim
           </h1>
           <p className="mx-auto mt-4 max-w-xl text-sm leading-relaxed text-ink-700 md:text-base">
-            Siparis, iade, kargo veya isbirligi sorularinizi asagidaki kanallardan
-            bize iletebilirsiniz. Hafta ici 09:00&ndash;18:00 saatlerinde geri
-            donus saglariz.
+            Sipariş, iade, kargo veya işbirliği sorularınızı aşağıdaki kanallardan
+            bize iletebilirsiniz. Hafta içi 09:00&ndash;18:00 saatlerinde geri
+            dönüş sağlarız.
           </p>
         </Container>
       </section>
 
       <Container className="grid gap-8 py-14 md:grid-cols-2 md:py-20">
         <article className="border border-ink-900/10 bg-white p-8 shadow-card">
-          <p className="luxe-label plain text-rose-600">Musteri Hizmetleri</p>
+          <p className="luxe-label plain text-rose-600">Müşteri Hizmetleri</p>
           <ul className="mt-6 space-y-5 text-sm text-ink-800">
             <li className="flex items-start gap-3">
               <Mail size={16} strokeWidth={1.5} className="mt-1 text-rose-600" />
@@ -59,9 +59,9 @@ export default function IletisimPage() {
             <li className="flex items-start gap-3">
               <MapPin size={16} strokeWidth={1.5} className="mt-1 text-rose-600" />
               <span>
-                Miss Bella Tasarim Atolyesi
+                Miss Bella Tasarım Atölyesi
                 <br />
-                Istanbul, Turkiye
+                İstanbul, Türkiye
               </span>
             </li>
           </ul>
@@ -72,29 +72,29 @@ export default function IletisimPage() {
         </article>
 
         <article className="border border-ink-900/10 bg-bone-50 p-8 shadow-card">
-          <p className="luxe-label plain text-rose-600">Sik Sorulanlar</p>
+          <p className="luxe-label plain text-rose-600">Sık Sorulanlar</p>
           <dl className="mt-6 space-y-5 text-sm text-ink-800">
             <div>
-              <dt className="font-medium text-ink-900">Siparisim ne zaman kargolanir?</dt>
+              <dt className="font-medium text-ink-900">Siparişim ne zaman kargolanır?</dt>
               <dd className="mt-1 text-ink-700">
-                Siparisler ortalama 1&ndash;3 is gunu icinde kargoya verilir.
+                Siparişler ortalama 1&ndash;3 iş günü içinde kargoya verilir.
               </dd>
             </div>
             <div>
-              <dt className="font-medium text-ink-900">Iade nasil yapilir?</dt>
+              <dt className="font-medium text-ink-900">İade nasıl yapılır?</dt>
               <dd className="mt-1 text-ink-700">
-                Kullanilmamis ve hijyen etiketi korunmus urunler 14 gun icinde
-                iade alinir. Detaylar icin{" "}
+                Kullanılmamış ve hijyen etiketi korunmuş ürünler 14 gün içinde
+                iade alınır. Detaylar için{" "}
                 <a href="/iade-politikasi" className="text-rose-600 underline-offset-4 hover:underline">
-                  iade politikasi
+                  iade politikası
                 </a>{" "}
-                sayfamizi inceleyin.
+                sayfamızı inceleyin.
               </dd>
             </div>
             <div>
-              <dt className="font-medium text-ink-900">Kargo ucretsiz mi?</dt>
+              <dt className="font-medium text-ink-900">Kargo ücretsiz mi?</dt>
               <dd className="mt-1 text-ink-700">
-                300 TL ve uzeri siparislerde kargo ucretsizdir.
+                300 TL ve üzeri siparişlerde kargo ücretsizdir.
               </dd>
             </div>
           </dl>

@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Odeme",
+  title: "Ödeme",
   description:
-    "Musteri bilgileri, kargo secimi ve siparis ozeti ile Miss Bella siparisinizi tamamlayin.",
+    "Müşteri bilgileri, kargo seçimi ve sipariş özeti ile Miss Bella siparişinizi tamamlayın.",
   robots: {
     index: false,
     follow: false,

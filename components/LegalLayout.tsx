@@ -24,7 +24,7 @@ export default function LegalLayout({
             {title}
           </h1>
           <p className="mt-5 text-[10px] uppercase tracking-editorial text-ink-600">
-            Son guncelleme · {updated}
+            Son güncelleme · {updated}
           </p>
         </Container>
       </section>

@@ -25,7 +25,7 @@ export default function InstagramGallery() {
             &apos;da biz
           </h2>
           <p className="mt-4 font-light text-ink-700">
-            Etiketleyin, birlikte paylasalim.
+            Etiketleyin, birlikte paylaşalım.
             {" "}
             <a
               href={INSTAGRAM_URL}
@@ -49,7 +49,7 @@ export default function InstagramGallery() {
             >
               <Image
                 src={`https://images.unsplash.com/${id}?w=600&q=85`}
-                alt={`Instagram gorseli ${index + 1}`}
+                alt={`Instagram görseli ${index + 1}`}
                 fill
                 className="object-cover transition-transform duration-[1200ms] ease-out group-hover:scale-[1.08]"
               />

@@ -14,9 +14,9 @@ import { cn } from "@/lib/utils";
 
 const items = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/products", label: "Urunler", icon: Package },
+  { href: "/admin/products", label: "Ürünler", icon: Package },
   { href: "/admin/categories", label: "Kategoriler", icon: Shapes },
-  { href: "/admin/orders", label: "Siparisler", icon: ShoppingCart },
+  { href: "/admin/orders", label: "Siparişler", icon: ShoppingCart },
   { href: "/admin/settings", label: "Ayarlar", icon: Settings },
 ];
 
@@ -86,10 +86,10 @@ export default function AdminSidebar({
         </div>
 
         <div className="mt-auto rounded-[24px] border border-slate-800 bg-slate-900/80 p-4">
-          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Mock Mod</p>
+          <p className="text-xs uppercase tracking-[0.3em] text-slate-500">Bilgi</p>
           <p className="mt-2 text-sm leading-6 text-slate-300">
-            Tum admin akisleri mock data ile calisiyor. Veri katmani ileride Supabase
-            veya Firebase baglantisina uygun sekilde ayrildi.
+            Bu admin paneli mağazanızın ürün, kategori, sipariş ve genel ayarlarını
+            yönetmenizi sağlar.
           </p>
         </div>
       </aside>

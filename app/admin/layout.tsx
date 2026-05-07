@@ -4,7 +4,7 @@ import AdminShell from "@/components/admin/AdminShell";
 
 export const metadata: Metadata = {
   title: "Admin",
-  description: "Miss Bella admin paneli yonetim arayuzu.",
+  description: "Miss Bella admin paneli yönetim arayüzü.",
   robots: {
     index: false,
     follow: false,

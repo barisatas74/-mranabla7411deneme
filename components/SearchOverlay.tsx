@@ -64,7 +64,7 @@ export default function SearchOverlay({
             type="search"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Urun, kategori veya renk ara..."
+            placeholder="Ürün, kategori veya renk ara..."
             className="flex-1 bg-transparent text-base outline-none placeholder:text-ink-500"
           />
           <button
@@ -80,12 +80,12 @@ export default function SearchOverlay({
         <div className="max-h-[60vh] overflow-y-auto">
           {query.trim().length < 2 && (
             <p className="px-5 py-6 text-sm text-ink-700">
-              En az 2 karakter girerek aramaya baslayabilirsiniz.
+              En az 2 karakter girerek aramaya başlayabilirsiniz.
             </p>
           )}
           {query.trim().length >= 2 && results.length === 0 && (
             <p className="px-5 py-6 text-sm text-ink-700">
-              &quot;{query}&quot; ile eslesen urun bulunamadi.
+              &quot;{query}&quot; ile eşleşen ürün bulunamadı.
             </p>
           )}
           {results.length > 0 && (

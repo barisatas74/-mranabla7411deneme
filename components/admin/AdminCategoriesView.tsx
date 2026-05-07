@@ -74,9 +74,9 @@ export default function AdminCategoriesView({
   async function handleDelete(categoryId: string, categoryName: string) {
     const approved = await confirm({
       title: "Kategori silinsin mi?",
-      description: `${categoryName} kategorisi mock yonetim listesinden kaldirilacak.`,
+      description: `${categoryName} kategorisi yönetim listesinden kaldırılacak. Bu işlem geri alınamaz.`,
       confirmLabel: "Sil",
-      cancelLabel: "Vazgec",
+      cancelLabel: "Vazgeç",
       tone: "danger",
     });
 
@@ -89,7 +89,7 @@ export default function AdminCategoriesView({
     if (!removed) {
       toast({
         title: "Kategori silinemedi",
-        description: "Mock category service bu kaydi bulamadi.",
+        description: "İlgili kategori bulunamadı.",
         variant: "error",
       });
       return;
@@ -101,7 +101,7 @@ export default function AdminCategoriesView({
     }
     toast({
       title: "Kategori silindi",
-      description: `${categoryName} listeden kaldirildi.`,
+      description: `${categoryName} listeden kaldırıldı.`,
       variant: "success",
     });
   }
@@ -121,8 +121,8 @@ export default function AdminCategoriesView({
 
       if (!updatedCategory) {
         toast({
-          title: "Kategori guncellenemedi",
-          description: "Mock category service bu kaydi bulamadi.",
+          title: "Kategori güncellenemedi",
+          description: "İlgili kategori bulunamadı.",
           variant: "error",
         });
         return;
@@ -134,8 +134,8 @@ export default function AdminCategoriesView({
         )
       );
       toast({
-        title: "Kategori guncellendi",
-        description: `${values.name} category service uzerinden guncellendi.`,
+        title: "Kategori güncellendi",
+        description: `${values.name} güncellendi.`,
         variant: "success",
       });
     } else {
@@ -143,7 +143,7 @@ export default function AdminCategoriesView({
       setCategories((current) => [createdCategory, ...current]);
       toast({
         title: "Kategori eklendi",
-        description: `${values.name} category service uzerinden eklendi.`,
+        description: `${values.name} eklendi.`,
         variant: "success",
       });
     }
@@ -155,14 +155,14 @@ export default function AdminCategoriesView({
     <div className="space-y-8">
       <AdminSectionHeader
         eyebrow="Collections"
-        title="Kategori yonetimi"
-        description="Kategori ekleme, duzenleme ve silme akisleri ayni geri bildirim ve modal sistemi ile calisir."
+        title="Kategori yönetimi"
+        description="Kategori ekleme, düzenleme ve silme akışları aynı geri bildirim ve modal sistemi ile çalışır."
       />
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_420px]">
         <AdminTableCard
           title="Kategori listesi"
-          description="Arama ile mock kategorileri hizli filtreleyin."
+          description="Kategorileri arama ile hızlıca filtreleyin."
         >
           <div className="border-b border-slate-200 px-6 py-4">
             <input
@@ -182,7 +182,7 @@ export default function AdminCategoriesView({
                   <div>
                     <p className="font-medium text-slate-950">{category.name}</p>
                     <p className="mt-1 text-sm text-slate-500">
-                      {category.slug} / {getCategoryProductCount(category, products)} urun
+                      {category.slug} / {getCategoryProductCount(category, products)} ürün
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
@@ -192,7 +192,7 @@ export default function AdminCategoriesView({
                       onClick={() => handleEdit(category)}
                       className="text-sm font-medium text-slate-950 transition hover:text-rose-600"
                     >
-                      Duzenle
+                      Düzenle
                     </button>
                     <button
                       type="button"
@@ -208,8 +208,8 @@ export default function AdminCategoriesView({
           ) : (
             <div className="p-6">
               <AdminEmptyState
-                title="Kategori bulunamadi"
-                description="Arama sorgusu hicbir kategori ile eslesmedi."
+                title="Kategori bulunamadı"
+                description="Arama sorgusuyla eşleşen kategori bulunamadı."
               />
             </div>
           )}
@@ -220,7 +220,7 @@ export default function AdminCategoriesView({
           className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm"
         >
           <h2 className="text-lg font-semibold text-slate-950">
-            {editingId ? "Kategori duzenle" : "Yeni kategori"}
+            {editingId ? "Kategori düzenle" : "Yeni kategori"}
           </h2>
           <div className="mt-5 space-y-4">
             <AdminInputField
@@ -244,7 +244,7 @@ export default function AdminCategoriesView({
               error={errors.slug}
             />
             <AdminInputField
-              label="Gorsel URL"
+              label="Görsel URL"
               value={values.image}
               onChange={(value) => setValues((current) => ({ ...current, image: value }))}
               error={errors.image}
@@ -257,7 +257,7 @@ export default function AdminCategoriesView({
               }
             />
             <AdminTextAreaField
-              label="Aciklama"
+              label="Açıklama"
               value={values.description}
               onChange={(value) =>
                 setValues((current) => ({ ...current, description: value }))

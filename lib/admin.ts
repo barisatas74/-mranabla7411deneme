@@ -15,13 +15,13 @@ export const ORDER_STATUS_OPTIONS: { value: OrderStatus; label: string }[] = [
   { value: "hazirlaniyor", label: "Hazirlaniyor" },
   { value: "kargoya-verildi", label: "Kargoya Verildi" },
   { value: "tamamlandi", label: "Tamamlandi" },
-  { value: "iptal-edildi", label: "Iptal Edildi" },
+  { value: "iptal-edildi", label: "İptal Edildi" },
 ];
 
 export const PAYMENT_STATUS_OPTIONS: { value: PaymentStatus; label: string }[] = [
   { value: "bekleniyor", label: "Bekleniyor" },
   { value: "odendi", label: "Odendi" },
-  { value: "iade-edildi", label: "Iade Edildi" },
+  { value: "iade-edildi", label: "İade Edildi" },
 ];
 
 export const SHIPPING_STATUS_OPTIONS: { value: ShippingStatus; label: string }[] = [
@@ -81,7 +81,7 @@ export function validateProductForm(values: AdminProductFormValues) {
   const errors: Partial<Record<keyof AdminProductFormValues, string>> = {};
 
   if (values.name.trim().length < 3) {
-    errors.name = "Urun adi en az 3 karakter olmali.";
+    errors.name = "Ürün adi en az 3 karakter olmali.";
   }
 
   if (!values.slug.trim()) {
@@ -89,19 +89,19 @@ export function validateProductForm(values: AdminProductFormValues) {
   }
 
   if (!Number.isFinite(Number(values.price)) || Number(values.price) <= 0) {
-    errors.price = "Gecerli bir fiyat girin.";
+    errors.price = "Geçerli bir fiyat girin.";
   }
 
   if (values.oldPrice && Number(values.oldPrice) < Number(values.price)) {
-    errors.oldPrice = "Indirimli fiyat normal fiyattan dusuk olmamali.";
+    errors.oldPrice = "İndirimli fiyat normal fiyattan düşük olmamali.";
   }
 
   if (values.description.trim().length < 20) {
-    errors.description = "Aciklama en az 20 karakter olmali.";
+    errors.description = "Açıklama en az 20 karakter olmali.";
   }
 
   if (values.images.length === 0) {
-    errors.images = "En az bir gorsel baglantisi ekleyin.";
+    errors.images = "En az bir görsel bağlantısı ekleyin.";
   }
 
   if (values.colors.length === 0) {
@@ -143,11 +143,11 @@ export function validateCategoryForm(values: AdminCategoryFormValues) {
   }
 
   if (!/^https?:\/\//.test(values.image.trim())) {
-    errors.image = "Gecerli bir gorsel baglantisi girin.";
+    errors.image = "Geçerli bir görsel bağlantısı girin.";
   }
 
   if (values.description.trim().length < 10) {
-    errors.description = "Kisa bir kategori aciklamasi yazin.";
+    errors.description = "Kisa bir kategori açıklaması yazin.";
   }
 
   return errors;
@@ -157,15 +157,15 @@ export function validateSettingsForm(values: AdminSettingsFormValues) {
   const errors: Partial<Record<keyof AdminSettingsFormValues, string>> = {};
 
   if (values.storeName.trim().length < 3) {
-    errors.storeName = "Magaza adi en az 3 karakter olmali.";
+    errors.storeName = "Mağaza adi en az 3 karakter olmali.";
   }
 
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.supportEmail.trim())) {
-    errors.supportEmail = "Gecerli bir e-posta girin.";
+    errors.supportEmail = "Geçerli bir e-posta girin.";
   }
 
   if (values.supportPhone.trim().length < 10) {
-    errors.supportPhone = "Gecerli bir telefon girin.";
+    errors.supportPhone = "Geçerli bir telefon girin.";
   }
 
   if (values.whatsappNumber.replace(/\D/g, "").length < 10) {
@@ -177,7 +177,7 @@ export function validateSettingsForm(values: AdminSettingsFormValues) {
   }
 
   if (!Number.isFinite(Number(values.freeShippingLimit))) {
-    errors.freeShippingLimit = "Gecerli bir limit girin.";
+    errors.freeShippingLimit = "Geçerli bir limit girin.";
   }
 
   if (!Number.isFinite(Number(values.taxRate))) {

@@ -11,23 +11,23 @@ import {
 const badges = [
   {
     Icon: ShieldCheck,
-    title: "Guvenli Odeme",
-    text: "256-bit SSL sifreleme ve korumali odeme deneyimi.",
+    title: "Güvenli Ödeme",
+    text: "256-bit SSL şifreleme ve korumalı ödeme deneyimi.",
   },
   {
     Icon: Truck,
-    title: "Hizli Kargo",
-    text: "Ayni gun cikis ve 1-3 is gununde teslimat planlamasi.",
+    title: "Hızlı Kargo",
+    text: "Aynı gün çıkış ve 1-3 iş gününde teslimat planlaması.",
   },
   {
     Icon: RotateCcw,
-    title: "Kolay Iade",
-    text: "14 gun iade ve ihtiyac halinde degisim destegi.",
+    title: "Kolay İade",
+    text: "14 gün iade ve ihtiyaç halinde değişim desteği.",
   },
   {
     Icon: HeartHandshake,
-    title: "Ozel Hizmet",
-    text: "WhatsApp uzerinden hizli urun ve beden danismanligi.",
+    title: "Özel Hizmet",
+    text: "WhatsApp üzerinden hızlı ürün ve beden danışmanlığı.",
   },
 ];
 
@@ -57,11 +57,11 @@ export default function TrustBadges() {
         <div className="mt-12 flex flex-col items-center justify-between gap-5 border-t border-ink-900/8 pt-8 text-[10px] uppercase tracking-editorial text-ink-600 md:flex-row">
           <div className="flex items-center gap-2">
             <CreditCard strokeWidth={1.4} size={14} className="text-rose-600" />
-            Visa · Mastercard · Troy · Havale/EFT · Kapida Odeme
+            Visa · Mastercard · Troy · Havale/EFT · Kapıda Ödeme
           </div>
           <div className="flex items-center gap-2">
             <Sparkles strokeWidth={1.4} size={14} className="text-rose-600" />
-            300 TL ve uzeri siparislerde ucretsiz kargo
+            300 TL ve üzeri siparişlerde ücretsiz kargo
           </div>
         </div>
       </Container>

@@ -56,11 +56,11 @@ export default function ProductDetailView({ product }: { product: Product }) {
     const nextErrors: VariantErrors = {};
 
     if (!selectedColor) {
-      nextErrors.color = "Devam etmek icin bir renk secin.";
+      nextErrors.color = "Devam etmek için bir renk seçin.";
     }
 
     if (!selectedSize) {
-      nextErrors.size = "Devam etmek icin bir beden secin.";
+      nextErrors.size = "Devam etmek için bir beden seçin.";
     }
 
     if (Object.keys(nextErrors).length > 0) {
@@ -168,11 +168,11 @@ export default function ProductDetailView({ product }: { product: Product }) {
                 <p className="text-[10px] uppercase tracking-editorial text-ink-700">
                   Renk:{" "}
                   <span className="text-ink-900">
-                    {selectedColor ?? "Secim yapilmadi"}
+                    {selectedColor ?? "Seçim yapılmadı"}
                   </span>
                 </p>
                 <p className="text-[10px] uppercase tracking-editorial text-ink-500">
-                  {product.colors.length} secenek
+                  {product.colors.length} seçenek
                 </p>
               </div>
               <div className="flex flex-wrap gap-2.5">
@@ -207,7 +207,7 @@ export default function ProductDetailView({ product }: { product: Product }) {
                 <p className="text-[10px] uppercase tracking-editorial text-ink-700">
                   Beden:{" "}
                   <span className="text-ink-900">
-                    {selectedSize ?? "Secim yapilmadi"}
+                    {selectedSize ?? "Seçim yapılmadı"}
                   </span>
                 </p>
                 <SizeGuideModal />
@@ -283,7 +283,7 @@ export default function ProductDetailView({ product }: { product: Product }) {
                 onClick={() => toggleFavorite(product.id)}
                 aria-label={
                   hasFavorite(product.id)
-                    ? "Favorilerden cikar"
+                    ? "Favorilerden çıkar"
                     : "Favorilere ekle"
                 }
                 className={cn(
@@ -304,13 +304,13 @@ export default function ProductDetailView({ product }: { product: Product }) {
             {product.stock > 0 && product.stock <= 5 && (
               <p className="mt-4 flex items-center gap-2 text-[11px] tracking-wider text-rose-600">
                 <Sparkles size={12} strokeWidth={1.5} />
-                Son {product.stock} adet, sinirli stok ve hizli gonderim
+                Son {product.stock} adet, sınırlı stok ve hızlı gönderim
               </p>
             )}
             {product.stock === 0 && (
               <p className="mt-4 flex items-center gap-2 text-[11px] tracking-wider text-ink-700">
                 <Sparkles size={12} strokeWidth={1.5} />
-                Bu urun gecici olarak tukendi.
+                Bu ürün geçici olarak tükendi.
               </p>
             )}
 
@@ -321,17 +321,17 @@ export default function ProductDetailView({ product }: { product: Product }) {
             <div className="mt-8 grid grid-cols-3 gap-2 border-t border-ink-900/10 pt-8">
               <TrustItem
                 icon={<Truck size={18} strokeWidth={1.4} />}
-                title="Ucretsiz Kargo"
-                subtitle="300 TL uzeri"
+                title="Ücretsiz Kargo"
+                subtitle="300 TL üzeri"
               />
               <TrustItem
                 icon={<RotateCcw size={18} strokeWidth={1.4} />}
-                title="Kolay Iade"
-                subtitle="14 gun sure"
+                title="Kolay İade"
+                subtitle="14 gün süre"
               />
               <TrustItem
                 icon={<Shield size={18} strokeWidth={1.4} />}
-                title="Guvenli Odeme"
+                title="Güvenli Ödeme"
                 subtitle="256-bit SSL"
               />
             </div>
@@ -339,16 +339,16 @@ export default function ProductDetailView({ product }: { product: Product }) {
             <div className="mt-10 border-t border-ink-900/10">
               <DetailAccordion
                 id="details"
-                title="Urun Detaylari"
+                title="Ürün Detayları"
                 open={openAccordion === "details"}
                 onToggle={setOpenAccordion}
               >
                 <p>{product.description}</p>
                 <ul className="mt-3 list-inside list-disc space-y-1 marker:text-rose-600">
-                  <li>Premium kumas ve astar yapisi</li>
+                  <li>Premium kumaş ve astar yapısı</li>
                   <li>Butik kesim ve rafine detaylar</li>
-                  <li>30 derecede hassas yikama onerilir</li>
-                  <li>Turkiye&apos;de uretilmistir</li>
+                  <li>30 derecede hassas yıkama önerilir</li>
+                  <li>Türkiye&apos;de üretilmiştir</li>
                 </ul>
               </DetailAccordion>
               <DetailAccordion
@@ -357,21 +357,21 @@ export default function ProductDetailView({ product }: { product: Product }) {
                 open={openAccordion === "shipping"}
                 onToggle={setOpenAccordion}
               >
-                <p>300 TL ve uzeri siparislerde kargo ucretsizdir.</p>
+                <p>300 TL ve üzeri siparişlerde kargo ücretsizdir.</p>
                 <p className="mt-2">
-                  Siparisler ortalama 1-3 is gunu icinde teslim edilir. Istanbul ici
-                  ayni gun teslimat secenekleri kampanya donemlerine gore acilabilir.
+                  Siparişler ortalama 1-3 iş günü içinde teslim edilir. İstanbul içi
+                  aynı gün teslimat seçenekleri kampanya dönemlerine göre açılabilir.
                 </p>
               </DetailAccordion>
               <DetailAccordion
                 id="returns"
-                title="Iade ve Degisim"
+                title="İade ve Değişim"
                 open={openAccordion === "returns"}
                 onToggle={setOpenAccordion}
               >
                 <p>
-                  Kullanilmamis ve hijyen etiketi korunmus urunleri 14 gun icinde
-                  iade veya degisime gonderebilirsiniz.
+                  Kullanılmamış ve hijyen etiketi korunmuş ürünleri 14 gün içinde
+                  iade veya değişime gönderebilirsiniz.
                 </p>
               </DetailAccordion>
             </div>
@@ -385,7 +385,7 @@ export default function ProductDetailView({ product }: { product: Product }) {
             <div className="mb-10">
               <span className="luxe-label">Vous aimerez aussi</span>
               <h2 className="mt-3 font-display text-[32px] text-ink-900 md:text-[48px]">
-                Benzer <span className="font-italic-display text-gradient-fuchsia">parcalar</span>
+                Benzer <span className="font-italic-display text-gradient-fuchsia">parçalar</span>
               </h2>
             </div>
             <div className="grid grid-cols-2 gap-x-4 gap-y-10 md:grid-cols-4 md:gap-x-6 md:gap-y-12">

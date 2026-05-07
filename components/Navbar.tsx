@@ -23,22 +23,22 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   { label: "Yeni Sezon", href: "/products?filter=new", filter: "new" },
-  { label: "Sutyen", href: "/products?category=sutyenler", category: "sutyenler" },
-  { label: "Kulot", href: "/products?category=kulotlar", category: "kulotlar" },
-  { label: "Takim", href: "/products?category=takimlar", category: "takimlar" },
+  { label: "Sütyen", href: "/products?category=sutyenler", category: "sutyenler" },
+  { label: "Külot", href: "/products?category=kulotlar", category: "kulotlar" },
+  { label: "Takım", href: "/products?category=takimlar", category: "takimlar" },
   {
     label: "Gecelik",
     href: "/products?category=gecelikler",
     category: "gecelikler",
   },
-  { label: "Indirim", href: "/products?filter=sale", filter: "sale" },
+  { label: "İndirim", href: "/products?filter=sale", filter: "sale" },
 ];
 
 const announcements = [
-  "300 TL uzeri ucretsiz kargo",
-  "Ayni gun kargo ve Istanbul ici hizli teslimat",
-  "14 gun kosulsuz iade",
-  "Yeni sezon koleksiyonu simdi yayinda",
+  "300 TL üzeri ücretsiz kargo",
+  "Aynı gün kargo ve İstanbul içi hızlı teslimat",
+  "14 gün koşulsuz iade",
+  "Yeni sezon koleksiyonu şimdi yayında",
 ];
 
 export default function Navbar() {
@@ -103,7 +103,7 @@ export default function Navbar() {
               Miss <span className="font-italic-display text-gradient-fuchsia">Bella</span>
             </span>
             <span className="mt-1.5 hidden text-[9px] uppercase tracking-editorial text-ink-600 md:block">
-              Zarafetin en ozel hali
+              Zarafetin en özel hali
             </span>
           </Link>
 
@@ -241,7 +241,7 @@ function MegaMenuPanel({
         <div className="col-span-3">
           <p className="luxe-label plain text-rose-600">{item.label}</p>
           <h3 className="mt-3 font-display text-3xl text-ink-900">
-            Kesfet
+            Keşfet
           </h3>
           <ul className="mt-6 space-y-3 text-sm text-ink-800">
             {categories.slice(0, 6).map((category) => (
@@ -261,7 +261,7 @@ function MegaMenuPanel({
                 onClick={onClose}
                 className="inline-block text-[11px] uppercase tracking-editorial text-rose-600"
               >
-                Tum Urunler →
+                Tüm Ürünler →
               </Link>
             </li>
           </ul>

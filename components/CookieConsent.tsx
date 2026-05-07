@@ -32,32 +32,32 @@ export default function CookieConsent() {
     <div
       role="dialog"
       aria-live="polite"
-      aria-label="Cerez tercihleri"
+      aria-label="Çerez tercihleri"
       className="fixed inset-x-3 bottom-3 z-50 mx-auto max-w-3xl rounded-2xl border border-ink-900/10 bg-bone-50/98 p-5 shadow-luxe backdrop-blur md:bottom-5 md:p-6"
     >
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:gap-6">
         <div className="flex-1 text-sm leading-relaxed text-ink-800">
           <p className="font-display text-lg text-ink-900">
-            Cerezleri kullaniyoruz
+            Çerezleri kullanıyoruz
           </p>
           <p className="mt-2 text-[13px] text-ink-700">
-            Deneyiminizi iyilestirmek, sepet ve oturum surekliligini saglamak ve
-            site performansini olcumlemek icin cerezlerden yararlaniyoruz.
-            Detaylar icin{" "}
+            Deneyiminizi iyileştirmek, sepet ve oturum sürekliliğini sağlamak ve
+            site performansını ölçümlemek için çerezlerden yararlanıyoruz.
+            Detaylar için{" "}
             <Link
               href="/gizlilik"
               className="text-rose-600 underline-offset-2 hover:underline"
             >
-              Gizlilik Politikasi
+              Gizlilik Politikası
             </Link>{" "}
             ve{" "}
             <Link
               href="/kvkk"
               className="text-rose-600 underline-offset-2 hover:underline"
             >
-              KVKK Aydinlatma Metni
+              KVKK Aydınlatma Metni
             </Link>{" "}
-            sayfalarini inceleyin.
+            sayfalarını inceleyin.
           </p>
         </div>
         <div className="flex flex-shrink-0 flex-col gap-2 sm:flex-row md:flex-col">

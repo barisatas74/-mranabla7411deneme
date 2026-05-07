@@ -3,7 +3,7 @@ import { Category, ProductCategorySlug } from "@/types";
 export const categories: Category[] = [
   {
     id: "c1",
-    name: "Sutyenler",
+    name: "Sütyenler",
     slug: "sutyenler",
     image:
       "https://images.unsplash.com/photo-1763192788440-5036b6c90841?w=900&q=80&auto=format&fit=crop",
@@ -11,15 +11,15 @@ export const categories: Category[] = [
   },
   {
     id: "c2",
-    name: "Kulotlar",
+    name: "Külotlar",
     slug: "kulotlar",
     image:
       "https://images.unsplash.com/photo-1594956668048-e86c9a562529?w=900&q=80&auto=format&fit=crop",
-    tagline: "Yumusak dokunus",
+    tagline: "Yumuşak dokunuş",
   },
   {
     id: "c3",
-    name: "Takimlar",
+    name: "Takımlar",
     slug: "takimlar",
     image:
       "https://images.unsplash.com/photo-1762195020450-4447ebcf8de5?w=900&q=80&auto=format&fit=crop",
@@ -31,23 +31,23 @@ export const categories: Category[] = [
     slug: "gecelikler",
     image:
       "https://images.unsplash.com/photo-1770294759243-664b21a8ac38?w=900&q=80&auto=format&fit=crop",
-    tagline: "Ipeksi geceler",
+    tagline: "İpeksi geceler",
   },
   {
     id: "c5",
-    name: "Sortlu Takimlar",
+    name: "Şortlu Takımlar",
     slug: "sortlu-takimlar",
     image:
       "https://images.unsplash.com/photo-1766056278798-39cabf7ca628?w=900&q=80&auto=format&fit=crop",
-    tagline: "Rahat luks",
+    tagline: "Rahat lüks",
   },
   {
     id: "c6",
-    name: "Spor Ic Giyim",
+    name: "Spor İç Giyim",
     slug: "spor",
     image:
       "https://images.unsplash.com/photo-1649345946706-afbf86eee046?w=900&q=80&auto=format&fit=crop",
-    tagline: "Hareket ozgurlugu",
+    tagline: "Hareket özgürlüğü",
   },
 ];
 

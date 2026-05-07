@@ -2,10 +2,10 @@ import Container from "./Container";
 import { CheckCircle2, Lock, RotateCcw, Truck } from "lucide-react";
 
 const items = [
-  { Icon: Truck, label: "Ucretsiz Kargo", sub: "300 TL ve uzeri" },
-  { Icon: RotateCcw, label: "14 Gun Iade", sub: "Hijyen kosulluyla" },
-  { Icon: Lock, label: "Guvenli Odeme", sub: "256-bit SSL" },
-  { Icon: CheckCircle2, label: "Turkiye Uretimi", sub: "Butik atolye" },
+  { Icon: Truck, label: "Ücretsiz Kargo", sub: "300 TL ve üzeri" },
+  { Icon: RotateCcw, label: "14 Gün İade", sub: "Hijyen koşuluyla" },
+  { Icon: Lock, label: "Güvenli Ödeme", sub: "256-bit SSL" },
+  { Icon: CheckCircle2, label: "Türkiye Üretimi", sub: "Butik atölye" },
 ];
 
 export default function TrustStrip() {

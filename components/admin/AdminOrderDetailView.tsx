@@ -32,16 +32,16 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
 
     if (!updatedOrder) {
       toast({
-        title: "Siparis guncellenemedi",
-        description: "Mock order service bu siparisi bulamadi.",
+        title: "Sipariş güncellenemedi",
+        description: "Sipariş servisi bu kaydı bulamadı.",
         variant: "error",
       });
       return;
     }
 
     toast({
-      title: "Siparis guncellendi",
-      description: `${order.orderNumber} icin durum alanlari order service uzerinden kaydedildi.`,
+      title: "Sipariş güncellendi",
+      description: `${order.orderNumber} için durum alanları kaydedildi.`,
       variant: "success",
     });
   }
@@ -51,13 +51,13 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
       <AdminSectionHeader
         eyebrow="Order Detail"
         title={order.orderNumber}
-        description={`Olusturma tarihi: ${formatAdminDate(order.createdAt)}`}
+        description={`Oluşturma tarihi: ${formatAdminDate(order.createdAt)}`}
         action={
           <Link
             href="/admin/orders"
             className="rounded-full border border-slate-200 px-5 py-3 text-sm font-medium text-slate-900 transition hover:border-slate-950"
           >
-            Listeye Don
+            Listeye Dön
           </Link>
         }
       />
@@ -74,7 +74,7 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
             <div className="mt-6 grid gap-4 md:grid-cols-2">
               <div className="rounded-[24px] bg-slate-50 p-5">
                 <p className="text-xs uppercase tracking-[0.25em] text-slate-500">
-                  Musteri
+                  Müşteri
                 </p>
                 <p className="mt-3 font-medium text-slate-950">
                   {order.customer.firstName} {order.customer.lastName}
@@ -97,7 +97,7 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
 
           <section className="rounded-[28px] border border-slate-200 bg-white shadow-sm">
             <div className="border-b border-slate-200 px-6 py-5">
-              <h2 className="text-lg font-semibold text-slate-950">Urunler</h2>
+              <h2 className="text-lg font-semibold text-slate-950">Ürünler</h2>
             </div>
             <div className="divide-y divide-slate-100">
               {order.items.map((item) => (
@@ -128,16 +128,16 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
 
         <div className="space-y-6">
           <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-950">Durum guncelle</h2>
+            <h2 className="text-lg font-semibold text-slate-950">Durumu güncelle</h2>
             <div className="mt-5 space-y-4">
               <AdminSelectField
-                label="Siparis durumu"
+                label="Sipariş durumu"
                 value={status}
                 onChange={(value) => setStatus(value as AdminOrder["status"])}
                 options={ORDER_STATUS_OPTIONS}
               />
               <AdminSelectField
-                label="Odeme durumu"
+                label="Ödeme durumu"
                 value={paymentStatus}
                 onChange={(value) => setPaymentStatus(value as AdminOrder["paymentStatus"])}
                 options={PAYMENT_STATUS_OPTIONS}
@@ -154,16 +154,16 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
               onClick={handleSave}
               className="mt-6 rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
             >
-              Guncellemeyi Kaydet
+              Güncellemeyi Kaydet
             </button>
           </section>
 
           <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-950">Finansal ozet</h2>
+            <h2 className="text-lg font-semibold text-slate-950">Finansal özet</h2>
             <div className="mt-5 space-y-3 text-sm">
               <SummaryRow label="Ara toplam" value={formatPrice(order.subtotal)} />
               <SummaryRow label="Kargo" value={formatPrice(order.shippingFee)} />
-              <SummaryRow label="Indirim" value={formatPrice(order.discount)} />
+              <SummaryRow label="İndirim" value={formatPrice(order.discount)} />
               <div className="border-t border-slate-200 pt-3">
                 <SummaryRow label="Toplam" value={formatPrice(order.total)} strong />
               </div>
@@ -171,7 +171,7 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
             {order.note && (
               <div className="mt-5 rounded-[24px] bg-slate-50 p-4">
                 <p className="text-xs uppercase tracking-[0.25em] text-slate-500">
-                  Musteri Notu
+                  Müşteri Notu
                 </p>
                 <p className="mt-2 text-sm leading-7 text-slate-700">{order.note}</p>
               </div>

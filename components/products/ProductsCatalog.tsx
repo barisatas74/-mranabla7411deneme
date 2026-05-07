@@ -25,9 +25,9 @@ type ProductsCatalogProps = {
 };
 
 const filterOptions: { label: string; value: ProductFilter }[] = [
-  { label: "Tum Urunler", value: "all" },
+  { label: "Tüm Ürünler", value: "all" },
   { label: "Yeni Gelenler", value: "new" },
-  { label: "Indirimdekiler", value: "sale" },
+  { label: "İndirimdekiler", value: "sale" },
 ];
 
 const priceBounds = getProductPriceBounds(products);
@@ -120,11 +120,11 @@ export default function ProductsCatalog({
         <Container className="relative text-center">
           <span className="luxe-label">La Boutique</span>
           <h1 className="mt-4 font-display text-[36px] leading-[1.04] text-ink-900 md:mt-5 md:text-[78px] md:leading-none">
-            Tum <span className="font-italic-display text-gradient-fuchsia">Urunler</span>
+            Tüm <span className="font-italic-display text-gradient-fuchsia">Ürünler</span>
           </h1>
           <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-ink-700 md:mt-5 md:text-base">
-            Arama, fiyat araligi, beden ve renk filtreleri ile koleksiyonu gercek
-            bir magaza akisi gibi tarayin.
+            Arama, fiyat aralığı, beden ve renk filtreleri ile koleksiyonu gerçek
+            bir mağaza akışı gibi tarayın.
           </p>
         </Container>
       </section>
@@ -192,7 +192,7 @@ export default function ProductsCatalog({
                   <input
                     value={searchQuery}
                     onChange={(event) => setSearchQuery(event.target.value)}
-                    placeholder="Urun, kategori veya renk ara"
+                    placeholder="Ürün, kategori veya renk ara"
                     className="w-full bg-transparent text-sm outline-none placeholder:text-ink-500"
                   />
                 </div>
@@ -228,7 +228,7 @@ export default function ProductsCatalog({
                 </div>
               </FacetSection>
 
-              <FacetSection title="Fiyat Araligi">
+              <FacetSection title="Fiyat Aralığı">
                 <div className="grid grid-cols-2 gap-3">
                   <PriceInput
                     label="Min"
@@ -246,7 +246,7 @@ export default function ProductsCatalog({
                   />
                 </div>
                 <p className="mt-2 text-[11px] text-ink-600">
-                  Aralik: {formatPrice(priceBounds.min)} - {formatPrice(priceBounds.max)}
+                  Aralık: {formatPrice(priceBounds.min)} - {formatPrice(priceBounds.max)}
                 </p>
               </FacetSection>
             </div>
@@ -256,7 +256,7 @@ export default function ProductsCatalog({
             <div className="flex flex-col gap-5 border-b border-ink-900/10 pb-8">
               <div className="-mx-5 flex gap-2 overflow-x-auto px-5 pb-1 no-scrollbar md:mx-0 md:px-1">
                 <FilterPill
-                  label="Tumu"
+                  label="Tümü"
                   count={products.length}
                   active={activeCategory === "all"}
                   onClick={() => setActiveCategory("all")}
@@ -304,7 +304,7 @@ export default function ProductsCatalog({
                     className="inline-flex items-center justify-center gap-2 border border-ink-900/10 px-4 py-2.5 text-[10px] uppercase tracking-editorial text-ink-700 transition hover:text-rose-600 sm:border-0 sm:px-0 sm:py-0"
                   >
                     <X size={12} />
-                    Tumunu Sifirla
+                    Tümünü Sıfırla
                   </button>
                   <div className="relative w-full sm:w-auto">
                     <select
@@ -312,7 +312,7 @@ export default function ProductsCatalog({
                       onChange={(event) => setSort(event.target.value as ProductSort)}
                       className="w-full cursor-pointer appearance-none border border-ink-900/15 bg-transparent py-2.5 pl-4 pr-9 text-[11px] uppercase tracking-editorial outline-none focus:border-ink-900 sm:w-auto"
                     >
-                      <option value="featured">One Cikanlar</option>
+                      <option value="featured">Öne Çıkanlar</option>
                       <option value="new">Yeni Gelenler</option>
                       <option value="price-asc">Fiyat: Artan</option>
                       <option value="price-desc">Fiyat: Azalan</option>
@@ -329,7 +329,7 @@ export default function ProductsCatalog({
 
             <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between">
               <p className="text-[10px] uppercase tracking-editorial text-ink-600">
-                {filteredProducts.length} urun gosteriliyor
+                {filteredProducts.length} ürün gösteriliyor
               </p>
               {activeFacetCount > 0 && (
                 <div className="flex flex-wrap gap-2">
@@ -370,10 +370,10 @@ export default function ProductsCatalog({
               </div>
             ) : (
               <div className="mt-8 rounded-3xl border border-ink-900/10 bg-bone-100 px-6 py-14 text-center md:px-10">
-                <p className="font-display text-3xl text-ink-900">Sonuc bulunamadi</p>
+                <p className="font-display text-3xl text-ink-900">Sonuç bulunamadı</p>
                 <p className="mx-auto mt-3 max-w-md text-sm leading-relaxed text-ink-700">
-                  Arama ifadesi veya secili filtreler bu katalogda eslesmedi. Tum
-                  filtreleri sifirlayip yeniden deneyebilirsiniz.
+                  Arama ifadesi veya seçili filtreler bu katalogda eşleşmedi. Tüm
+                  filtreleri sıfırlayıp yeniden deneyebilirsiniz.
                 </p>
                 <button
                   type="button"

@@ -11,7 +11,7 @@ export default function BrandStory() {
             <div className="relative h-[460px] overflow-hidden shadow-luxe img-reveal md:h-[620px]">
               <Image
                 src="https://images.unsplash.com/photo-1594223274512-ad4803739b7c?w=1200&q=90"
-                alt="Miss Bella atolyeden bir gorunum"
+                alt="Miss Bella atölyeden bir görünüm"
                 fill
                 className="object-cover"
               />
@@ -21,10 +21,10 @@ export default function BrandStory() {
             <div className="glass-card hover-lift absolute -bottom-3 -right-3 max-w-[240px] p-6 md:-bottom-6 md:-right-6 md:max-w-[280px] md:p-7">
               <p className="luxe-label plain text-rose-600">Est. 2020</p>
               <p className="mt-3 font-italic-display text-[22px] leading-[1.3] text-ink-900 md:text-[26px]">
-                Zarafet, kendini iyi hissettigin anda baslar.
+                Zarafet, kendini iyi hissettiğin anda başlar.
               </p>
               <p className="mt-4 text-[10px] uppercase tracking-editorial text-ink-600">
-                Miss Bella Atolyesi
+                Miss Bella Atölyesi
               </p>
             </div>
 
@@ -45,37 +45,37 @@ export default function BrandStory() {
 
             <div className="mt-8 space-y-5 font-light leading-[1.85] text-ink-700">
               <p>
-                Miss Bella, kadinlarin gunun her aninda kendini bakimli, guclu ve
-                rahat hissetmesi icin tasarlandi. Her urunde rafine siluetleri,
-                yumusak dokulari ve zamansiz cizgileri bir araya getiriyoruz.
+                Miss Bella, kadınların günün her anında kendini bakımlı, güçlü ve
+                rahat hissetmesi için tasarlandı. Her ürünümüzde rafine siluetleri,
+                yumuşak dokuları ve zamansız çizgileri bir araya getiriyoruz.
               </p>
               <p>
-                Koleksiyonumuz Turkiye&apos;de deneyimli atolyelerde uretiliyor.
-                Kaliteye, etik uretime ve uzun omurlu tasarima odaklanarak her
-                parcayi teslim edilebilir bir premium deneyime donusturuyoruz.
+                Koleksiyonumuz Türkiye&apos;de deneyimli atölyelerde üretiliyor.
+                Kaliteye, etik üretime ve uzun ömürlü tasarıma odaklanarak her
+                parçayı teslim edilebilir bir premium deneyime dönüştürüyoruz.
               </p>
             </div>
 
             <div className="mt-10 grid grid-cols-2 gap-6 border-t border-ink-900/10 pt-8">
               <Pillar
                 num="01"
-                title="Etik Uretim"
-                text="Seffaf surecler ve sorumlu uretim anlayisi."
+                title="Etik Üretim"
+                text="Şeffaf süreçler ve sorumlu üretim anlayışı."
               />
               <Pillar
                 num="02"
-                title="Premium Kumas"
-                text="Tenle uyumlu, akici ve konforlu secimler."
+                title="Premium Kumaş"
+                text="Tenle uyumlu, akıcı ve konforlu seçimler."
               />
               <Pillar
                 num="03"
-                title="El Isciligi"
-                text="Butik dokunuslarla tamamlanan rafine detaylar."
+                title="El İşçiliği"
+                text="Butik dokunuşlarla tamamlanan rafine detaylar."
               />
               <Pillar
                 num="04"
-                title="Zamansiz Stil"
-                text="Sezonlar otesine tasinan sade ve guclu tasarim."
+                title="Zamansız Stil"
+                text="Sezonlar ötesine taşınan sade ve güçlü tasarım."
               />
             </div>
           </Reveal>

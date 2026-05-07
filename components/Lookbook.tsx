@@ -15,16 +15,16 @@ const editorialShots = [
   },
   {
     src: "https://images.unsplash.com/photo-1617922001439-4a2e6562f328?w=900&q=85",
-    alt: "Saten gecelik lookbook karesi",
+    alt: "Saten gecelik lookbook görüntüsü",
     label: "Look 02",
-    title: "Ipek Saten",
+    title: "İpek Saten",
     href: "/products?category=gecelikler",
     span: "md:col-span-5",
     aspect: "aspect-[4/5]",
   },
   {
     src: "https://images.unsplash.com/photo-1606902965551-dce093cda6e7?w=900&q=85",
-    alt: "Sortlu takim lookbook karesi",
+    alt: "Şortlu takım lookbook görüntüsü",
     label: "Look 03",
     title: "Loungewear",
     href: "/products?category=sortlu-takimlar",
@@ -51,8 +51,8 @@ export default function Lookbook() {
             </h2>
           </div>
           <p className="max-w-md text-sm leading-relaxed text-white/70 md:text-base md:justify-self-end">
-            Yeni sezonun yumusak siluetlerini, narin dantellerini ve saten
-            dokunuslarini bir araya getiren editorial seri.
+            Yeni sezonun yumuşak siluetlerini, narin dantellerini ve saten
+            dokunuşlarını bir araya getiren editorial seri.
           </p>
         </div>
 
@@ -94,7 +94,7 @@ export default function Lookbook() {
             href="/products?filter=new"
             className="btn-luxe border border-white/30 text-white hover:bg-white/10"
           >
-            Tum Lookbook&apos;u Kesfet <ArrowRight strokeWidth={1.5} size={14} />
+            Tüm Lookbook&apos;u Keşfet <ArrowRight strokeWidth={1.5} size={14} />
           </Link>
         </div>
       </Container>

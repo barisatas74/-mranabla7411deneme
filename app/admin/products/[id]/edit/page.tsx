@@ -22,7 +22,7 @@ export default async function AdminEditProductPage({
     return (
       <AdminPageError
         title="Urun bulunamadi"
-        description="Duzenlemek istediginiz urun mock data listesinde yer almiyor."
+        description="Düzenlemek istediğiniz ürün listede yer almıyor."
         href="/admin/products"
       />
     );

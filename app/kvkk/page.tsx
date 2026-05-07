@@ -2,77 +2,151 @@ import type { Metadata } from "next";
 import LegalLayout from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
-  title: "KVKK Aydinlatma Metni",
+  title: "KVKK Aydınlatma Metni",
   description:
-    "Miss Bella musteri verilerinin hangi hukuki sebeplerle ve hangi amaclarla islendigi hakkinda KVKK aydinlatma metni.",
+    "Miss Bella müşteri verilerinin hangi hukuki sebeplerle ve hangi amaçlarla işlendiği hakkında KVKK aydınlatma metni.",
 };
 
 export default function KvkkPage() {
   return (
     <LegalLayout
       eyebrow="Yasal Bilgilendirme"
-      title="KVKK Aydinlatma Metni"
-      updated="25 Nisan 2026"
+      title="KVKK Aydınlatma Metni"
+      updated="7 Mayıs 2026"
     >
       <p>
-        6698 sayili Kisisel Verilerin Korunmasi Kanunu kapsaminda Miss Bella olarak,
-        veri sorumlusu sifatiyla isledigimiz kisisel veriler ve bu verilere iliskin
-        haklariniz konusunda sizi bilgilendiriyoruz.
+        6698 sayılı Kişisel Verilerin Korunması Kanunu (&ldquo;KVKK&rdquo;)
+        kapsamında Miss Bella olarak, veri sorumlusu sıfatıyla işlediğimiz
+        kişisel veriler ile bu verilere ilişkin haklarınız konusunda sizi
+        bilgilendiririz.
       </p>
 
-      <h2>Veri Sorumlusu</h2>
+      <h2>1. Veri Sorumlusu</h2>
       <p>
         <strong>Miss Bella</strong>
         <br />
-        E-posta: kvkk@missbella.com
+        Adres: <em>[Şirket merkez adresi]</em>
         <br />
-        Destek Hatti: +90 555 000 00 00
+        Vergi Dairesi / No: <em>[Vergi dairesi] / [VKN]</em>
+        <br />
+        MERSİS No: <em>[MERSİS numarası]</em>
+        <br />
+        E-posta:{" "}
+        <a href="mailto:kvkk@missbella.com.tr">kvkk@missbella.com.tr</a>
+        <br />
+        Destek Hattı: <em>[Telefon]</em>
       </p>
 
-      <h2>Islenen Kisisel Veriler</h2>
+      <h2>2. İşlenen Kişisel Veriler</h2>
       <ul>
-        <li>Kimlik bilgileri: ad ve soyad</li>
-        <li>Iletisim bilgileri: telefon, e-posta, teslimat adresi</li>
-        <li>Musteri islem verileri: siparis, iade ve destek kayitlari</li>
-        <li>Finans verileri: odeme islemine iliskin sinirli bilgiler</li>
-        <li>Islem guvenligi verileri: IP adresi ve cerez kayitlari</li>
+        <li>
+          <strong>Kimlik bilgileri:</strong> ad, soyad
+        </li>
+        <li>
+          <strong>İletişim bilgileri:</strong> telefon, e-posta, teslimat
+          adresi, fatura adresi
+        </li>
+        <li>
+          <strong>Müşteri işlem verileri:</strong> sipariş, iade, değişim ve
+          destek talebi kayıtları
+        </li>
+        <li>
+          <strong>Finansal veriler:</strong> ödeme işlemine ilişkin sınırlı
+          bilgiler (ödeme yöntemi, sipariş tutarı). Kart bilgileri tarafımızca
+          saklanmaz.
+        </li>
+        <li>
+          <strong>İşlem güvenliği verileri:</strong> IP adresi, oturum bilgisi,
+          çerez kayıtları, cihaz bilgileri
+        </li>
+        <li>
+          <strong>Pazarlama verileri:</strong> açık rızanız bulunması halinde
+          alışveriş tercihleri ve bülten kayıtları
+        </li>
       </ul>
 
-      <h2>Isleme Amaçlari</h2>
+      <h2>3. Kişisel Verilerin İşlenme Amaçları</h2>
       <ul>
-        <li>Siparislerin alinmasi, hazirlanmasi ve teslim edilmesi</li>
-        <li>Iade, degisim ve musteri destek sureclerinin yurutulmesi</li>
-        <li>Yasal yukumluluklerin yerine getirilmesi</li>
-        <li>Acik rizaniz varsa kampanya ve bulten iletisimi kurulmasi</li>
+        <li>Siparişlerin alınması, hazırlanması ve teslim edilmesi</li>
+        <li>İade, değişim ve müşteri destek süreçlerinin yürütülmesi</li>
+        <li>Ödeme işlemlerinin yürütülmesi ve faturalandırma</li>
+        <li>
+          Yasal yükümlülüklerin (vergi mevzuatı, tüketici mevzuatı vb.) yerine
+          getirilmesi
+        </li>
+        <li>
+          Açık rızanız bulunması halinde kampanya, indirim ve bülten iletişimi
+          kurulması
+        </li>
+        <li>
+          Site güvenliğinin sağlanması ve hukuka aykırı kullanımların tespit
+          edilmesi
+        </li>
       </ul>
 
-      <h2>Aktarim Yapilan Taraflar</h2>
+      <h2>4. İşlemenin Hukuki Sebepleri</h2>
       <p>
-        Verileriniz, teslimat surecini tamamlayabilmek icin kargo is ortaklarimizla,
-        odeme surecini yurutmek icin odeme kuruluslariyla ve hukuki zorunluluklar
-        halinde yetkili kamu kurumlariyla paylasilabilir.
+        Kişisel verileriniz; sözleşmenin kurulması veya ifası, hukuki
+        yükümlülüklerin yerine getirilmesi, meşru menfaatlerimiz ve gerekli
+        durumlarda açık rızanız hukuki sebeplerine dayalı olarak işlenmektedir.
       </p>
 
-      <h2>Haklariniz</h2>
+      <h2>5. Aktarım Yapılan Taraflar</h2>
+      <p>
+        Verileriniz; teslimat sürecinin tamamlanması için kargo iş
+        ortaklarımızla, ödeme süreçlerinin yürütülmesi için ödeme
+        kuruluşlarıyla, e-fatura ve muhasebe yükümlülükleri için ilgili
+        hizmet sağlayıcılarla ve hukuki zorunluluklar halinde yetkili kamu
+        kurum ve kuruluşlarıyla paylaşılabilir.
+      </p>
+
+      <h2>6. Saklama Süresi</h2>
+      <p>
+        Kişisel verileriniz; yasal saklama yükümlülükleri (Türk Ticaret Kanunu,
+        Vergi Usul Kanunu, Tüketici Mevzuatı vb.) ve işleme amaçlarının
+        gerektirdiği süreler boyunca saklanır; bu sürelerin sonunda silinir,
+        yok edilir veya anonim hale getirilir.
+      </p>
+
+      <h2>7. Haklarınız</h2>
+      <p>KVKK&rsquo;nın 11. maddesi uyarınca aşağıdaki haklara sahipsiniz:</p>
       <ul>
-        <li>Verilerinizin islenip islenmedigini ogrenme</li>
-        <li>Islenen verileriniz hakkinda bilgi talep etme</li>
-        <li>Yanlis veya eksik verilerin duzeltilmesini isteme</li>
+        <li>Kişisel verilerinizin işlenip işlenmediğini öğrenme</li>
+        <li>İşlenen verileriniz hakkında bilgi talep etme</li>
+        <li>İşlenme amacını ve verilerinizin amacına uygun kullanılıp kullanılmadığını öğrenme</li>
+        <li>
+          Yurt içinde veya yurt dışında verilerinizin aktarıldığı üçüncü
+          kişileri bilme
+        </li>
+        <li>Eksik veya yanlış işlenmiş verilerin düzeltilmesini isteme</li>
         <li>Verilerin silinmesini veya yok edilmesini talep etme</li>
-        <li>Aktarim yapilan ucuncu kisilere bilgilendirme yapilmasini isteme</li>
+        <li>
+          Düzeltme, silme veya yok etme işlemlerinin verilerin aktarıldığı
+          üçüncü kişilere bildirilmesini isteme
+        </li>
+        <li>
+          Otomatik sistemler ile analiz edilmesi sonucunda aleyhinize bir sonuç
+          ortaya çıkmasına itiraz etme
+        </li>
+        <li>
+          Verilerin kanuna aykırı işlenmesi nedeniyle uğradığınız zararın
+          giderilmesini talep etme
+        </li>
       </ul>
 
-      <h2>Basvuru Yontemi</h2>
+      <h2>8. Başvuru Yöntemi</h2>
       <p>
-        KVKK kapsamindaki taleplerinizi{" "}
-        <a href="mailto:kvkk@missbella.com">kvkk@missbella.com</a> adresine
-        yazili olarak iletebilirsiniz. Basvurulariniz mevzuatta belirtilen sureler
-        icinde degerlendirilir.
+        KVKK kapsamındaki taleplerinizi{" "}
+        <a href="mailto:kvkk@missbella.com.tr">kvkk@missbella.com.tr</a>{" "}
+        adresine iletebilir veya yukarıda belirtilen şirket adresine yazılı
+        olarak gönderebilirsiniz. Başvurularınız, mevzuatta belirtilen 30 günlük
+        süre içinde değerlendirilerek tarafınıza yanıt verilir.
       </p>
 
       <p className="mt-10 text-[12px] text-ink-600">
-        Bu sayfa bilgilendirme amaclidir. Nihai hukuki metinlerin yayin oncesinde
-        profesyonel hukuk danismani tarafindan kontrol edilmesi onerilir.
+        Bu metin bilgilendirme amaçlıdır. Yasal yayın öncesinde italik olarak
+        gösterilen alanların gerçek şirket bilgileri ile doldurulması ve
+        metnin bir hukuk danışmanı tarafından kontrol edilmesi tavsiye edilir.
       </p>
     </LegalLayout>
   );

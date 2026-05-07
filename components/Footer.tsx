@@ -15,26 +15,20 @@ import Container from "./Container";
 const SOCIAL_LINKS: { Icon: LucideIcon; href: string; label: string }[] = [
   {
     Icon: Instagram,
-    href:
-      process.env.NEXT_PUBLIC_INSTAGRAM_URL ||
-      "https://instagram.com/lunarosa",
+    href: process.env.NEXT_PUBLIC_INSTAGRAM_URL || "#",
     label: "Instagram",
   },
   {
     Icon: Facebook,
-    href:
-      process.env.NEXT_PUBLIC_FACEBOOK_URL ||
-      "https://facebook.com/lunarosa",
+    href: process.env.NEXT_PUBLIC_FACEBOOK_URL || "#",
     label: "Facebook",
   },
   {
     Icon: Youtube,
-    href:
-      process.env.NEXT_PUBLIC_YOUTUBE_URL ||
-      "https://youtube.com/@lunarosa",
+    href: process.env.NEXT_PUBLIC_YOUTUBE_URL || "#",
     label: "Youtube",
   },
-];
+].filter((item) => item.href !== "#");
 
 export default function Footer() {
   const [email, setEmail] = useState("");
@@ -58,14 +52,14 @@ export default function Footer() {
       <div className="relative border-b border-white/8">
         <Container className="grid items-center gap-10 py-16 md:grid-cols-2 md:py-20">
           <div>
-            <span className="luxe-label plain !text-rose-300">Bulten</span>
+            <span className="luxe-label plain !text-rose-300">Bülten</span>
             <h3 className="mt-4 font-display text-[36px] leading-[1.05] md:text-[52px]">
-              Ayricaliklara
+              Ayrıcalıklara
               <br />
-              <span className="font-italic-display text-rose-300">ilk sizin</span> erisin.
+              <span className="font-italic-display text-rose-300">ilk sizin</span> erişin.
             </h3>
             <p className="mt-4 max-w-md text-sm text-white/60 md:text-base">
-              Yeni koleksiyonlar, ozel kampanyalar ve butik deneyiminden haberdar olun.
+              Yeni koleksiyonlar, özel kampanyalar ve butik deneyiminden haberdar olun.
             </p>
           </div>
 
@@ -97,12 +91,12 @@ export default function Footer() {
             </form>
             {status === "success" && (
               <p className="mt-3 text-[11px] tracking-wider text-rose-300">
-                Tesekkurler! Bultenimize basariyla abone oldunuz.
+                Teşekkürler! Bültenimize başarıyla abone oldunuz.
               </p>
             )}
             {status === "error" && (
               <p className="mt-3 text-[11px] tracking-wider text-rose-300">
-                Lutfen gecerli bir e-posta adresi girin.
+                Lütfen geçerli bir e-posta adresi girin.
               </p>
             )}
           </div>
@@ -115,10 +109,10 @@ export default function Footer() {
             Miss <span className="font-italic-display text-rose-300">Bella</span>
           </span>
           <span className="mt-2 inline-block text-[10px] uppercase tracking-editorial text-rose-300">
-            Zarafetin en ozel hali
+            Zarafetin en özel hali
           </span>
           <p className="mt-6 max-w-sm text-sm leading-[1.8] text-white/60">
-            Premium kumaslar, ince iscilik ve zamansiz cizgilerle tasarlanan butik ic giyim koleksiyonu.
+            Premium kumaşlar, ince işçilik ve zamansız çizgilerle tasarlanan butik iç giyim koleksiyonu.
           </p>
 
           <div className="mt-7 flex items-center gap-3">
@@ -134,28 +128,28 @@ export default function Footer() {
         </div>
 
         <FooterColumn
-          title="Alisveris"
+          title="Alışveriş"
           links={[
             ["Yeni Sezon", "/products?filter=new"],
-            ["Tum Urunler", "/products"],
-            ["Sutyenler", "/products?category=sutyenler"],
+            ["Tüm Ürünler", "/products"],
+            ["Sütyenler", "/products?category=sutyenler"],
             ["Gecelikler", "/products?category=gecelikler"],
-            ["Indirim", "/products?filter=sale"],
+            ["İndirim", "/products?filter=sale"],
           ]}
         />
         <FooterColumn
           title="Kurumsal"
           links={[
-            ["Hakkimizda", "/hakkimizda"],
-            ["Iletisim", "/iletisim"],
+            ["Hakkımızda", "/hakkimizda"],
+            ["İletişim", "/iletisim"],
           ]}
         />
         <FooterColumn
-          title="Yardim"
+          title="Yardım"
           links={[
-            ["Iade Politikasi", "/iade-politikasi"],
-            ["Mesafeli Satis", "/mesafeli-satis"],
-            ["KVKK Aydinlatma", "/kvkk"],
+            ["İade Politikası", "/iade-politikasi"],
+            ["Mesafeli Satış", "/mesafeli-satis"],
+            ["KVKK Aydınlatma", "/kvkk"],
             ["Gizlilik", "/gizlilik"],
           ]}
         />
@@ -163,7 +157,7 @@ export default function Footer() {
 
       <div className="border-t border-white/8">
         <Container className="flex flex-col items-center justify-between gap-4 py-6 text-[10px] uppercase tracking-editorial text-white/50 md:flex-row">
-          <p>© MMXXVI Miss Bella / Tum haklari saklidir</p>
+          <p>© MMXXVI Miss Bella / Tüm hakları saklıdır</p>
           <div className="flex items-center gap-4">
             <Link href="/gizlilik" className="hover:text-white">
               Gizlilik
@@ -174,7 +168,7 @@ export default function Footer() {
             </Link>
             <span className="opacity-40">/</span>
             <Link href="/mesafeli-satis" className="hover:text-white">
-              Kosullar
+              Koşullar
             </Link>
           </div>
           <div className="flex items-center gap-3 tracking-wider">

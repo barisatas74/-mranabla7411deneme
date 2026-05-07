@@ -6,8 +6,8 @@ import { cn } from "@/lib/utils";
 
 const tabs = [
   { id: "general", label: "Beden Tablosu" },
-  { id: "bra", label: "Sutyen Olcumu" },
-  { id: "tips", label: "Olcum Ipuclari" },
+  { id: "bra", label: "Sütyen Ölçümü" },
+  { id: "tips", label: "Ölçüm İpuçları" },
 ] as const;
 
 type TabId = (typeof tabs)[number]["id"];
@@ -76,7 +76,7 @@ export default function SizeGuideModal() {
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-ink-900/10 bg-bone-50/95 px-6 py-4 backdrop-blur">
               <div>
                 <p className="text-[10px] uppercase tracking-editorial text-rose-600">
-                  Olcum Tablosu
+                  Ölçüm Tablosu
                 </p>
                 <h3 className="mt-1 font-display text-2xl text-ink-900">
                   Beden Rehberi
@@ -116,17 +116,17 @@ export default function SizeGuideModal() {
               {activeTab === "general" && (
                 <>
                   <p className="mb-5 text-sm text-ink-700">
-                    Asagidaki olcumler vucut olcusu (cm) cinsinden verilmistir. Iki
-                    beden arasi kaldiysaniz buyuk bedeni tercih etmenizi oneririz.
+                    Aşağıdaki ölçümler vücut ölçüsü (cm) cinsinden verilmiştir. İki
+                    beden arası kaldıysanız büyük bedeni tercih etmenizi öneririz.
                   </p>
                   <div className="overflow-x-auto">
                     <table className="w-full border-collapse text-sm">
                       <thead>
                         <tr className="border-b border-ink-900/15 text-left text-[11px] uppercase tracking-editorial text-ink-700">
                           <th className="py-3 font-medium">Beden</th>
-                          <th className="py-3 font-medium">Gogus (cm)</th>
+                          <th className="py-3 font-medium">Göğüs (cm)</th>
                           <th className="py-3 font-medium">Bel (cm)</th>
-                          <th className="py-3 font-medium">Kalca (cm)</th>
+                          <th className="py-3 font-medium">Kalça (cm)</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -152,17 +152,17 @@ export default function SizeGuideModal() {
               {activeTab === "bra" && (
                 <>
                   <p className="mb-5 text-sm text-ink-700">
-                    Sutyen bedenleri gogus alti olcunuz + cup boyutu kombinasyonu
-                    ile belirlenir. Olcunuzu mezura ile cogus alti hizasindan dogru
-                    aliniz.
+                    Sütyen bedenleri göğüs altı ölçünüz + cup boyutu kombinasyonu
+                    ile belirlenir. Ölçünüzü mezura ile göğüs altı hizasından doğru
+                    alınız.
                   </p>
                   <div className="overflow-x-auto">
                     <table className="w-full border-collapse text-sm">
                       <thead>
                         <tr className="border-b border-ink-900/15 text-left text-[11px] uppercase tracking-editorial text-ink-700">
                           <th className="py-3 font-medium">Beden</th>
-                          <th className="py-3 font-medium">Gogus Alti (cm)</th>
-                          <th className="py-3 font-medium">Gogus (cm)</th>
+                          <th className="py-3 font-medium">Göğüs Altı (cm)</th>
+                          <th className="py-3 font-medium">Göğüs (cm)</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -188,39 +188,39 @@ export default function SizeGuideModal() {
                 <ol className="space-y-5 text-sm leading-relaxed text-ink-800">
                   <li>
                     <p className="font-display text-lg text-ink-900">
-                      1. Gogus Cevresi
+                      1. Göğüs Çevresi
                     </p>
                     <p className="mt-1 text-ink-700">
-                      Mezurayi gogsunuzun en dolgun bolgesinden, gevsek olmayacak
-                      sekilde cevirin. Nefes verirken olcun.
+                      Mezurayı göğsünüzün en dolgun bölgesinden, gevşek olmayacak
+                      şekilde çevirin. Nefes verirken ölçün.
                     </p>
                   </li>
                   <li>
                     <p className="font-display text-lg text-ink-900">2. Bel</p>
                     <p className="mt-1 text-ink-700">
-                      Belin en ince yerinden, mezurayi sikistirmadan cevirin.
-                      Vucudunuza dik tutun.
+                      Belin en ince yerinden, mezurayı sıkıştırmadan çevirin.
+                      Vücudunuza dik tutun.
                     </p>
                   </li>
                   <li>
-                    <p className="font-display text-lg text-ink-900">3. Kalca</p>
+                    <p className="font-display text-lg text-ink-900">3. Kalça</p>
                     <p className="mt-1 text-ink-700">
-                      Kalcanin en genis bolumunden, ayaklar bitisik halde olcun.
+                      Kalçanın en geniş bölümünden, ayaklar bitişik halde ölçün.
                     </p>
                   </li>
                   <li>
                     <p className="font-display text-lg text-ink-900">
-                      4. Sutyen Gogus Alti
+                      4. Sütyen Göğüs Altı
                     </p>
                     <p className="mt-1 text-ink-700">
-                      Mezurayi gogus alti hizasinda, vucuda paralel sekilde cevirin.
-                      Olcuyu cm cinsinden alin.
+                      Mezurayı göğüs altı hizasında, vücuda paralel şekilde çevirin.
+                      Ölçüyü cm cinsinden alın.
                     </p>
                   </li>
                   <li>
                     <p className="text-[12px] text-ink-600">
-                      Iki beden arasinda kalirsaniz, daha rahat oldugu icin buyuk
-                      bedeni tercih etmenizi oneririz.
+                      İki beden arasında kalırsanız, daha rahat olduğu için büyük
+                      bedeni tercih etmenizi öneririz.
                     </p>
                   </li>
                 </ol>

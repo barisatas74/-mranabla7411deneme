@@ -105,8 +105,8 @@ export default function MobileMenu({
             href="/favorilerim"
             onClose={onClose}
           />
-          <MobileLink label="Hakkimizda" href="/hakkimizda" onClose={onClose} />
-          <MobileLink label="Iletisim" href="/iletisim" onClose={onClose} />
+          <MobileLink label="Hakkımızda" href="/hakkimizda" onClose={onClose} />
+          <MobileLink label="İletişim" href="/iletisim" onClose={onClose} />
         </div>
 
         <div className="mt-auto px-6 py-6">

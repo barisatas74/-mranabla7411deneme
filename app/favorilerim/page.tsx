@@ -47,11 +47,11 @@ export default function FavoritesPage() {
               yok
             </h1>
             <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-ink-700 md:text-base">
-              Begendiginiz urunlerdeki kalp ikonuna basarak favorilerinize
+              Beğendiğiniz ürünlerdeki kalp ikonuna basarak favorilerinize
               ekleyebilirsiniz.
             </p>
             <Link href="/products" className="btn-luxe btn-luxe-dark mt-8 shadow-soft">
-              Koleksiyonu Kesfet <ArrowRight strokeWidth={1.5} size={14} />
+              Koleksiyonu Keşfet <ArrowRight strokeWidth={1.5} size={14} />
             </Link>
           </div>
         </Container>
@@ -69,7 +69,7 @@ export default function FavoritesPage() {
             Favorilerim
           </h1>
           <p className="mt-3 text-sm text-ink-700">
-            {favoriteProducts.length} urun listenizde
+            {favoriteProducts.length} ürün listenizde
           </p>
         </Container>
       </section>

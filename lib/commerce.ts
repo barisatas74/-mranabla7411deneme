@@ -21,8 +21,8 @@ export const SHIPPING_METHODS: {
   },
   {
     id: "express",
-    label: "Hizli Teslimat",
-    description: "Ertesi gun teslimat",
+    label: "Hızlı Teslimat",
+    description: "Ertesi gün teslimat",
   },
 ];
 

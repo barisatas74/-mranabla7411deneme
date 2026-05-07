@@ -2,111 +2,132 @@ import type { Metadata } from "next";
 import LegalLayout from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
-  title: "Mesafeli Satis Sozlesmesi",
+  title: "Mesafeli Satış Sözleşmesi",
   description:
-    "Miss Bella internet sitesi uzerinden verilen siparislere uygulanacak mesafeli satis sozlesmesi metni.",
+    "Miss Bella internet sitesi üzerinden verilen siparişlere uygulanacak mesafeli satış sözleşmesi metni.",
 };
 
 export default function MesafeliSatisPage() {
   return (
     <LegalLayout
-      eyebrow="Sozlesme"
-      title="Mesafeli Satis Sozlesmesi"
-      updated="25 Nisan 2026"
+      eyebrow="Sözleşme"
+      title="Mesafeli Satış Sözleşmesi"
+      updated="7 Mayıs 2026"
     >
-      <h2>Madde 1 - Taraflar</h2>
+      <h2>Madde 1 &mdash; Taraflar</h2>
       <p>
-        Isbu sozlesme; satici sifatiyla Miss Bella ile internet sitesi uzerinden
-        siparis veren alici arasinda, elektronik ortamda kabul edilerek kurulmustur.
+        İşbu sözleşme; satıcı sıfatıyla Miss Bella ile internet sitesi üzerinden
+        sipariş veren alıcı arasında, elektronik ortamda kabul edilerek
+        kurulmuştur.
       </p>
 
-      <h3>Satici</h3>
+      <h3>Satıcı</h3>
       <p>
         Unvan: <strong>Miss Bella</strong>
         <br />
-        Adres: <em>[Sirket merkez adresi]</em>
+        Adres: <em>[Şirket merkez adresi]</em>
         <br />
         Vergi Dairesi / No: <em>[Vergi dairesi] / [VKN]</em>
         <br />
-        Mersis No: <em>[Mersis numarasi]</em>
+        MERSİS No: <em>[MERSİS numarası]</em>
         <br />
-        E-posta: hello@missbella.com
+        E-posta:{" "}
+        <a href="mailto:hello@missbella.com.tr">hello@missbella.com.tr</a>
         <br />
-        Destek Hatti: +90 850 222 12 34
+        Destek Hattı: <em>[Telefon]</em>
       </p>
       <p className="text-[12px] text-ink-600">
-        Italik alanlar canlilanmadan once gercek sirket bilgileri ile
-        guncellenmelidir.
+        İtalik alanlar canlıya alınmadan önce gerçek şirket bilgileri ile
+        güncellenmelidir.
       </p>
 
-      <h3>Alici</h3>
+      <h3>Alıcı</h3>
       <p>
-        Siparis formunda belirtilen ad, soyad, teslimat adresi ve iletisim bilgileri.
+        Sipariş formunda belirtilen ad, soyad, teslimat adresi ve iletişim
+        bilgileri.
       </p>
 
-      <h2>Madde 2 - Konu</h2>
+      <h2>Madde 2 &mdash; Konu</h2>
       <p>
-        Bu sozlesmenin konusu, alicinin Miss Bella internet sitesi uzerinden siparis
-        ettigi urun veya urunlerin satisi ve teslimi ile taraflarin hak ve
-        yukumluluklerinin belirlenmesidir.
+        Bu sözleşmenin konusu; alıcının Miss Bella internet sitesi üzerinden
+        sipariş ettiği ürün veya ürünlerin satışı ve teslimi ile tarafların
+        6502 sayılı Tüketicinin Korunması Hakkında Kanun ve Mesafeli Sözleşmeler
+        Yönetmeliği hükümleri çerçevesindeki hak ve yükümlülüklerinin
+        belirlenmesidir.
       </p>
 
-      <h2>Madde 3 - Urun ve Odeme Bilgileri</h2>
+      <h2>Madde 3 &mdash; Ürün ve Ödeme Bilgileri</h2>
       <p>
-        Siparis verilen urunlerin turu, adedi, rengi, bedeni, satis bedeli ve odeme
-        sekli; siparis ozeti ekraninda alici tarafindan onaylanan bilgilerden
-        olusur.
+        Sipariş verilen ürünlerin türü, adedi, rengi, bedeni, satış bedeli ve
+        ödeme şekli; sipariş özeti ekranında alıcı tarafından onaylanan
+        bilgilerden oluşur. Tüm fiyatlar Türk Lirası (TL) cinsinden ve KDV
+        dahil olarak gösterilir.
       </p>
 
-      <h2>Madde 4 - Teslimat</h2>
+      <h2>Madde 4 &mdash; Teslimat</h2>
       <ul>
-        <li>Urun, alicinin siparis formunda belirttigi adrese teslim edilir.</li>
-        <li>Standart teslimat suresi 1&ndash;3 is gunudur.</li>
+        <li>Ürün, alıcının sipariş formunda belirttiği adrese teslim edilir.</li>
+        <li>Standart teslimat süresi 1&ndash;3 iş günüdür.</li>
         <li>
-          300 TL ve uzeri siparislerde kargo ucretsizdir; alti siparislerde
-          standart kargo bedeli 39 TL, ekspres teslimat 59 TL olarak siparis
-          ozetinde belirtilir.
+          300 TL ve üzeri siparişlerde kargo ücretsizdir; bu tutarın altındaki
+          siparişlerde kargo ücreti sipariş özetinde belirtilir.
         </li>
         <li>
-          Tum fiyatlar KDV dahildir (KDV orani siparis ozetinde gosterilir).
+          Mücbir sebepler veya kargo firmasından kaynaklanan gecikmelerde
+          teslimat süresi uzayabilir; bu durumda alıcı bilgilendirilir.
         </li>
       </ul>
 
-      <h2>Madde 5 - Cayma Hakki</h2>
+      <h2>Madde 5 &mdash; Cayma Hakkı</h2>
       <p>
-        Alici, urunu teslim aldigi tarihten itibaren 14 gun icinde, yasal istisnalar
-        sakli kalmak kaydiyla cayma hakkini kullanabilir.
+        Alıcı, ürünü teslim aldığı tarihten itibaren <strong>14 gün</strong>{" "}
+        içinde, herhangi bir gerekçe göstermeksizin ve cezai şart ödemeksizin
+        cayma hakkını kullanabilir.
       </p>
       <p>
-        Hijyen etiketi kaldirilmis ic giyim urunleri, mevzuat kapsamindaki hijyen
-        istisnasi nedeniyle cayma hakki disinda kalabilir.
-      </p>
-
-      <h2>Madde 6 - Uyusmazliklar</h2>
-      <p>
-        Uyusmazlik halinde, ilgili mevzuatta belirtilen parasal sinirlar dahilinde
-        Tuketici Hakem Heyetleri ve Tuketici Mahkemeleri yetkilidir.
+        Mesafeli Sözleşmeler Yönetmeliği&rsquo;nin 15. maddesi uyarınca; hijyen
+        etiketi kaldırılmış veya ambalajı açılmış iç giyim ürünleri sağlık ve
+        hijyen açısından cayma hakkı kapsamı dışındadır.
       </p>
 
-      <h2>Madde 7 - Iade ve Degisim</h2>
+      <h2>Madde 6 &mdash; Cayma Hakkının Kullanılması</h2>
       <p>
-        Alici, ambalaji acilmamis ve hijyen etiketi yerinde olan urunleri 14 gun
-        icinde iade edebilir. Iade talepleri{" "}
-        <a href="mailto:hello@missbella.com">hello@missbella.com</a> adresine
-        siparis numarasi ile birlikte iletilmelidir. Detaylar icin{" "}
-        <a href="/iade-politikasi">iade politikasi</a> sayfasini inceleyin.
+        Cayma hakkını kullanmak isteyen alıcı, 14 günlük süre içinde{" "}
+        <a href="mailto:iade@missbella.com.tr">iade@missbella.com.tr</a>{" "}
+        adresine sipariş numarası ile yazılı bildirimde bulunmalıdır. Cayma
+        bildirimi sonrasında ürün, anlaşmalı kargo aracılığıyla satıcıya
+        gönderilir. Geri ödeme, ürünün satıcıya ulaşmasının ardından en geç{" "}
+        <strong>10 iş günü</strong> içinde aynı ödeme yöntemine yapılır.
       </p>
 
-      <h2>Madde 8 - Yururluk</h2>
+      <h2>Madde 7 &mdash; İade ve Değişim</h2>
       <p>
-        Bu sozlesme, alicinin siparis tamamlama adiminda elektronik ortamda kabul
-        etmesi ile yururluge girer ve siparise konu yukumlulukler tamamlanana
-        kadar gecerlidir.
+        Alıcı; ambalajı açılmamış ve hijyen etiketi yerinde olan ürünleri 14
+        gün içinde iade edebilir. İade talepleri sipariş numarası ile birlikte{" "}
+        <a href="mailto:iade@missbella.com.tr">iade@missbella.com.tr</a>{" "}
+        adresine iletilmelidir. Detaylı bilgi için{" "}
+        <a href="/iade-politikasi">İade Politikası</a> sayfasını
+        inceleyebilirsiniz.
+      </p>
+
+      <h2>Madde 8 &mdash; Uyuşmazlıkların Çözümü</h2>
+      <p>
+        İşbu sözleşmenin uygulanmasından doğacak uyuşmazlıklarda, Gümrük ve
+        Ticaret Bakanlığı tarafından her yıl belirlenen parasal sınırlar
+        dahilinde Tüketici Hakem Heyetleri ve bu sınırların üzerindeki
+        uyuşmazlıklarda Tüketici Mahkemeleri yetkilidir.
+      </p>
+
+      <h2>Madde 9 &mdash; Yürürlük</h2>
+      <p>
+        Bu sözleşme; alıcının sipariş tamamlama adımında elektronik ortamda
+        kabul etmesi ile yürürlüğe girer ve siparişe konu yükümlülükler
+        tamamlanana kadar geçerliliğini korur.
       </p>
 
       <p className="mt-10 text-[12px] text-ink-600">
-        Bu sozlesme metni, sirket bilgileri ve hukuki denetim ile birlikte
-        canliya alinmadan once nihai hale getirilmelidir.
+        Bu sözleşme metni; şirket bilgilerinin doldurulması ve hukuki denetim
+        ile birlikte canlıya alınmadan önce nihai hale getirilmelidir.
       </p>
     </LegalLayout>
   );

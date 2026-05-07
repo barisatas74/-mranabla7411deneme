@@ -4,7 +4,7 @@ import CartView from "@/components/cart/CartView";
 export const metadata: Metadata = {
   title: "Sepetim",
   description:
-    "Miss Bella sepetinizdeki urunleri guncelleyin, kupon uygulayin ve siparis ozetinizi inceleyin.",
+    "Miss Bella sepetinizdeki ürünleri güncelleyin, kupon uygulayın ve sipariş özetinizi inceleyin.",
   robots: {
     index: false,
     follow: false,

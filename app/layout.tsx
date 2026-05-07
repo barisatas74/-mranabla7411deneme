@@ -25,24 +25,24 @@ const SITE_URL =
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "Miss Bella | Premium Ic Giyim Koleksiyonu",
+    default: "Miss Bella | Premium İç Giyim Koleksiyonu",
     template: "%s | Miss Bella",
   },
   description:
-    "Miss Bella; premium ic giyim, gecelik ve butik koleksiyonlarini modern e-ticaret deneyimiyle sunar.",
+    "Miss Bella; premium iç giyim, gecelik ve butik koleksiyonlarını modern e-ticaret deneyimiyle sunar.",
   applicationName: "Miss Bella",
   keywords: [
     "miss bella",
-    "ic giyim",
-    "sutyen",
+    "iç giyim",
+    "sütyen",
     "gecelik",
     "butik koleksiyon",
-    "kadin ic giyim",
+    "kadın iç giyim",
   ],
   openGraph: {
-    title: "Miss Bella | Premium Ic Giyim Koleksiyonu",
+    title: "Miss Bella | Premium İç Giyim Koleksiyonu",
     description:
-      "Premium ic giyim, gecelik ve takim koleksiyonlarini Miss Bella vitriniyle kesfedin.",
+      "Premium iç giyim, gecelik ve takım koleksiyonlarını Miss Bella vitriniyle keşfedin.",
     url: SITE_URL,
     siteName: "Miss Bella",
     locale: "tr_TR",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Miss Bella",
     description:
-      "Premium ic giyim, gecelik ve takim koleksiyonlarini Miss Bella vitriniyle kesfedin.",
+      "Premium iç giyim, gecelik ve takım koleksiyonlarını Miss Bella vitriniyle keşfedin.",
   },
   alternates: {
     canonical: "/",

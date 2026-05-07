@@ -4,7 +4,7 @@ import { useCallback, useEffect } from "react";
 
 export function useUnsavedChangesWarning(
   enabled: boolean,
-  message = "Kaydedilmemis degisiklikleriniz var. Sayfadan ayrilmak istiyor musunuz?"
+  message = "Kaydedilmemiş değişiklikleriniz var. Sayfadan ayrılmak istiyor musunuz?"
 ) {
   useEffect(() => {
     if (!enabled) {

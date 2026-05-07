@@ -6,9 +6,9 @@ import { LogOut, Menu } from "lucide-react";
 
 const titleMap: Record<string, string> = {
   "/admin": "Dashboard",
-  "/admin/products": "Urun Yonetimi",
+  "/admin/products": "Ürün Yonetimi",
   "/admin/categories": "Kategori Yonetimi",
-  "/admin/orders": "Siparis Yonetimi",
+  "/admin/orders": "Sipariş Yonetimi",
   "/admin/settings": "Genel Ayarlar",
 };
 
@@ -33,15 +33,15 @@ export default function AdminTopbar({
 
   const title = useMemo(() => {
     if (pathname.includes("/products/new")) {
-      return "Yeni Urun";
+      return "Yeni Ürün";
     }
 
     if (pathname.includes("/products/") && pathname.includes("/edit")) {
-      return "Urun Duzenle";
+      return "Ürün Düzenle";
     }
 
     if (pathname.includes("/orders/") && pathname !== "/admin/orders") {
-      return "Siparis Detayi";
+      return "Sipariş Detayi";
     }
 
     return titleMap[pathname] ?? "Admin";

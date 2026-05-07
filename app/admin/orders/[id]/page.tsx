@@ -19,7 +19,7 @@ export default async function AdminOrderDetailPage({
     return (
       <AdminPageError
         title="Siparis bulunamadi"
-        description="Incelemek istediginiz siparis mock veri listesinde yer almiyor."
+        description="İncelemek istediğiniz sipariş listede yer almıyor."
         href="/admin/orders"
       />
     );

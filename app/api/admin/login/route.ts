@@ -45,7 +45,7 @@ function getClientKey(request: Request) {
 export async function POST(request: Request) {
   if (!isAdminConfigured()) {
     return NextResponse.json(
-      { error: "Admin yapilandirilmamis. Sunucu ayarlarini kontrol edin." },
+      { error: "Admin yapılandırılmamış. Sunucu ayarlarını kontrol edin." },
       { status: 500 }
     );
   }
@@ -102,7 +102,7 @@ export async function POST(request: Request) {
   if (!usernameOk || !passwordOk) {
     bucket.count += 1;
     return NextResponse.json(
-      { error: "Kullanici adi veya parola hatali." },
+      { error: "Kullanıcı adı veya parola hatalı." },
       { status: 401 }
     );
   }

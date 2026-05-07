@@ -20,7 +20,7 @@ export const adminCategories: AdminCategory[] = categories.map(
     ...category,
     status: index === 5 ? "passive" : "active",
     description:
-      "Koleksiyonda vitrinlenen ana kategori. Ileride harici bir veri kaynagindan yonetilecek sekilde hazirlandi.",
+      "Koleksiyonda vitrinlenen ana kategori. İleride harici bir veri kaynağından yönetilecek şekilde hazırlandı.",
   })
 );
 
@@ -51,7 +51,7 @@ export const adminOrders: AdminOrder[] = [
       {
         id: "oi-1",
         productId: "p1",
-        productName: "Rosa Dantel Sutyen Takimi",
+        productName: "Rosa Dantel Sütyen Takımı",
         productSlug: "rosa-dantel-sutyen-takimi",
         image: adminProducts[0].images[0],
         unitPrice: 1290,
@@ -62,7 +62,7 @@ export const adminOrders: AdminOrder[] = [
       {
         id: "oi-2",
         productId: "p4",
-        productName: "Klasik Brazilian Kulot",
+        productName: "Klasik Brazilian Külot",
         productSlug: "klasik-brazilian-kulot",
         image: adminProducts[3].images[0],
         unitPrice: 290,
@@ -75,7 +75,7 @@ export const adminOrders: AdminOrder[] = [
     shippingFee: 0,
     discount: 180,
     total: buildOrderTotal(1870, 0, 180),
-    note: "Aksam teslimati tercih ediyor.",
+    note: "Akşam teslimatı tercih ediyor.",
   },
   {
     id: "o2",
@@ -97,7 +97,7 @@ export const adminOrders: AdminOrder[] = [
       {
         id: "oi-3",
         productId: "p3",
-        productName: "Ipek Saten Gecelik",
+        productName: "İpek Saten Gecelik",
         productSlug: "ipek-saten-gecelik",
         image: adminProducts[2].images[0],
         unitPrice: 2490,
@@ -131,7 +131,7 @@ export const adminOrders: AdminOrder[] = [
       {
         id: "oi-4",
         productId: "p6",
-        productName: "Sortlu Pijama Takimi",
+        productName: "Şortlu Pijama Takımı",
         productSlug: "sortlu-pijama-takimi",
         image: adminProducts[5].images[0],
         unitPrice: 1490,
@@ -165,7 +165,7 @@ export const adminOrders: AdminOrder[] = [
       {
         id: "oi-5",
         productId: "p5",
-        productName: "Luks Push-Up Sutyen",
+        productName: "Lüks Push-Up Sütyen",
         productSlug: "luks-push-up-sutyen",
         image: adminProducts[4].images[0],
         unitPrice: 1190,
@@ -176,7 +176,7 @@ export const adminOrders: AdminOrder[] = [
       {
         id: "oi-6",
         productId: "p4",
-        productName: "Klasik Brazilian Kulot",
+        productName: "Klasik Brazilian Külot",
         productSlug: "klasik-brazilian-kulot",
         image: adminProducts[3].images[0],
         unitPrice: 290,
@@ -210,7 +210,7 @@ export const adminOrders: AdminOrder[] = [
       {
         id: "oi-7",
         productId: "p8",
-        productName: "Dantel Detayli Body",
+        productName: "Dantel Detaylı Body",
         productSlug: "dantel-detayli-body",
         image: adminProducts[7].images[0],
         unitPrice: 1890,
@@ -223,7 +223,7 @@ export const adminOrders: AdminOrder[] = [
     shippingFee: 0,
     discount: 0,
     total: 1890,
-    note: "Musteri beden degisikligi yerine iptal talep etti.",
+    note: "Müşteri beden değişikliği yerine iptal talep etti.",
   },
 ];
 
@@ -236,7 +236,7 @@ export const adminSettings: AdminSettings = {
   freeShippingLimit: 300,
   taxRate: 20,
   instagramUrl: "https://instagram.com/missbella",
-  cargoLeadTime: "1-3 is gunu",
+  cargoLeadTime: "1-3 iş günü",
   maintenanceMode: false,
 };
 

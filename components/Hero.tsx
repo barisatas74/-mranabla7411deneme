@@ -30,7 +30,7 @@ export default function Hero() {
           <h1 className="font-display text-[56px] leading-[0.95] tracking-tight text-ink-900 md:text-[92px]">
             Zarafetin
             <br />
-            <span className="font-italic-display text-gradient-fuchsia">en ozel</span>
+            <span className="font-italic-display text-gradient-fuchsia">en özel</span>
             <br />
             hali.
           </h1>
@@ -38,15 +38,15 @@ export default function Hero() {
           <div className="mt-7 flex max-w-md items-start gap-5">
             <span className="mt-2 h-px w-10 flex-shrink-0 bg-ink-900/30" />
             <p className="text-[15px] font-light leading-[1.75] text-ink-700 md:text-[16px]">
-              Fransiz danteli, yumusak satenler ve guclu siluetlerle hazirlanan
-              secili parcalar. Her tasarim, gunluk konforu premium bir hisle
-              birlestirir.
+              Fransız danteli, yumuşak satenler ve güçlü siluetlerle hazırlanan
+              seçili parçalar. Her tasarım, günlük konforu premium bir hisle
+              birleştirir.
             </p>
           </div>
 
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link href="/products" className="btn-luxe btn-luxe-rose shadow-luxe">
-              Koleksiyonu Kesfet <ArrowRight strokeWidth={1.5} size={15} />
+              Koleksiyonu Keşfet <ArrowRight strokeWidth={1.5} size={15} />
             </Link>
             <Link href="/products?filter=new" className="btn-luxe btn-luxe-outline">
               Yeni Gelenler
@@ -55,9 +55,9 @@ export default function Hero() {
 
           <div className="mt-9 grid max-w-md grid-cols-3 gap-4">
             {[
-              ["Fransiz", "Danteli"],
-              ["El", "Isciligi"],
-              ["Turkiye", "Uretimi"],
+              ["Fransız", "Danteli"],
+              ["El", "İşçiliği"],
+              ["Türkiye", "Üretimi"],
             ].map(([title, subtitle]) => (
               <div key={title} className="border-l border-rose-600/30 pl-3">
                 <p className="font-display text-lg leading-tight text-ink-900">
@@ -73,29 +73,24 @@ export default function Hero() {
           <div className="mt-6 grid max-w-lg gap-3 sm:grid-cols-2">
             <div className="glass-card hover-lift px-4 py-3.5">
               <p className="text-[10px] uppercase tracking-editorial text-rose-600">
-                Editor Secimi
+                Konfor & Zarafet
               </p>
               <p className="mt-1.5 font-display text-lg leading-tight text-ink-900">
-                Rosa Dantel Takimi
+                Premium kumaşlar
               </p>
               <p className="mt-1.5 text-xs leading-5 text-ink-700">
-                Pudra ve siyah renk secenekleriyle yeni sezonun imza parcasi.
+                Tene yumuşak temas eden pamuk, modal ve saten karışımı kumaşlar.
               </p>
             </div>
             <div className="glass-card hover-lift px-4 py-3.5">
               <p className="text-[10px] uppercase tracking-editorial text-rose-600">
-                Koleksiyon Notu
+                Geniş Beden Yelpazesi
               </p>
-              <div className="mt-2 flex items-center gap-2">
-                <span className="h-4 w-4 rounded-full bg-[#ff8cc3] ring-1 ring-ink-900/10" />
-                <span className="h-4 w-4 rounded-full bg-[#0c0c0d] ring-1 ring-ink-900/10" />
-                <span className="h-px flex-1 bg-ink-900/15" />
-                <span className="text-[11px] font-medium text-ink-900">
-                  XS - L
-                </span>
-              </div>
-              <p className="mt-2 text-xs leading-5 text-ink-700">
-                Gunluk konforu dantel detaylariyla birlestiren yumusak form.
+              <p className="mt-1.5 font-display text-lg leading-tight text-ink-900">
+                XS&rsquo;ten XXL&rsquo;ye
+              </p>
+              <p className="mt-1.5 text-xs leading-5 text-ink-700">
+                Her vücut tipine uygun, doğru kalıp ve esnek kesim seçenekleri.
               </p>
             </div>
           </div>
@@ -114,7 +109,7 @@ export default function Hero() {
           <div className="absolute right-0 top-0 h-[88%] w-[72%] overflow-hidden bg-powder-100 shadow-luxe img-reveal">
             <Image
               src="https://images.unsplash.com/photo-1762195020450-4447ebcf8de5?w=1400&q=90&auto=format&fit=crop"
-              alt="Rosa Dantel Sutyen Takimi"
+              alt="Rosa Dantel Sütyen Takımı"
               fill
               priority
               sizes="(max-width: 768px) 75vw, 45vw"
@@ -127,7 +122,7 @@ export default function Hero() {
           <div className="absolute bottom-4 left-0 hidden h-[48%] w-[42%] overflow-hidden border-[6px] border-bone-50 bg-bone-100 shadow-card img-reveal md:block">
             <Image
               src="https://images.unsplash.com/photo-1762195025289-f6b87a0fef14?w=800&q=90&auto=format&fit=crop"
-              alt="Rosa Dantel Takimi detay gorseli"
+              alt="Rosa Dantel Takımı detay görseli"
               fill
               sizes="(max-width: 768px) 0vw, 25vw"
               className="object-cover"
@@ -143,25 +138,22 @@ export default function Hero() {
 
           <div className="glass-card hover-lift fade-up absolute -bottom-2 right-4 max-w-[220px] px-5 py-4 md:right-0">
             <p className="text-[10px] uppercase tracking-editorial text-rose-600">
-              Editor&apos;s Pick
+              Yeni Sezon
             </p>
             <p className="mt-1 font-display text-base leading-tight text-ink-900">
-              Rosa Dantel Takimi
+              Premium koleksiyon
             </p>
-            <div className="mt-1 flex items-baseline gap-2">
-              <span className="text-sm font-medium text-ink-900">1.290 TL</span>
-              <span className="text-[11px] text-ink-500 line-through">
-                1.590 TL
-              </span>
-            </div>
+            <p className="mt-1.5 text-xs leading-5 text-ink-700">
+              Özenle seçilmiş yeni sezon parçaları keşfedin.
+            </p>
           </div>
 
           <div className="glass-card float-slow absolute bottom-16 left-8 hidden max-w-[220px] px-5 py-4 md:block">
             <p className="text-[10px] uppercase tracking-editorial text-rose-600">
-              Dantel Detayi
+              Dantel Detayı
             </p>
             <p className="mt-2 text-sm leading-6 text-ink-800">
-              Hafif destek, yumusak astar ve zarif cizgiler.
+              Hafif destek, yumuşak astar ve zarif çizgiler.
             </p>
           </div>
         </div>
@@ -169,11 +161,11 @@ export default function Hero() {
 
       <div className="relative border-t border-ink-900/8 bg-bone-50/60 backdrop-blur">
         <Container className="flex flex-wrap items-center justify-center gap-x-10 gap-y-2 py-5 text-[10px] uppercase tracking-editorial text-ink-700 md:justify-between">
-          <span>Ucretsiz kargo 300 TL+</span>
-          <span className="hidden md:inline">14 gun iade</span>
-          <span>Guvenli odeme</span>
-          <span className="hidden md:inline">Istanbul ayni gun</span>
-          <span>Ozel paketleme</span>
+          <span>Ücretsiz kargo 300 TL+</span>
+          <span className="hidden md:inline">14 gün iade</span>
+          <span>Güvenli ödeme</span>
+          <span className="hidden md:inline">İstanbul aynı gün</span>
+          <span>Özel paketleme</span>
         </Container>
       </div>
     </section>

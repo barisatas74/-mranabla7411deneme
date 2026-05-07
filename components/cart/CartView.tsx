@@ -46,8 +46,8 @@ export default function CartView() {
     const isValid = applyCoupon(promoCodeInput);
     setCouponFeedback(
       isValid
-        ? `${DEFAULT_COUPON_CODE} uygulandi, %30 indirim hesaba katildi.`
-        : "Kupon kodu gecersiz veya tanimsiz."
+        ? `${DEFAULT_COUPON_CODE} uygulandı, %30 indirim hesaba katıldı.`
+        : "Kupon kodu geçersiz veya tanımsız."
     );
   }
 
@@ -84,29 +84,29 @@ export default function CartView() {
               Sepetiniz <span className="font-italic-display text-gradient-fuchsia">bos</span>
             </h1>
             <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-ink-700 md:text-base">
-              Koleksiyondan urun eklediginizde secimleriniz burada listelenecek.
+              Koleksiyondan ürün eklediğinizde seçimleriniz burada listelenecek.
             </p>
             <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
               <Link href="/products" className="btn-luxe btn-luxe-dark shadow-soft">
-                Alisverise Basla <ArrowRight strokeWidth={1.5} size={14} />
+                Alışverişe Başla <ArrowRight strokeWidth={1.5} size={14} />
               </Link>
               <Link href="/products?filter=new" className="btn-luxe btn-luxe-outline">
-                Yeni Sezonu Kesfet
+                Yeni Sezonu Keşfet
               </Link>
             </div>
 
             <div className="mt-16 grid grid-cols-1 gap-4 border-t border-ink-900/10 pt-10 sm:grid-cols-3">
               <MiniTrust
                 icon={<Truck size={16} strokeWidth={1.4} />}
-                text="Ucretsiz Kargo"
+                text="Ücretsiz Kargo"
               />
               <MiniTrust
                 icon={<RotateCcw size={16} strokeWidth={1.4} />}
-                text="Kolay Iade"
+                text="Kolay İade"
               />
               <MiniTrust
                 icon={<ShieldCheck size={16} strokeWidth={1.4} />}
-                text="Guvenli Odeme"
+                text="Güvenli Ödeme"
               />
             </div>
           </div>
@@ -126,7 +126,7 @@ export default function CartView() {
             Sepetiniz
           </h1>
           <p className="mt-3 text-sm text-ink-700">
-            {itemCount} urun, siparis ozeti ve guncel sepet durumunuz
+            {itemCount} ürün, sipariş özeti ve güncel sepet durumunuz
           </p>
         </Container>
       </section>
@@ -135,7 +135,7 @@ export default function CartView() {
         <div className="space-y-4 lg:col-span-2">
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <p className="text-[10px] uppercase tracking-editorial text-ink-600">
-              Sepette {lines.length} farkli urun var
+              Sepette {lines.length} farklı ürün var
             </p>
             <button
               type="button"
@@ -229,7 +229,7 @@ export default function CartView() {
                   setPromoCodeInput(event.target.value);
                   setCouponFeedback(null);
                 }}
-                placeholder={`Indirim kodu (${DEFAULT_COUPON_CODE})`}
+                placeholder={`İndirim kodu (${DEFAULT_COUPON_CODE})`}
                 className="w-full flex-1 bg-transparent text-sm outline-none placeholder:text-ink-500"
               />
             </div>
@@ -247,7 +247,7 @@ export default function CartView() {
                   onClick={() => {
                     removeCoupon();
                     setPromoCodeInput("");
-                    setCouponFeedback("Kupon kaldirildi.");
+                    setCouponFeedback("Kupon kaldırıldı.");
                   }}
                   className="self-start text-[10px] font-medium uppercase tracking-editorial text-ink-700 transition hover:text-rose-600 sm:self-auto"
                 >
@@ -271,23 +271,23 @@ export default function CartView() {
             href="/products"
             className="inline-flex items-center gap-2 pt-2 text-[10px] uppercase tracking-editorial text-ink-700 transition hover:text-rose-600"
           >
-            Alisverise devam et
+            Alışverişe devam et
           </Link>
         </div>
 
         <aside className="h-fit border border-ink-900/8 bg-white p-6 shadow-card md:p-8 lg:sticky lg:top-28">
-          <p className="luxe-label plain text-rose-600">Siparis Ozeti</p>
+          <p className="luxe-label plain text-rose-600">Sipariş Özeti</p>
 
           <div className="mt-6 space-y-3.5 text-sm">
             <SummaryRow label="Ara Toplam" value={formatPrice(summary.subtotal)} />
             <SummaryRow
               label="Kargo"
-              value={summary.shipping === 0 ? "Ucretsiz" : formatPrice(summary.shipping)}
+              value={summary.shipping === 0 ? "Ücretsiz" : formatPrice(summary.shipping)}
             />
 
             {summary.discount > 0 && (
               <SummaryRow
-                label={`Indirim (${couponCode})`}
+                label={`İndirim (${couponCode})`}
                 value={`-${formatPrice(summary.discount)}`}
                 accent
               />
@@ -296,7 +296,7 @@ export default function CartView() {
             {summary.shipping > 0 && (
               <div className="mt-3 border-l-2 border-rose-600 bg-powder-50 p-4">
                 <p className="text-[11px] font-medium tracking-wider text-ink-900">
-                  Ucretsiz kargo icin
+                  Ücretsiz kargo için
                 </p>
                 <p className="mt-1 text-xs text-ink-700">
                   {formatPrice(summary.remainingForFreeShipping)} daha ekleyin.
@@ -330,21 +330,21 @@ export default function CartView() {
             href="/checkout"
             className="btn-luxe btn-luxe-dark mt-6 w-full shadow-soft"
           >
-            Odemeye Gec <ArrowRight strokeWidth={1.5} size={14} />
+            Ödemeye Geç <ArrowRight strokeWidth={1.5} size={14} />
           </Link>
 
           <div className="mt-7 space-y-3 border-t border-ink-900/8 pt-6 text-[12px] text-ink-700">
             <p className="flex items-center gap-2.5">
               <ShieldCheck size={14} strokeWidth={1.4} className="text-rose-600" />
-              256-bit SSL ile guvenli odeme
+              256-bit SSL ile güvenli ödeme
             </p>
             <p className="flex items-center gap-2.5">
               <Truck size={14} strokeWidth={1.4} className="text-rose-600" />
-              1-3 is gunu icinde teslimat
+              1-3 iş günü içinde teslimat
             </p>
             <p className="flex items-center gap-2.5">
               <RotateCcw size={14} strokeWidth={1.4} className="text-rose-600" />
-              14 gun iade ve degisim destegi
+              14 gün iade ve değişim desteği
             </p>
           </div>
         </aside>

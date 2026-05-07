@@ -73,7 +73,7 @@ export default function AdminSettingsForm({
 
     toast({
       title: "Ayarlar kaydedildi",
-      description: "Genel magaza ayarlari settings service uzerinden guncellendi.",
+      description: "Genel mağaza ayarları güncellendi.",
       variant: "success",
     });
   }
@@ -83,20 +83,20 @@ export default function AdminSettingsForm({
       <AdminSectionHeader
         eyebrow="Settings"
         title="Genel ayarlar"
-        description="Ayni shared field sistemi ile iletisim, teslimat ve marka ayarlarinizi yonetin."
+        description="Aynı shared field sistemi ile iletişim, teslimat ve marka ayarlarınızı yonetin."
       />
 
       <form onSubmit={handleSubmit} className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_360px]">
         <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
           <div className="grid gap-4 md:grid-cols-2">
             <AdminInputField
-              label="Magaza adi"
+              label="Mağaza adi"
               value={values.storeName}
               onChange={(value) => update("storeName", value)}
               error={errors.storeName}
             />
             <AdminInputField
-              label="Destek e-postasi"
+              label="Destek e-posta adresi"
               value={values.supportEmail}
               onChange={(value) => update("supportEmail", value)}
               error={errors.supportEmail}
@@ -114,7 +114,7 @@ export default function AdminSettingsForm({
               error={errors.whatsappNumber}
             />
             <AdminInputField
-              label="Ucretsiz kargo limiti"
+              label="Ücretsiz kargo limiti"
               value={values.freeShippingLimit}
               onChange={(value) => update("freeShippingLimit", value)}
               error={errors.freeShippingLimit}
@@ -134,7 +134,7 @@ export default function AdminSettingsForm({
             />
             <AdminInputField
               className="md:col-span-2"
-              label="Kargo teslim suresi"
+              label="Kargo teslim süresi"
               value={values.cargoLeadTime}
               onChange={(value) => update("cargoLeadTime", value)}
               error={errors.cargoLeadTime}
@@ -148,7 +148,7 @@ export default function AdminSettingsForm({
             />
             <AdminCheckboxField
               className="md:col-span-2"
-              label="Bakim modu (mock)"
+              label="Bakım modu"
               checked={values.maintenanceMode}
               onChange={(checked) => update("maintenanceMode", checked)}
             />
@@ -159,13 +159,13 @@ export default function AdminSettingsForm({
           <h2 className="text-lg font-semibold text-slate-950">Kaydet</h2>
           <p className="mt-3 text-sm leading-7 text-slate-600">
             Bu ekran operasyon ayarlarinin form yapisini ve validasyonunu gostermek
-            icin mock olarak hazirlandi.
+            için hazırlandı.
           </p>
           <button
             type="submit"
             className="mt-6 rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
           >
-            Ayarlari Kaydet
+            Ayarları Kaydet
           </button>
         </section>
       </form>

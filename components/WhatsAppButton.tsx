@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { cn } from "@/lib/utils";
 
 const PHONE =
-  process.env.NEXT_PUBLIC_WHATSAPP_PHONE?.replace(/[^0-9]/g, "") ||
-  "905550000000";
+  process.env.NEXT_PUBLIC_WHATSAPP_PHONE?.replace(/[^0-9]/g, "") || "";
+
+export const WHATSAPP_AVAILABLE = PHONE.length > 0;
 
 export function buildWhatsAppUrl(message: string) {
   return `https://wa.me/${PHONE}?text=${encodeURIComponent(message)}`;
@@ -22,14 +23,16 @@ export default function FloatingWhatsApp() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  if (!WHATSAPP_AVAILABLE) return null;
+
   return (
     <a
       href={buildWhatsAppUrl(
-        "Merhaba, Miss Bella koleksiyonu hakkinda bilgi almak istiyorum."
+        "Merhaba, Miss Bella koleksiyonu hakkında bilgi almak istiyorum."
       )}
       target="_blank"
       rel="noopener noreferrer"
-      aria-label="WhatsApp ile iletisime gec"
+      aria-label="WhatsApp ile iletişime geç"
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
       className={cn(
@@ -58,10 +61,11 @@ export function WhatsAppProductButton({
 }: {
   productName: string;
 }) {
+  if (!WHATSAPP_AVAILABLE) return null;
   return (
     <a
       href={buildWhatsAppUrl(
-        `Merhaba, "${productName}" urunu hakkinda bilgi almak istiyorum.`
+        `Merhaba, "${productName}" ürünü hakkında bilgi almak istiyorum.`
       )}
       target="_blank"
       rel="noopener noreferrer"
@@ -74,12 +78,13 @@ export function WhatsAppProductButton({
 }
 
 export function WhatsAppSupportButton({
-  context = "siparisim",
+  context = "siparişim",
   className,
 }: {
   context?: string;
   className?: string;
 }) {
+  if (!WHATSAPP_AVAILABLE) return null;
   return (
     <a
       href={buildWhatsAppUrl(

@@ -106,7 +106,7 @@ export default function AdminProductForm({
     if (!/^https?:\/\//.test(nextUrl)) {
       setErrors((current) => ({
         ...current,
-        images: "Gecerli bir gorsel URL girin.",
+        images: "Geçerli bir görsel URL'i girin.",
       }));
       return;
     }
@@ -154,7 +154,7 @@ export default function AdminProductForm({
     if (!nextName) {
       setErrors((current) => ({
         ...current,
-        colors: "Renk adi zorunludur.",
+        colors: "Renk adı zorunludur.",
       }));
       return;
     }
@@ -162,7 +162,7 @@ export default function AdminProductForm({
     if (values.colors.some((color) => color.name === nextName)) {
       setErrors((current) => ({
         ...current,
-        colors: "Bu renk zaten eklenmis.",
+        colors: "Bu renk zaten eklenmiş.",
       }));
       return;
     }
@@ -213,8 +213,8 @@ export default function AdminProductForm({
     if (!savedProduct) {
       setSubmitState("idle");
       toast({
-        title: "Kayit basarisiz",
-        description: "Urun kaydi service katmaninda tamamlanamadi.",
+        title: "Kayıt başarısız",
+        description: "Ürün kaydı tamamlanamadı.",
         variant: "error",
       });
       return;
@@ -225,11 +225,11 @@ export default function AdminProductForm({
     initialSerializedRef.current = JSON.stringify(nextValues);
     setSubmitState("saved");
     toast({
-      title: mode === "edit" ? "Urun guncellendi" : "Urun olusturuldu",
+      title: mode === "edit" ? "Ürün güncellendi" : "Ürün oluşturuldu",
       description:
         mode === "edit"
-          ? "Degisiklikler mock product service uzerinden kaydedildi."
-          : "Yeni urun mock product service uzerinden olusturuldu.",
+          ? "Değişiklikler kaydedildi."
+          : "Yeni ürün başarıyla oluşturuldu.",
       variant: "success",
     });
   }
@@ -238,15 +238,15 @@ export default function AdminProductForm({
     <div className="space-y-8">
       <AdminSectionHeader
         eyebrow={mode === "edit" ? "Edit" : "Create"}
-        title={mode === "edit" ? "Urun duzenle" : "Yeni urun olustur"}
-        description="Gorsel onizleme, chip tabanli beden ve renk yonetimi ile daha profesyonel bir katalog formu."
+        title={mode === "edit" ? "Ürünü düzenle" : "Yeni ürün oluştur"}
+        description="Görsel önizleme, chip tabanlı beden ve renk yönetimi ile profesyonel katalog formu."
         action={
           <button
             type="button"
             onClick={handleBack}
             className="rounded-full border border-slate-200 px-5 py-3 text-sm font-medium text-slate-900 transition hover:border-slate-950"
           >
-            Listeye Don
+            Listeye Dön
           </button>
         }
       />
@@ -257,7 +257,7 @@ export default function AdminProductForm({
             <h2 className="text-lg font-semibold text-slate-950">Temel bilgiler</h2>
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               <AdminInputField
-                label="Urun adi"
+                label="Ürün adı"
                 value={values.name}
                 onChange={(value) => {
                   update("name", value);
@@ -302,7 +302,7 @@ export default function AdminProductForm({
                 error={errors.price}
               />
               <AdminInputField
-                label="Indirimli fiyat"
+                label="İndirimli fiyat"
                 value={values.oldPrice}
                 onChange={(value) => update("oldPrice", value)}
                 error={errors.oldPrice}
@@ -315,7 +315,7 @@ export default function AdminProductForm({
               />
               <div className="grid grid-cols-2 gap-3">
                 <AdminCheckboxField
-                  label="One cikan urun"
+                  label="Öne çıkan ürün"
                   checked={values.isFeatured}
                   onChange={(checked) => update("isFeatured", checked)}
                 />
@@ -327,7 +327,7 @@ export default function AdminProductForm({
               </div>
               <AdminTextAreaField
                 className="md:col-span-2"
-                label="Aciklama"
+                label="Açıklama"
                 value={values.description}
                 onChange={(value) => update("description", value)}
                 error={errors.description}
@@ -337,11 +337,11 @@ export default function AdminProductForm({
           </section>
 
           <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-950">Gorseller</h2>
+            <h2 className="text-lg font-semibold text-slate-950">Görseller</h2>
             <div className="mt-5 flex flex-col gap-3 sm:flex-row">
               <AdminInputField
                 className="flex-1"
-                label="Gorsel URL"
+                label="Görsel URL"
                 value={imageDraft}
                 onChange={setImageDraft}
                 placeholder="https://..."
@@ -353,7 +353,7 @@ export default function AdminProductForm({
                 className="mt-7 inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-slate-950 px-5 text-sm font-medium text-white transition hover:bg-slate-800"
               >
                 <Plus size={16} />
-                Gorsel Ekle
+                Görsel Ekle
               </button>
             </div>
 
@@ -367,7 +367,7 @@ export default function AdminProductForm({
                     <div className="relative aspect-[4/5]">
                       <Image
                         src={image}
-                        alt={`Urun gorseli ${index + 1}`}
+                        alt={`Ürün görseli ${index + 1}`}
                         fill
                         sizes="(max-width: 768px) 100vw, 240px"
                         className="object-cover"
@@ -379,7 +379,7 @@ export default function AdminProductForm({
                         type="button"
                         onClick={() => removeImage(index)}
                         className="rounded-full p-2 text-slate-400 transition hover:bg-white hover:text-rose-600"
-                        aria-label="Gorseli sil"
+                        aria-label="Görseli sil"
                       >
                         <Trash2 size={15} />
                       </button>
@@ -388,7 +388,7 @@ export default function AdminProductForm({
                 ))}
               </div>
             ) : (
-              <EmptyHint text="Henuz gorsel eklenmedi." />
+              <EmptyHint text="Henüz görsel eklenmedi." />
             )}
           </section>
 
@@ -398,7 +398,7 @@ export default function AdminProductForm({
                 <h2 className="text-lg font-semibold text-slate-950">Renkler</h2>
                 <div className="mt-4 grid gap-3 sm:grid-cols-[minmax(0,1fr)_110px_auto]">
                   <AdminInputField
-                    label="Renk adi"
+                    label="Renk adı"
                     value={colorNameDraft}
                     onChange={setColorNameDraft}
                     error={errors.colors}
@@ -447,7 +447,7 @@ export default function AdminProductForm({
                     ))}
                   </div>
                 ) : (
-                  <EmptyHint text="Henuz renk eklenmedi." />
+                  <EmptyHint text="Henüz renk eklenmedi." />
                 )}
               </div>
 
@@ -492,7 +492,7 @@ export default function AdminProductForm({
                     ))}
                   </div>
                 ) : (
-                  <EmptyHint text="Henuz beden eklenmedi." />
+                  <EmptyHint text="Henüz beden eklenmedi." />
                 )}
               </div>
             </div>
@@ -501,20 +501,20 @@ export default function AdminProductForm({
 
         <div className="space-y-6">
           <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-950">Canli onizleme</h2>
+            <h2 className="text-lg font-semibold text-slate-950">Canlı önizleme</h2>
             <div className="mt-5 overflow-hidden rounded-[28px] border border-slate-200 bg-slate-950 text-white">
               <div className="relative aspect-[4/5] bg-slate-900">
                 {heroImage ? (
                   <Image
                     src={heroImage}
-                    alt={values.name || "Urun onizleme"}
+                    alt={values.name || "Ürün önizleme"}
                     fill
                     sizes="(max-width: 1280px) 100vw, 360px"
                     className="object-cover"
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-sm text-slate-400">
-                    Gorsel eklendiginde onizleme burada gorunur
+                    Görsel eklendiğinde önizleme burada görünür
                   </div>
                 )}
               </div>
@@ -524,14 +524,14 @@ export default function AdminProductForm({
                     {values.category}
                   </p>
                   <p className="mt-3 text-2xl font-semibold">
-                    {values.name || "Urun adi burada gorunecek"}
+                    {values.name || "Ürün adı burada görünecek"}
                   </p>
                 </div>
                 <p className="text-sm leading-7 text-slate-300">
-                  {values.description || "Aciklama onizlemesi"}
+                  {values.description || "Açıklama önizlemesi"}
                 </p>
                 <div className="grid grid-cols-3 gap-3 text-center">
-                  <PreviewMetric label="Gorsel" value={metrics.imageCount} />
+                  <PreviewMetric label="Görsel" value={metrics.imageCount} />
                   <PreviewMetric label="Renk" value={metrics.colorCount} />
                   <PreviewMetric label="Beden" value={metrics.sizeCount} />
                 </div>
@@ -539,7 +539,7 @@ export default function AdminProductForm({
             </div>
             {submitState === "saved" && (
               <p className="mt-4 rounded-2xl bg-emerald-50 px-4 py-3 text-sm text-emerald-700">
-                Kayit islemi mock ortamda basariyla tamamlandi.
+                Kayıt başarıyla tamamlandı.
               </p>
             )}
           </section>
@@ -554,19 +554,19 @@ export default function AdminProductForm({
                 {submitState === "saving"
                   ? "Kaydediliyor..."
                   : mode === "edit"
-                    ? "Degisiklikleri Kaydet"
-                    : "Urunu Olustur"}
+                    ? "Değişiklikleri Kaydet"
+                    : "Ürünü Oluştur"}
               </button>
               <button
                 type="button"
                 onClick={handleCancel}
                 className="rounded-full border border-slate-200 px-5 py-3 text-sm font-medium text-slate-900 transition hover:border-slate-950"
               >
-                Vazgec
+                Vazgeç
               </button>
             </div>
             <p className="mt-4 text-xs leading-6 text-slate-500">
-              Kaydedilmemis degisiklikler varken cikmaya calisirsaniz sistem sizden onay ister.
+              Kaydedilmemiş değişiklikler varken çıkmaya çalışırsanız sistem sizden onay ister.
             </p>
           </section>
         </div>

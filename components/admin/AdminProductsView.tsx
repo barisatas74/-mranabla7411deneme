@@ -56,10 +56,10 @@ export default function AdminProductsView({
 
   async function handleDelete(productId: string, productName: string) {
     const approved = await confirm({
-      title: "Urun silinsin mi?",
-      description: `${productName} mock urun listesinden kaldirilacak. Bu islem kalici veri tabanina yazmaz ama admin akisini simule eder.`,
+      title: "Ürün silinsin mi?",
+      description: `${productName} ürün listesinden kaldırılacak. Bu işlem geri alınamaz.`,
       confirmLabel: "Sil",
-      cancelLabel: "Vazgec",
+      cancelLabel: "Vazgeç",
       tone: "danger",
     });
 
@@ -71,8 +71,8 @@ export default function AdminProductsView({
 
     if (!removed) {
       toast({
-        title: "Urun silinemedi",
-        description: "Mock product service bu kaydi bulamadi.",
+        title: "Ürün silinemedi",
+        description: "İlgili ürün bulunamadı.",
         variant: "error",
       });
       return;
@@ -80,8 +80,8 @@ export default function AdminProductsView({
 
     setProducts((current) => current.filter((product) => product.id !== productId));
     toast({
-      title: "Urun silindi",
-      description: `${productName} product service uzerinden kaldirildi.`,
+      title: "Ürün silindi",
+      description: `${productName} kaldırıldı.`,
       variant: "success",
     });
   }
@@ -97,7 +97,7 @@ export default function AdminProductsView({
     <div className="space-y-8">
       <AdminSectionHeader
         eyebrow="Catalog"
-        title="Urun yonetimi"
+        title="Ürün yönetimi"
         description="Arama, kategori, aktif/pasif ve stok filtreleriyle katalogu profesyonel bir operasyon paneli gibi yonetin."
         action={
           <Link
@@ -105,7 +105,7 @@ export default function AdminProductsView({
             className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
           >
             <Plus size={16} />
-            Yeni Urun
+            Yeni Ürün
           </Link>
         }
       />
@@ -116,7 +116,7 @@ export default function AdminProductsView({
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Urun, SKU veya slug ara"
+            placeholder="Ürün, SKU veya slug ara"
             className="w-full bg-transparent text-sm outline-none placeholder:text-slate-400"
           />
         </label>
@@ -125,7 +125,7 @@ export default function AdminProductsView({
           onChange={(event) => setCategoryFilter(event.target.value)}
           className="rounded-[24px] border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm"
         >
-          <option value="all">Tum kategoriler</option>
+          <option value="all">Tüm kategoriler</option>
           {categories.map((category) => (
             <option key={category} value={category}>
               {category}
@@ -139,7 +139,7 @@ export default function AdminProductsView({
           }
           className="rounded-[24px] border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm"
         >
-          <option value="all">Tum durumlar</option>
+          <option value="all">Tüm durumlar</option>
           <option value="active">Aktif</option>
           <option value="passive">Pasif</option>
         </select>
@@ -148,15 +148,15 @@ export default function AdminProductsView({
           onChange={(event) => setStockFilter(event.target.value as StockFilter)}
           className="rounded-[24px] border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm"
         >
-          <option value="all">Tum stoklar</option>
+          <option value="all">Tüm stoklar</option>
           <option value="in">Stokta</option>
-          <option value="low">Dusuk stok</option>
-          <option value="out">Tukendi</option>
+          <option value="low">Düşük stok</option>
+          <option value="out">Tükendi</option>
         </select>
       </div>
 
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-slate-500">{filteredProducts.length} urun gosteriliyor</p>
+        <p className="text-sm text-slate-500">{filteredProducts.length} ürün gosteriliyor</p>
         <button
           type="button"
           onClick={resetFilters}
@@ -167,14 +167,14 @@ export default function AdminProductsView({
       </div>
 
       <AdminTableCard
-        title="Urun listesi"
-        description="Arama ve filtrelerle hizli katalog yonetimi."
+        title="Ürün listesi"
+        description="Arama ve filtrelerle hızlı katalog yönetimi."
       >
         {filteredProducts.length > 0 ? (
           <table className="min-w-full text-left">
             <thead className="border-b border-slate-200 text-xs uppercase tracking-[0.25em] text-slate-500">
               <tr>
-                <th className="px-6 py-4 font-medium">Urun</th>
+                <th className="px-6 py-4 font-medium">Ürün</th>
                 <th className="px-6 py-4 font-medium">Kategori</th>
                 <th className="px-6 py-4 font-medium">Fiyat</th>
                 <th className="px-6 py-4 font-medium">Stok</th>
@@ -228,7 +228,7 @@ export default function AdminProductsView({
                             stockState === "in"
                               ? "stokta"
                               : stockState === "low"
-                                ? "dusuk stok"
+                                ? "düşük stok"
                                 : "stok yok"
                           }
                         />
@@ -243,13 +243,13 @@ export default function AdminProductsView({
                           href={`/admin/products/${product.id}/edit`}
                           className="text-sm font-medium text-slate-950 transition hover:text-rose-600"
                         >
-                          Duzenle
+                          Düzenle
                         </Link>
                         <button
                           type="button"
                           onClick={() => handleDelete(product.id, product.name)}
                           className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-slate-200 text-slate-500 transition hover:border-rose-200 hover:text-rose-600"
-                          aria-label="Urun sil"
+                          aria-label="Ürün sil"
                         >
                           <Trash2 size={16} />
                         </button>
@@ -263,9 +263,9 @@ export default function AdminProductsView({
         ) : (
           <div className="p-6">
             <AdminEmptyState
-              title="Filtreye uygun urun yok"
-              description="Arama veya secili filtreler urun listesinde eslesmedi. Filtreleri temizleyip tekrar deneyin."
-              actionLabel="Yeni Urun Ekle"
+              title="Filtreye uygun ürün yok"
+              description="Arama veya seçili filtreler ürün listesinde eşleşmedi. Filtreleri temizleyip tekrar deneyin."
+              actionLabel="Yeni Ürün Ekle"
               actionHref="/admin/products/new"
             />
           </div>

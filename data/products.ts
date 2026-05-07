@@ -12,7 +12,7 @@ const img = (id: string) =>
 export const products: Product[] = [
   {
     id: "p1",
-    name: "Rosa Dantel Sutyen Takimi",
+    name: "Rosa Dantel Sütyen Takımı",
     slug: "rosa-dantel-sutyen-takimi",
     category: "takimlar",
     price: 1290,
@@ -28,7 +28,7 @@ export const products: Product[] = [
     sizes: ["XS", "S", "M", "L"],
     stock: 12,
     description:
-      "El isciligi dantel detaylari, ipeksi astari ve yumusak dokusuyla gun boyu zarif hissettiren ozel takim.",
+      "El işçiliği dantel detayları, ipeksi astarı ve yumuşak dokusuyla gün boyu zarif hissettiren özel takım.",
     isFeatured: true,
     isNew: true,
   },
@@ -50,12 +50,12 @@ export const products: Product[] = [
     sizes: ["XS", "S", "M", "L"],
     stock: 30,
     description:
-      "Telsiz, dikissiz ve nefes alabilen yapisiyla gunluk kullanima uygun, ikinci ten hissi veren hafif bralette.",
+      "Telsiz, dikişsiz ve nefes alabilen yapısıyla günlük kullanıma uygun, ikinci ten hissi veren hafif bralette.",
     isFeatured: true,
   },
   {
     id: "p3",
-    name: "Ipek Saten Gecelik",
+    name: "İpek Saten Gecelik",
     slug: "ipek-saten-gecelik",
     category: "gecelikler",
     price: 2490,
@@ -71,7 +71,7 @@ export const products: Product[] = [
     sizes: ["S", "M", "L"],
     stock: 8,
     description:
-      "Saf ipek saten kumasi, yumusak askilari ve zarif kesimiyle ozel geceler icin premium gecelik.",
+      "Saf ipek saten kumaşı, yumuşak askıları ve zarif kesimiyle özel geceler için premium gecelik.",
     isFeatured: true,
     isNew: true,
   },
@@ -93,11 +93,11 @@ export const products: Product[] = [
     sizes: ["XS", "S", "M", "L", "XL"],
     stock: 50,
     description:
-      "Yumusak modal kumasi ve dikissiz kenarlariyla kiyafet altinda iz yapmayan rahat kesim kulot.",
+      "Yumuşak modal kumaşı ve dikişsiz kenarlarıyla kıyafet altında iz yapmayan rahat kesim külot.",
   },
   {
     id: "p5",
-    name: "Luks Push-Up Sutyen",
+    name: "Lüks Push-Up Sütyen",
     slug: "luks-push-up-sutyen",
     category: "sutyenler",
     price: 1190,
@@ -112,12 +112,12 @@ export const products: Product[] = [
     sizes: ["75B", "80B", "85B", "75C", "80C"],
     stock: 18,
     description:
-      "Hafif dolgulu ve form veren yapisiyla destekli, gunluk ve ozel gun kullanimi icin sutyen.",
+      "Hafif dolgulu ve form veren yapısıyla destekli, günlük ve özel gün kullanımı için sütyen.",
     isFeatured: true,
   },
   {
     id: "p6",
-    name: "Sortlu Pijama Takimi",
+    name: "Şortlu Pijama Takımı",
     slug: "sortlu-pijama-takimi",
     category: "sortlu-takimlar",
     price: 1490,
@@ -133,7 +133,7 @@ export const products: Product[] = [
     sizes: ["S", "M", "L"],
     stock: 14,
     description:
-      "Saten dokusu, yumusak kumasi ve zarif fiyonk detayi ile ev rahatligini butik bir dokunusla bulusturur.",
+      "Saten dokusu, yumuşak kumaşı ve zarif fiyonk detayı ile ev rahatlığını butik bir dokunuşla buluşturur.",
     isNew: true,
   },
   {
@@ -153,11 +153,11 @@ export const products: Product[] = [
     sizes: ["XS", "S", "M", "L"],
     stock: 25,
     description:
-      "Orta destekli, nefes alabilen ve hareket ozgurlugu sunan spor bralet.",
+      "Orta destekli, nefes alabilen ve hareket özgürlüğü sunan spor bralet.",
   },
   {
     id: "p8",
-    name: "Dantel Detayli Body",
+    name: "Dantel Detaylı Body",
     slug: "dantel-detayli-body",
     category: "takimlar",
     price: 1890,
@@ -172,7 +172,7 @@ export const products: Product[] = [
     sizes: ["S", "M", "L"],
     stock: 6,
     description:
-      "Tul ve dantel detaylariyla ozel anlar icin zarif, vucuda oturan premium body.",
+      "Tül ve dantel detaylarıyla özel anlar için zarif, vücuda oturan premium body.",
     isFeatured: true,
     isNew: true,
   },

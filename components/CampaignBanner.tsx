@@ -25,28 +25,28 @@ export default function CampaignBanner() {
             Edition limitee
           </span>
           <h2 className="mt-6 font-display text-[48px] leading-[1] tracking-tight md:text-[84px]">
-            Tum sepete
+            Tüm sepete
             <br />
             <span className="font-italic-display text-rose-300">
-              yuzde 30 indirim.
+              yüzde 30 indirim.
             </span>
           </h2>
           <p className="mt-6 max-w-md font-light leading-[1.8] text-white/70">
-            ROSA30 kuponu sepetinize otomatik tanimlanir. Indirim tum
-            koleksiyonda gecerlidir; ek bir kod girmenize gerek yok.
+            ROSA30 kuponu sepetinize otomatik tanımlanır. İndirim tüm
+            koleksiyonda geçerlidir; ek bir kod girmenize gerek yok.
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Link
               href="/products"
               className="btn-luxe bg-bone-50 text-ink-900 shadow-luxe hover:bg-rose-300"
             >
-              Alisverise Basla
+              Alışverişe Başla
             </Link>
             <Link
               href="/products?filter=sale"
               className="btn-luxe border border-white/30 text-white hover:bg-white/10"
             >
-              Indirimli Urunler
+              İndirimli Ürünler
             </Link>
           </div>
         </div>
@@ -67,13 +67,13 @@ export default function CampaignBanner() {
             <div className="h-40 w-px bg-white/15" />
             <div className="flex flex-col items-start gap-3">
               <span className="text-[10px] uppercase tracking-editorial text-rose-300">
-                Indirim
+                İndirim
               </span>
               <span className="font-display text-5xl text-white">
                 %30
               </span>
               <span className="text-[10px] uppercase tracking-editorial text-white/50">
-                Tum koleksiyon
+                Tüm koleksiyon
               </span>
             </div>
           </div>

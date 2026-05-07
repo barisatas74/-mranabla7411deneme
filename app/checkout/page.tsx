@@ -150,7 +150,7 @@ export default function CheckoutPage() {
   if (!isHydrated) {
     return (
       <>
-        <Breadcrumb items={[{ label: "Sepetim", href: "/cart" }, { label: "Odeme" }]} />
+        <Breadcrumb items={[{ label: "Sepetim", href: "/cart" }, { label: "Ödeme" }]} />
         <Container className="py-20 md:py-24">
           <div className="mx-auto max-w-3xl animate-pulse space-y-4">
             <div className="h-8 w-56 bg-bone-100" />
@@ -165,22 +165,22 @@ export default function CheckoutPage() {
   if (placedOrder) {
     return (
       <>
-        <Breadcrumb items={[{ label: "Sepetim", href: "/cart" }, { label: "Siparis Onayi" }]} />
+        <Breadcrumb items={[{ label: "Sepetim", href: "/cart" }, { label: "Sipariş Onayı" }]} />
         <Container className="py-16 md:py-20">
           <div className="mx-auto max-w-3xl rounded-[32px] border border-ink-900/10 bg-white p-8 shadow-card md:p-10">
             <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-rose-600 text-white">
               <CheckCircle2 size={28} />
             </div>
             <p className="mt-6 text-center text-[11px] uppercase tracking-editorial text-rose-600">
-              Siparis Alindi
+              Sipariş Alındı
             </p>
             <h1 className="mt-3 text-center font-display text-4xl text-ink-900 md:text-5xl">
-              Tesekkurler, {placedOrder.customerName}
+              Teşekkürler, {placedOrder.customerName}
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-ink-700 md:text-base">
-              Siparis numaraniz <span className="font-medium text-ink-900">{placedOrder.orderNumber}</span>.
-              Siparis detaylari kayitli e-posta adresinize gonderilecektir.
-              Sorulariniz icin musteri hizmetlerimizle iletisime gecebilirsiniz.
+              Sipariş numaranız <span className="font-medium text-ink-900">{placedOrder.orderNumber}</span>.
+              Sipariş detayları kayıtlı e-posta adresinize gönderilecektir.
+              Sorularınız için müşteri hizmetlerimizle iletişime geçebilirsiniz.
             </p>
 
             <div className="mt-10 grid gap-8 md:grid-cols-[minmax(0,1fr)_320px]">
@@ -212,7 +212,7 @@ export default function CheckoutPage() {
               </div>
 
               <div className="h-fit rounded-[28px] border border-ink-900/10 bg-bone-50 p-6">
-                <p className="luxe-label plain text-rose-600">Siparis Ozeti</p>
+                <p className="luxe-label plain text-rose-600">Sipariş Özeti</p>
                 <div className="mt-5 space-y-3 text-sm">
                   <SummaryRow
                     label="Ara Toplam"
@@ -224,7 +224,7 @@ export default function CheckoutPage() {
                   />
                   {placedOrder.summary.discount > 0 && (
                     <SummaryRow
-                      label="Indirim"
+                      label="İndirim"
                       value={`-${formatPrice(placedOrder.summary.discount)}`}
                       accent
                     />
@@ -241,7 +241,7 @@ export default function CheckoutPage() {
 
             <div className="mt-8 flex justify-center">
               <Link href="/products" className="btn-luxe btn-luxe-dark">
-                Alisverise Devam Et
+                Alışverişe Devam Et
               </Link>
             </div>
           </div>
@@ -253,17 +253,17 @@ export default function CheckoutPage() {
   if (lines.length === 0) {
     return (
       <>
-        <Breadcrumb items={[{ label: "Sepetim", href: "/cart" }, { label: "Odeme" }]} />
+        <Breadcrumb items={[{ label: "Sepetim", href: "/cart" }, { label: "Ödeme" }]} />
         <Container className="py-20 text-center">
           <h1 className="font-display text-4xl text-ink-900 md:text-5xl">
-            Odeme icin sepetiniz bos
+            Ödeme için sepetiniz boş
           </h1>
           <p className="mx-auto mt-4 max-w-lg text-sm leading-relaxed text-ink-700 md:text-base">
-            Once sepete urun ekleyin, sonra musteri bilgileri ve kargo secimi ile
-            odeme adimina gecebilirsiniz.
+            Önce sepete ürün ekleyin, sonra müşteri bilgileri ve kargo seçimi ile
+            ödeme adımına geçebilirsiniz.
           </p>
           <Link href="/products" className="btn-luxe btn-luxe-dark mt-8">
-            Koleksiyona Don
+            Koleksiyona Dön
           </Link>
         </Container>
       </>
@@ -272,19 +272,19 @@ export default function CheckoutPage() {
 
   return (
     <>
-      <Breadcrumb items={[{ label: "Sepetim", href: "/cart" }, { label: "Odeme" }]} />
+      <Breadcrumb items={[{ label: "Sepetim", href: "/cart" }, { label: "Ödeme" }]} />
 
       <section className="border-b border-ink-900/8 bg-gradient-to-b from-powder-100 to-bone-50 py-10 text-center md:py-14">
         <Container>
           <span className="luxe-label">Paiement Securise</span>
           <h1 className="mt-4 font-display text-[40px] leading-[1.05] text-ink-900 md:text-[60px]">
-            Odeme
+            Ödeme
           </h1>
           <div className="mt-8 flex flex-wrap items-center justify-center gap-3 text-xs uppercase tracking-luxe md:gap-4">
             {[
               { n: 1, label: "Teslimat" },
               { n: 2, label: "Kargo" },
-              { n: 3, label: "Odeme" },
+              { n: 3, label: "Ödeme" },
             ].map((item, index) => (
               <div key={item.n} className="flex items-center gap-3 md:gap-4">
                 <div className="flex items-center gap-2">
@@ -311,7 +311,7 @@ export default function CheckoutPage() {
 
       <Container className="grid gap-10 py-12 lg:grid-cols-3">
         <div className="space-y-8 lg:col-span-2">
-          <Section n={1} title="Musteri Bilgileri" active={step === 1}>
+          <Section n={1} title="Müşteri Bilgileri" active={step === 1}>
             <div className="grid gap-4 md:grid-cols-2">
               <FormInput
                 label="Ad"
@@ -352,14 +352,14 @@ export default function CheckoutPage() {
                 error={errors.address}
               />
               <FormInput
-                label="Il"
+                label="İl"
                 autoComplete="address-level1"
                 value={formData.city}
                 onChange={(value) => updateField("city", value)}
                 error={errors.city}
               />
               <FormInput
-                label="Ilce"
+                label="İlçe"
                 autoComplete="address-level2"
                 value={formData.district}
                 onChange={(value) => updateField("district", value)}
@@ -375,7 +375,7 @@ export default function CheckoutPage() {
             </div>
             <label className="mt-5 block">
               <span className="text-[11px] uppercase tracking-luxe text-ink-700">
-                Siparis Notu
+                Sipariş Notu
               </span>
               <textarea
                 value={formData.customerNote}
@@ -394,7 +394,7 @@ export default function CheckoutPage() {
             </button>
           </Section>
 
-          <Section n={2} title="Kargo Secimi" active={step === 2}>
+          <Section n={2} title="Kargo Seçimi" active={step === 2}>
             <div className="space-y-3">
               {SHIPPING_METHODS.map((method) => {
                 const shippingPrice = getCartSummary(lines, {
@@ -425,7 +425,7 @@ export default function CheckoutPage() {
                       <p className="text-xs text-ink-700/70">{method.description}</p>
                     </div>
                     <span className="text-sm font-medium">
-                      {shippingPrice === 0 ? "Ucretsiz" : formatPrice(shippingPrice)}
+                      {shippingPrice === 0 ? "Ücretsiz" : formatPrice(shippingPrice)}
                     </span>
                   </label>
                 );
@@ -452,7 +452,7 @@ export default function CheckoutPage() {
             </div>
           </Section>
 
-          <Section n={3} title="Odeme Yontemi" active={step === 3}>
+          <Section n={3} title="Ödeme Yöntemi" active={step === 3}>
             <div className="mb-6 grid gap-3 md:grid-cols-3">
               {PAYMENT_METHODS.map((method) => (
                 <button
@@ -477,7 +477,7 @@ export default function CheckoutPage() {
             {formData.paymentMethod === "card" && (
               <div className="grid gap-4 md:grid-cols-2">
                 <FormInput
-                  label="Kart Uzerindeki Isim"
+                  label="Kart Üzerindeki İsim"
                   autoComplete="cc-name"
                   className="md:col-span-2"
                   value={formData.cardHolderName}
@@ -485,7 +485,7 @@ export default function CheckoutPage() {
                   error={errors.cardHolderName}
                 />
                 <FormInput
-                  label="Kart Numarasi"
+                  label="Kart Numarası"
                   autoComplete="cc-number"
                   inputMode="numeric"
                   className="md:col-span-2"
@@ -524,11 +524,11 @@ export default function CheckoutPage() {
                   href="/mesafeli-satis"
                   className="text-rose-600 underline underline-offset-2"
                 >
-                  Mesafeli Satis Sozlesmesi
+                  Mesafeli Satış Sözleşmesi
                 </Link>{" "}
                 ile{" "}
                 <Link href="/kvkk" className="text-rose-600 underline underline-offset-2">
-                  KVKK Aydinlatma Metni
+                  KVKK Aydınlatma Metni
                 </Link>{" "}
                 metinlerini okudum ve kabul ediyorum.
               </span>
@@ -547,13 +547,13 @@ export default function CheckoutPage() {
             </button>
 
             <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-ink-700/60">
-              <Lock size={11} /> 256-bit SSL sertifikasi ile guvenli odeme.
+              <Lock size={11} /> 256-bit SSL sertifikası ile güvenli ödeme.
             </p>
           </Section>
         </div>
 
         <aside className="h-fit border border-rose-100/60 bg-white p-6 shadow-card lg:sticky lg:top-28">
-          <p className="luxe-label">Siparis Ozeti</p>
+          <p className="luxe-label">Sipariş Özeti</p>
 
           <div className="mt-5 space-y-4">
             {lines.map((line) => (
@@ -589,11 +589,11 @@ export default function CheckoutPage() {
             <SummaryRow label="Ara Toplam" value={formatPrice(summary.subtotal)} />
             <SummaryRow
               label="Kargo"
-              value={summary.shipping === 0 ? "Ucretsiz" : formatPrice(summary.shipping)}
+              value={summary.shipping === 0 ? "Ücretsiz" : formatPrice(summary.shipping)}
             />
             {summary.discount > 0 && (
               <SummaryRow
-                label={`Indirim (${couponCode})`}
+                label={`İndirim (${couponCode})`}
                 value={`-${formatPrice(summary.discount)}`}
                 accent
               />
@@ -611,7 +611,7 @@ export default function CheckoutPage() {
           </p>
 
           <WhatsAppSupportButton
-            context="odeme ve siparis surecim"
+            context="ödeme ve sipariş sürecim"
             className="mt-6"
           />
         </aside>
@@ -742,7 +742,7 @@ function validateField(
     case "shippingMethod":
       return formData.shippingMethod ? undefined : "Bir kargo secenegi secin.";
     case "paymentMethod":
-      return formData.paymentMethod ? undefined : "Bir odeme yontemi secin.";
+      return formData.paymentMethod ? undefined : "Bir ödeme yöntemi seçin.";
     case "cardHolderName":
       return formData.paymentMethod !== "card" || String(trimmedValue).length >= 3
         ? undefined

@@ -40,15 +40,15 @@ export default function AdminOrdersView({
     <div className="space-y-8">
       <AdminSectionHeader
         eyebrow="Orders"
-        title="Siparis yonetimi"
-        description="Musteri bilgileri, odeme durumu ve kargo akislarini mock siparisler uzerinden test edin. Detay sayfasi durum guncelleme arayuzu de icerir."
+        title="Sipariş yönetimi"
+        description="Müşteri bilgileri, ödeme durumu ve kargo akışlarını siparişler üzerinden takip edin. Detay sayfasında durum güncelleme arayüzü de yer alır."
       />
 
       <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
         <input
           value={query}
           onChange={(event) => setQuery(event.target.value)}
-          placeholder="Siparis no veya musteri ara"
+          placeholder="Sipariş no veya müşteri ara"
           className="rounded-[24px] border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm transition focus:border-slate-950"
         />
         <select
@@ -56,7 +56,7 @@ export default function AdminOrdersView({
           onChange={(event) => setStatus(event.target.value as "all" | AdminOrder["status"])}
           className="rounded-[24px] border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm transition focus:border-slate-950"
         >
-          <option value="all">Tum durumlar</option>
+          <option value="all">Tüm durumlar</option>
           {ORDER_STATUS_OPTIONS.map((option) => (
             <option key={option.value} value={option.value}>
               {option.label}
@@ -66,17 +66,17 @@ export default function AdminOrdersView({
       </div>
 
       <AdminTableCard
-        title="Siparis listesi"
-        description={`${filteredOrders.length} siparis listeleniyor.`}
+        title="Sipariş listesi"
+        description={`${filteredOrders.length} sipariş listeleniyor.`}
       >
         {filteredOrders.length > 0 ? (
           <table className="min-w-full text-left">
             <thead className="border-b border-slate-200 text-xs uppercase tracking-[0.25em] text-slate-500">
               <tr>
-                <th className="px-6 py-4 font-medium">Siparis</th>
-                <th className="px-6 py-4 font-medium">Musteri</th>
+                <th className="px-6 py-4 font-medium">Sipariş</th>
+                <th className="px-6 py-4 font-medium">Müşteri</th>
                 <th className="px-6 py-4 font-medium">Durum</th>
-                <th className="px-6 py-4 font-medium">Odeme</th>
+                <th className="px-6 py-4 font-medium">Ödeme</th>
                 <th className="px-6 py-4 font-medium">Kargo</th>
                 <th className="px-6 py-4 font-medium">Toplam</th>
                 <th className="px-6 py-4 font-medium text-right">Detay</th>
@@ -111,7 +111,7 @@ export default function AdminOrdersView({
                       href={`/admin/orders/${order.id}`}
                       className="text-sm font-medium text-slate-950 transition hover:text-rose-600"
                     >
-                      Incele
+                      İncele
                     </Link>
                   </td>
                 </tr>
@@ -121,8 +121,8 @@ export default function AdminOrdersView({
         ) : (
           <div className="p-6">
             <AdminEmptyState
-              title="Siparis bulunamadi"
-              description="Secili filtre ile eslesen siparis yok. Farkli bir durum veya arama terimi deneyin."
+              title="Sipariş bulunamadı"
+              description="Seçili filtre ile eşleşen sipariş yok. Farklı bir durum veya arama terimi deneyin."
             />
           </div>
         )}

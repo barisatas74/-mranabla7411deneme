@@ -21,11 +21,11 @@ export default function BestSellers() {
               Best Sellers
             </span>
             <h2 className="mt-4 font-display text-[36px] leading-[1.05] text-ink-900 md:text-[56px]">
-              Cok{" "}
+              Çok{" "}
               <span className="font-italic-display text-gradient-fuchsia">satanlar</span>
             </h2>
             <p className="mt-4 max-w-xl text-sm leading-relaxed text-ink-700 md:text-base">
-              Bu sezonun en cok tercih edilen parcalari. Sinirli stok ile devam
+              Bu sezonun en çok tercih edilen parçaları. Sınırlı stok ile devam
               eden favorilerimiz.
             </p>
           </div>
@@ -34,7 +34,7 @@ export default function BestSellers() {
             href="/products?sort=featured"
             className="inline-flex items-center gap-2 self-start text-[10px] uppercase tracking-editorial text-ink-700 transition hover:text-rose-600 md:self-auto"
           >
-            Tum favoriler <ArrowUpRight strokeWidth={1.5} size={13} />
+            Tüm favoriler <ArrowUpRight strokeWidth={1.5} size={13} />
           </Link>
         </div>
 

@@ -5,17 +5,13 @@ import TrustStrip from "@/components/TrustStrip";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import BestSellers from "@/components/BestSellers";
 import NewSeason from "@/components/NewSeason";
-import Lookbook from "@/components/Lookbook";
-import CampaignBanner from "@/components/CampaignBanner";
 import BrandStory from "@/components/BrandStory";
-import Testimonials from "@/components/Testimonials";
-import InstagramGallery from "@/components/InstagramGallery";
 import TrustBadges from "@/components/TrustBadges";
 
 export const metadata: Metadata = {
   title: "Anasayfa",
   description:
-    "Miss Bella anasayfasinda premium ic giyim koleksiyonlari, yeni sezon secimleri ve one cikan urunleri kesfedin.",
+    "Miss Bella anasayfasında premium iç giyim koleksiyonları, yeni sezon seçimleri ve öne çıkan ürünleri keşfedin.",
 };
 
 export default function HomePage() {
@@ -28,24 +24,20 @@ export default function HomePage() {
       <FeaturedProducts />
       <BestSellers />
       <NewSeason />
-      <Lookbook />
-      <CampaignBanner />
       <BrandStory />
-      <Testimonials />
       <TrustBadges />
-      <InstagramGallery />
     </>
   );
 }
 
 function Marquee() {
   const words = [
-    "Fransiz Danteli",
-    "Saf Ipek",
-    "El Isciligi",
-    "Premium Kumas",
-    "Etik Uretim",
-    "Zamansiz Tasarim",
+    "Fransız Danteli",
+    "Saf İpek",
+    "El İşçiliği",
+    "Premium Kumaş",
+    "Etik Üretim",
+    "Zamansız Tasarım",
   ];
 
   return (

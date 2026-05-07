@@ -34,14 +34,14 @@ function LoginForm() {
         const data = (await response.json().catch(() => ({}))) as {
           error?: string;
         };
-        setError(data.error ?? "Giris yapilamadi.");
+        setError(data.error ?? "Giriş yapılamadı.");
         setIsSubmitting(false);
         return;
       }
       router.push(redirect);
       router.refresh();
     } catch {
-      setError("Sunucuya ulasilamadi.");
+      setError("Sunucuya ulaşılamadı.");
       setIsSubmitting(false);
     }
   }
@@ -63,7 +63,7 @@ function LoginForm() {
 
         <label className="block">
           <span className="text-[11px] uppercase tracking-luxe text-ink-700">
-            Kullanici Adi
+            Kullanıcı Adı
           </span>
           <input
             type="text"
@@ -96,7 +96,7 @@ function LoginForm() {
           disabled={isSubmitting}
           className="btn-luxe btn-luxe-dark w-full disabled:opacity-60"
         >
-          {isSubmitting ? "Giris yapiliyor..." : "Giris Yap"}
+          {isSubmitting ? "Giriş yapılıyor..." : "Giriş Yap"}
         </button>
       </form>
     </div>
@@ -108,7 +108,7 @@ export default function AdminLoginPage() {
     <Suspense
       fallback={
         <div className="flex min-h-screen items-center justify-center bg-[#f7f5f1] text-sm text-ink-700">
-          Yukleniyor...
+          Yükleniyor...
         </div>
       }
     >

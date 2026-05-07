@@ -57,11 +57,11 @@ export default function QuickViewModal({
 
   function handleAddToCart() {
     if (!selectedColor) {
-      setError("Renk secin.");
+      setError("Renk seçin.");
       return;
     }
     if (!selectedSize) {
-      setError("Beden secin.");
+      setError("Beden seçin.");
       return;
     }
     setError(null);
@@ -73,7 +73,7 @@ export default function QuickViewModal({
     <div
       role="dialog"
       aria-modal="true"
-      aria-label={`${product.name} hizli bakis`}
+      aria-label={`${product.name} hızlı bakış`}
       className="fixed inset-0 z-50 flex items-end justify-center md:items-center"
     >
       <div
@@ -105,7 +105,7 @@ export default function QuickViewModal({
                 <button
                   key={i}
                   type="button"
-                  aria-label={`Gorsel ${i + 1}`}
+                  aria-label={`Görsel ${i + 1}`}
                   onClick={() => setImageIndex(i)}
                   className={cn(
                     "h-1 transition-all",
@@ -149,7 +149,7 @@ export default function QuickViewModal({
             <p className="text-[10px] uppercase tracking-editorial text-ink-700">
               Renk:{" "}
               <span className="text-ink-900">
-                {selectedColor ?? "Secim yapin"}
+                {selectedColor ?? "Seçim yapın"}
               </span>
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -175,7 +175,7 @@ export default function QuickViewModal({
             <p className="text-[10px] uppercase tracking-editorial text-ink-700">
               Beden:{" "}
               <span className="text-ink-900">
-                {selectedSize ?? "Secim yapin"}
+                {selectedSize ?? "Seçim yapın"}
               </span>
             </p>
             <div className="mt-2 flex flex-wrap gap-2">
@@ -207,7 +207,7 @@ export default function QuickViewModal({
               className="btn-luxe btn-luxe-dark flex-1 disabled:opacity-60"
             >
               <ShoppingBag strokeWidth={1.5} size={14} />
-              {isOutOfStock ? "Tukendi" : "Sepete Ekle"}
+              {isOutOfStock ? "Tükendi" : "Sepete Ekle"}
             </button>
             <button
               type="button"
@@ -233,7 +233,7 @@ export default function QuickViewModal({
             onClick={onClose}
             className="mt-4 inline-flex items-center gap-2 text-[11px] uppercase tracking-editorial text-ink-700 transition hover:text-rose-600"
           >
-            Tum detaylari gor <ArrowRight strokeWidth={1.5} size={12} />
+            Tüm detayları gör <ArrowRight strokeWidth={1.5} size={12} />
           </Link>
         </div>
       </div>

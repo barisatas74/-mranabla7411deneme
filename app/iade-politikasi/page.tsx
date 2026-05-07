@@ -2,76 +2,98 @@ import type { Metadata } from "next";
 import LegalLayout from "@/components/LegalLayout";
 
 export const metadata: Metadata = {
-  title: "Iade ve Degisim Politikasi",
+  title: "İade ve Değişim Politikası",
   description:
-    "Miss Bella siparislerinde iade, degisim, hasar bildirimi ve geri odeme surecleri hakkinda bilgilendirme.",
+    "Miss Bella siparişlerinde iade, değişim, hasar bildirimi ve geri ödeme süreçleri hakkında bilgilendirme.",
 };
 
 export default function IadePage() {
   return (
     <LegalLayout
-      eyebrow="Musteri Haklari"
-      title="Iade ve Degisim Politikasi"
-      updated="25 Nisan 2026"
+      eyebrow="Müşteri Hakları"
+      title="İade ve Değişim Politikası"
+      updated="7 Mayıs 2026"
     >
       <p>
-        Miss Bella olarak, satin aldiginiz urunlerden memnuniyetinizi onemsiyoruz.
-        Siparisinize iliskin iade ve degisim taleplerinizi asagidaki kosullar
-        cercevesinde degerlendiriyoruz.
+        Miss Bella olarak satın aldığınız ürünlerden memnuniyetinizi önemsiyoruz.
+        Siparişlerinize ilişkin iade ve değişim taleplerinizi aşağıdaki koşullar
+        çerçevesinde değerlendiriyoruz.
       </p>
 
-      <h2>Iade Suresi</h2>
+      <h2>İade Süresi</h2>
       <p>
-        Siparisinizi teslim aldiginiz tarihten itibaren <strong>14 gun</strong>{" "}
-        icinde iade veya degisim talebinde bulunabilirsiniz.
+        Siparişinizi teslim aldığınız tarihten itibaren <strong>14 gün</strong>{" "}
+        içinde iade veya değişim talebinde bulunabilirsiniz. Bu süre, 6502 sayılı
+        Tüketicinin Korunması Hakkında Kanun&rsquo;da belirtilen yasal cayma
+        hakkı süresidir.
       </p>
 
-      <h2>Iade Kosullari</h2>
+      <h2>İade Koşulları</h2>
       <ul>
-        <li>Hijyen etiketi cikarilmamis olmali</li>
-        <li>Urun, kullanilmamis ve zarar gormemis olmali</li>
-        <li>Orijinal ambalaj ve varsa aksesuarlar eksiksiz olmali</li>
-        <li>Iade talebi, siparis numarasi ile birlikte olusturulmali</li>
+        <li>Hijyen etiketi çıkarılmamış olmalıdır.</li>
+        <li>Ürün kullanılmamış ve zarar görmemiş olmalıdır.</li>
+        <li>
+          Orijinal ambalajı, varsa aksesuarları ve fatura/irsaliyesi eksiksiz
+          olmalıdır.
+        </li>
+        <li>İade talebi sipariş numarası ile birlikte iletilmelidir.</li>
       </ul>
 
-      <h2>Iade Disi Durumlar</h2>
+      <h2>Cayma Hakkı Dışında Kalan Ürünler</h2>
       <p>
-        Hijyen etiketi kaldirilmis veya kullanildigi tespit edilen ic giyim
-        urunlerinde iade kabul edilmez. Kampanya ve outlet urunlerinde de gecerli
-        yasal haklar korunmakla birlikte ek kosullar uygulanabilir.
+        Mesafeli Sözleşmeler Yönetmeliği&rsquo;nin 15. maddesi uyarınca; hijyen
+        etiketi kaldırılmış, ambalajı açılmış veya kullanılmış iç giyim
+        ürünleri, sağlık ve hijyen açısından iadeye uygun değildir. Kampanya ve
+        outlet ürünlerinde yasal haklar saklı kalmak kaydıyla ek koşullar
+        uygulanabilir.
       </p>
 
-      <h2>Surec Nasil Isler?</h2>
-      <h3>1. Talep Olusturma</h3>
+      <h2>Süreç Nasıl İşler?</h2>
+
+      <h3>1. Talep Oluşturma</h3>
       <p>
-        Siparis numaraniz ile birlikte{" "}
-        <a href="mailto:iade@missbella.com">iade@missbella.com</a> adresine ya da
-        WhatsApp destek hattimiza ulasin.
+        Sipariş numaranız ile birlikte{" "}
+        <a href="mailto:iade@missbella.com.tr">iade@missbella.com.tr</a>{" "}
+        adresine ya da WhatsApp destek hattımıza ulaşın. Talebinizde iade
+        gerekçesini kısaca belirtmeniz süreci hızlandırır.
       </p>
 
-      <h3>2. Kargo Gonderimi</h3>
+      <h3>2. Kargo Gönderimi</h3>
       <p>
-        Onaylanan taleplerde anlasmali kargo bilgisi sizinle paylasilir. Gonderim
-        talimata uygun hazirlandiginda surec hizlanir.
+        Onaylanan taleplerde anlaşmalı kargo bilgisi sizinle paylaşılır.
+        Ürünleri orijinal ambalajıyla, fatura/irsaliyesi ile birlikte hazırlayıp
+        belirtilen adrese gönderin.
       </p>
 
-      <h3>3. Kontrol ve Geri Odeme</h3>
+      <h3>3. Kontrol ve Geri Ödeme</h3>
       <p>
-        Urun tarafimiza ulastiktan sonra kontrol edilir ve uygun bulunan iadeler,
-        odeme yontemine bagli olarak en gec 10 is gunu icinde iade edilir.
+        Ürün tarafımıza ulaştıktan sonra incelenir ve uygun bulunan iadelerde
+        geri ödeme; ödeme yönteminize bağlı olarak <strong>en geç 10 iş günü</strong>{" "}
+        içinde aynı yönteme yapılır. Banka süreçleri nedeniyle iadenin
+        hesabınıza yansıması birkaç iş günü daha sürebilir.
       </p>
 
-      <h2>Hasarli veya Yanlis Urun</h2>
+      <h2>Hasarlı veya Yanlış Ürün</h2>
       <p>
-        Hasarli veya hatali urun teslim aldiysaniz, teslimattan sonraki 48 saat
-        icinde bize bildirim yapin. Bu durumda kargo ve degisim sureci tarafimizca
-        yonetilir.
+        Hasarlı veya yanlış ürün teslim aldıysanız, teslimattan sonraki{" "}
+        <strong>48 saat</strong> içinde paket fotoğrafları ile birlikte bize
+        bildirim yapın. Bu durumda kargo ücreti tarafımızca karşılanır ve
+        değişim süreci öncelikli olarak yürütülür.
       </p>
 
-      <h2>Iletisim</h2>
+      <h2>Değişim</h2>
       <p>
-        Destek icin <a href="mailto:destek@missbella.com">destek@missbella.com</a>{" "}
-        adresine yazabilir veya WhatsApp uzerinden ulasabilirsiniz.
+        Beden veya renk değişimi taleplerinde, değiştirilecek ürün stoklarda
+        mevcutsa öncelikli olarak değişim yapılır. Ürün stokta yoksa iade
+        sürecine yönlendirilirsiniz.
+      </p>
+
+      <h2>İletişim</h2>
+      <p>
+        Destek için{" "}
+        <a href="mailto:destek@missbella.com.tr">destek@missbella.com.tr</a>{" "}
+        adresine yazabilir veya WhatsApp üzerinden müşteri hizmetlerimize
+        ulaşabilirsiniz.
       </p>
     </LegalLayout>
   );

@@ -6,10 +6,11 @@ import { products, sortProducts } from "@/data/products";
 import { ArrowUpRight, Crown } from "lucide-react";
 
 export default function BestSellers() {
-  // En cok satanlar mantigi: stoku dusuk + featured + new agirligi
   const items = sortProducts([...products], "featured")
     .filter((product) => product.stock > 0)
     .slice(0, 4);
+
+  if (items.length === 0) return null;
 
   return (
     <section className="bg-bone-50 py-20 md:py-28">

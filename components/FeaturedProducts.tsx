@@ -8,6 +8,8 @@ import { ArrowUpRight } from "lucide-react";
 export default function FeaturedProducts() {
   const items = getFeaturedProducts();
 
+  if (items.length === 0) return null;
+
   return (
     <section className="py-24 md:py-32 bg-bone-100/60 relative">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 translate-y-[-50%]">

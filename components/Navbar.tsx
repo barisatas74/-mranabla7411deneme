@@ -14,24 +14,28 @@ import { products } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
+type NavEffect = "pulse" | "stretch" | "slide" | "lift" | "moon" | "flash";
+
 type NavItem = {
   label: string;
   href: string;
   category?: string;
   filter?: "new" | "sale";
+  effect: NavEffect;
 };
 
 const navItems: NavItem[] = [
-  { label: "Yeni Sezon", href: "/products?filter=new", filter: "new" },
-  { label: "Sütyen", href: "/products?category=sutyenler", category: "sutyenler" },
-  { label: "Külot", href: "/products?category=kulotlar", category: "kulotlar" },
-  { label: "Takım", href: "/products?category=takimlar", category: "takimlar" },
+  { label: "Yeni Sezon", href: "/products?filter=new", filter: "new", effect: "pulse" },
+  { label: "Sütyen", href: "/products?category=sutyenler", category: "sutyenler", effect: "stretch" },
+  { label: "Külot", href: "/products?category=kulotlar", category: "kulotlar", effect: "slide" },
+  { label: "Takım", href: "/products?category=takimlar", category: "takimlar", effect: "lift" },
   {
     label: "Gecelik",
     href: "/products?category=gecelikler",
     category: "gecelikler",
+    effect: "moon",
   },
-  { label: "İndirim", href: "/products?filter=sale", filter: "sale" },
+  { label: "İndirim", href: "/products?filter=sale", filter: "sale", effect: "flash" },
 ];
 
 const announcements = [
@@ -183,22 +187,15 @@ function NavLink({
   onHover: (label: string | null) => void;
   isActive: boolean;
 }) {
+  const effectClass = `nav-effect-${item.effect}`;
+
   return (
     <Link
       href={item.href}
       onMouseEnter={() => onHover(item.label)}
-      className={cn(
-        "group relative py-2 text-[11.5px] uppercase tracking-editorial transition-colors",
-        isActive ? "text-rose-600" : "text-ink-800 hover:text-rose-600"
-      )}
+      className={cn("nav-link", effectClass, isActive && "is-active")}
     >
-      {item.label}
-      <span
-        className={cn(
-          "absolute bottom-0 left-0 right-0 h-px origin-left bg-rose-600 transition-transform duration-500",
-          isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-        )}
-      />
+      {item.effect === "slide" ? <span>{item.label}</span> : item.label}
     </Link>
   );
 }

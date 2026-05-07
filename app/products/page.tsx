@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
 import ProductsCatalog from "@/components/products/ProductsCatalog";
+import ComingSoon from "@/components/ComingSoon";
+import Breadcrumb from "@/components/Breadcrumb";
 import { isCategorySlug } from "@/data/categories";
+import { products } from "@/data/products";
 import { ProductFilter, ProductSort } from "@/types";
 
 export const metadata: Metadata = {
-  title: "Urunler",
+  title: "Ürünler",
   description:
-    "Kategori, fiyat, renk ve beden filtreleri ile Miss Bella urun katalogunu kesfedin.",
+    "Kategori, fiyat, renk ve beden filtreleri ile Miss Bella ürün kataloğunu keşfedin.",
 };
 
 type ProductsPageProps = {
@@ -30,6 +33,15 @@ function getSingleValue(value?: string | string[]) {
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
+  if (products.length === 0) {
+    return (
+      <>
+        <Breadcrumb items={[{ label: "Ürünler" }]} />
+        <ComingSoon />
+      </>
+    );
+  }
+
   const resolvedSearchParams = await searchParams;
   const categoryParam = getSingleValue(resolvedSearchParams?.category);
   const filterParam = getSingleValue(resolvedSearchParams?.filter);

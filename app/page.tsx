@@ -4,9 +4,10 @@ import CategoryShowcase from "@/components/CategoryShowcase";
 import TrustStrip from "@/components/TrustStrip";
 import FeaturedProducts from "@/components/FeaturedProducts";
 import BestSellers from "@/components/BestSellers";
-import NewSeason from "@/components/NewSeason";
+import ComingSoon from "@/components/ComingSoon";
 import BrandStory from "@/components/BrandStory";
 import TrustBadges from "@/components/TrustBadges";
+import { products } from "@/data/products";
 
 export const metadata: Metadata = {
   title: "Anasayfa",
@@ -15,15 +16,25 @@ export const metadata: Metadata = {
 };
 
 export default function HomePage() {
+  const hasProducts = products.length > 0;
+
   return (
     <>
       <Hero />
       <Marquee />
-      <CategoryShowcase />
-      <TrustStrip />
-      <FeaturedProducts />
-      <BestSellers />
-      <NewSeason />
+      {hasProducts ? (
+        <>
+          <CategoryShowcase />
+          <TrustStrip />
+          <FeaturedProducts />
+          <BestSellers />
+        </>
+      ) : (
+        <>
+          <ComingSoon />
+          <TrustStrip />
+        </>
+      )}
       <BrandStory />
       <TrustBadges />
     </>

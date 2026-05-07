@@ -15,10 +15,9 @@ const securityHeaders = [
 
 const nextConfig = {
   images: {
-    remotePatterns: [
-      { protocol: "https", hostname: "images.unsplash.com" },
-      { protocol: "https", hostname: "plus.unsplash.com" },
-    ],
+    // Uzak gorsel kaynaklari host kurulumunda eklenecek
+    // (Supabase Storage / Cloudinary / S3 vb.)
+    remotePatterns: [],
   },
   async headers() {
     return [

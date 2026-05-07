@@ -50,13 +50,24 @@ export default function CategoryShowcase() {
                 href={`/products?category=${c.slug}`}
                 className={`group relative block h-full w-full overflow-hidden bg-ink-950`}
               >
-                <Image
-                  src={c.image}
-                  alt={c.name}
-                  fill
-                  className="object-cover transition-all duration-[1200ms] ease-out group-hover:scale-[1.06] opacity-95 group-hover:opacity-100"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink-950/80 via-ink-950/10 to-transparent" />
+                {c.image ? (
+                  <>
+                    <Image
+                      src={c.image}
+                      alt={c.name}
+                      fill
+                      className="object-cover transition-all duration-[1200ms] ease-out group-hover:scale-[1.06] opacity-95 group-hover:opacity-100"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink-950/80 via-ink-950/10 to-transparent" />
+                  </>
+                ) : (
+                  <div className="absolute inset-0 bg-gradient-to-br from-rose-700 via-rose-500 to-rose-300 transition-transform duration-[1200ms] ease-out group-hover:scale-[1.04]">
+                    <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(255,255,255,0.25)_0%,transparent_60%)]" />
+                    <span className="absolute -bottom-8 -right-4 select-none font-italic-display text-[180px] leading-none text-white/15">
+                      {c.name.charAt(0)}
+                    </span>
+                  </div>
+                )}
                 <div className="absolute inset-0 bg-gradient-to-tr from-rose-600/0 via-rose-500/0 to-rose-400/0 group-hover:from-rose-700/40 group-hover:via-rose-500/15 group-hover:to-transparent transition duration-700" />
 
                 <div className="absolute top-5 left-5 flex items-center gap-2">

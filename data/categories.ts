@@ -5,48 +5,42 @@ export const categories: Category[] = [
     id: "c1",
     name: "Sütyenler",
     slug: "sutyenler",
-    image:
-      "https://images.unsplash.com/photo-1763192788440-5036b6c90841?w=900&q=80&auto=format&fit=crop",
+    image: "",
     tagline: "Zarif destek",
   },
   {
     id: "c2",
     name: "Külotlar",
     slug: "kulotlar",
-    image:
-      "https://images.unsplash.com/photo-1594956668048-e86c9a562529?w=900&q=80&auto=format&fit=crop",
+    image: "",
     tagline: "Yumuşak dokunuş",
   },
   {
     id: "c3",
     name: "Takımlar",
     slug: "takimlar",
-    image:
-      "https://images.unsplash.com/photo-1762195020450-4447ebcf8de5?w=900&q=80&auto=format&fit=crop",
+    image: "",
     tagline: "Uyumun zarafeti",
   },
   {
     id: "c4",
     name: "Gecelikler",
     slug: "gecelikler",
-    image:
-      "https://images.unsplash.com/photo-1770294759243-664b21a8ac38?w=900&q=80&auto=format&fit=crop",
+    image: "",
     tagline: "İpeksi geceler",
   },
   {
     id: "c5",
     name: "Şortlu Takımlar",
     slug: "sortlu-takimlar",
-    image:
-      "https://images.unsplash.com/photo-1766056278798-39cabf7ca628?w=900&q=80&auto=format&fit=crop",
+    image: "",
     tagline: "Rahat lüks",
   },
   {
     id: "c6",
     name: "Spor İç Giyim",
     slug: "spor",
-    image:
-      "https://images.unsplash.com/photo-1649345946706-afbf86eee046?w=900&q=80&auto=format&fit=crop",
+    image: "",
     tagline: "Hareket özgürlüğü",
   },
 ];

@@ -1,82 +1,214 @@
-# Luna Rosa
+# Miss Bella
 
-Premium ic giyim e-ticaret arayuzu — Next.js 15 (App Router) + TypeScript + TailwindCSS.
+Premium iç giyim e-ticaret sitesi — **Next.js 15** (App Router) + **TypeScript** + **TailwindCSS**.
 
-## Hizli Baslangic
+Marka: Miss Bella · Tema: Fuşya pembesi · Stil: Modern editorial + glassmorphism + scroll reveal
+
+---
+
+## 🚀 Hızlı Başlangıç
 
 ```bash
 npm install
-cp .env.example .env.local      # degerleri doldurun
+cp .env.example .env.local      # değerleri doldurun
 npm run dev                     # http://localhost:3000
 ```
 
-## Production Build
+## 📦 Production Build
 
 ```bash
 npm run build
 npm run start                   # default port 3000
 ```
 
-## Ortam Degiskenleri
+## 🔍 Kontroller
 
-`.env.example` dosyasini `.env.local` (geliştirme) veya host panelinizdeki environment ayarlarina (production) kopyalayin.
+```bash
+npm run lint        # ESLint
+npx tsc --noEmit    # TypeScript
+```
 
-| Degisken | Amac | Zorunlu |
-| --- | --- | --- |
-| `ADMIN_USERNAME` | Admin paneli kullanici adi | Onerilir |
-| `ADMIN_PASSWORD` | Admin paneli parolasi | **Evet** |
-| `ADMIN_SESSION_TOKEN` | Cookie imzasi icin rastgele 32+ byte deger | **Evet** |
-| `NEXT_PUBLIC_WHATSAPP_PHONE` | WhatsApp butonu telefon numarasi (sadece rakam) | Onerilir |
-| `NEXT_PUBLIC_INSTAGRAM_URL` | Footer Instagram linki | Hayir |
-| `NEXT_PUBLIC_FACEBOOK_URL` | Footer Facebook linki | Hayir |
-| `NEXT_PUBLIC_YOUTUBE_URL` | Footer Youtube linki | Hayir |
+---
 
-> ⚠️ **Onemli:** `ADMIN_PASSWORD` ve `ADMIN_SESSION_TOKEN` doldurulmadiginda admin koruma devre disi kalir ve `/admin` rotasi koruma olmadan acilir. Canliya almadan mutlaka doldurun.
+## 🌍 Ortam Değişkenleri
 
-`ADMIN_SESSION_TOKEN` icin guclu bir deger uretmek:
+`.env.example` dosyasını `.env.local` (geliştirme) veya host panelinizdeki environment ayarlarına (production) kopyalayın.
+
+### Zorunlu (yayına çıkmadan önce)
+
+| Değişken | Amaç |
+| --- | --- |
+| `ADMIN_USERNAME` | Admin paneli kullanıcı adı |
+| `ADMIN_PASSWORD` | Admin paneli parolası |
+| `ADMIN_SESSION_TOKEN` | Cookie imzası için rastgele 32+ byte hex |
+| `NEXT_PUBLIC_SITE_URL` | Production domain (sitemap, OG, canonical için) |
+
+### İletişim & Sosyal Medya (opsiyonel — boş ise gizlenir)
+
+| Değişken | Amaç |
+| --- | --- |
+| `NEXT_PUBLIC_WHATSAPP_PHONE` | Sağ alttaki WhatsApp butonu (sadece rakam) |
+| `NEXT_PUBLIC_SUPPORT_PHONE` | İletişim sayfası telefon |
+| `NEXT_PUBLIC_SUPPORT_EMAIL` | İletişim sayfası e-posta |
+| `NEXT_PUBLIC_INSTAGRAM_URL` | Footer Instagram |
+| `NEXT_PUBLIC_FACEBOOK_URL` | Footer Facebook |
+| `NEXT_PUBLIC_YOUTUBE_URL` | Footer Youtube |
+
+> ⚠️ **Önemli:** `ADMIN_PASSWORD` ve `ADMIN_SESSION_TOKEN` doldurulmadığında production'da admin koruma 503 ile reddeder. Mutlaka doldurun.
+
+`ADMIN_SESSION_TOKEN` için güçlü bir değer üretmek:
 
 ```bash
 # Linux/macOS
 openssl rand -hex 32
 
-# Node ile (cross-platform)
+# Node ile
 node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"
 ```
 
-## Admin Paneli
+---
 
-- URL: `/admin-giris` (giris formu) → `/admin` (dashboard)
-- Veritabani: **Su an salt-bellek (mock).** Sunucu yeniden baslatildiginda admin'den yapilan urun/siparis/ayar degisiklikleri seed verisine doner. Vitrindeki urun listesi ve calisan akislar tamamen statik `data/products.ts` uzerinden uretilir; bu nedenle son musteri tarafinda her zaman tutarli gorunur.
-- Kalici yonetim icin sonraki adim: `lib/services/mock/*` icindeki servisleri Postgres/SQLite gibi bir veritabani + Server Actions kombinasyonuyla degistirmek. README sonundaki "Sonraki Adimlar" bolumune bakin.
+## 🛠️ Admin Paneli
 
-## Yayim Kontrol Listesi
+- URL: `/admin-giris` (giriş formu) → `/admin` (dashboard)
+- Modüller: Ürünler, Kategoriler, Siparişler, Site Ayarları
+- **Veritabanı:** Şu an salt-bellek (mock). Vercel free tier'da deploy yenilendiğinde sıfırlanır. Kalıcı kullanım için host kurulumunda `lib/services/mock/*` servislerini gerçek bir DB'ye (Postgres / Supabase / SQLite) bağlamak gerekir.
 
-1. `.env.local` (veya host environment) doldurulmus.
-2. `npm run build` hatasiz tamamlaniyor.
-3. `/` ana sayfa, `/products`, `/cart`, `/checkout` akisi calisiyor.
-4. `/admin-giris` parolayla `/admin`'e yonlendiriyor; yanlis parolada hata gosteriyor.
-5. WhatsApp butonu gercek bir numaraya gidiyor.
-6. Footer Hakkimizda ve Iletisim linkleri dolu sayfalara gidiyor.
+---
 
-## Klasor Yapisi
+## 📄 Sayfalar
+
+### Müşteriye yönelik
+- `/` — Anasayfa (Hero + Coming Soon + BrandStory + TrustBadges)
+- `/products` — Ürün kataloğu (filtre, sıralama, arama)
+- `/products/[slug]` — Ürün detay
+- `/cart` — Sepet
+- `/checkout` — Sipariş tamamlama (3 adımlı)
+- `/favorilerim` — Favori ürünler (localStorage)
+
+### Bilgi sayfaları
+- `/hakkimizda` — Marka hikayesi
+- `/iletisim` — İletişim formu + bilgileri
+- `/musteri-hizmetleri` — Yardım merkezi
+- `/sss` — Sıkça sorulan sorular (kategorize)
+- `/beden-tablosu` — Sütyen/külot/gece bedenleri + ölçü rehberi
+- `/kargo-teslimat` — Teslimat bilgileri
+
+### Yasal
+- `/kvkk` — KVKK Aydınlatma Metni
+- `/gizlilik` — Gizlilik Politikası
+- `/iade-politikasi` — İade ve Değişim
+- `/mesafeli-satis` — Mesafeli Satış Sözleşmesi
+
+### Sistem
+- `/admin/*` — Admin paneli (middleware korumalı)
+- `/admin-giris` — Admin login
+- `/api/admin/login` · `/api/admin/logout` — Auth API
+- `/sitemap.xml` · `/robots.txt` — SEO
+- `/manifest.webmanifest` — PWA
+- `/opengraph-image` · `/icon` · `/apple-icon` — Dinamik görseller
+
+---
+
+## 🎨 Marka Sistemi
+
+- **Tema:** Fuşya pembesi (`#ee2a8b`) ana renk, gradient yazılar, glassmorphism kartlar
+- **Tipografi:** Cormorant Garamond (display) + Inter (body)
+- **Animasyonlar:** Reveal (scroll-triggered), micro-interactions, btn shine, prefers-reduced-motion saygısı
+- **Bileşenler:** `components/` altında, tematik gruplama (`admin/`, `cart/`, `products/`, `feedback/`, `forms/`)
+
+---
+
+## 🗂️ Klasör Yapısı
 
 ```
-app/             Next.js App Router rotalari
-  admin/         Admin panel sayfalari (middleware ile korunur)
-  admin-giris/   Admin login formu (korumasiz)
-  api/admin/     Login/logout API
-components/      UI bilesenleri
-data/            Statik urun/kategori/admin seed verileri
-lib/             Yardimci fonksiyonlar + servis katmani
-  services/mock/ Bellek/dosya tabanli admin DB
-types/           Paylasimli TypeScript tipleri
-middleware.ts    Admin rotalarini koruyan middleware
+app/                    Next.js App Router rotaları
+  admin/                Admin panel sayfaları (middleware korumalı)
+  admin-giris/          Admin login formu
+  api/admin/            Login/logout API rotaları
+  [legal pages]/        KVKK, Gizlilik, İade, Mesafeli Satış
+  [info pages]/         Hakkımızda, İletişim, SSS, Beden Tablosu, Kargo, Müşteri Hizmetleri
+  opengraph-image.tsx   Dinamik OG image üretici
+  icon.tsx              Favicon üretici
+  manifest.ts           PWA manifest
+  sitemap.ts            Sitemap üretici
+  robots.ts             Robots.txt
+components/             UI bileşenleri
+  admin/                Admin paneli bileşenleri
+  cart/                 Sepet bileşenleri
+  products/             Ürün listesi & detay bileşenleri
+data/                   Statik veri (products, categories, admin seed)
+lib/                    Yardımcı fonksiyonlar
+  site.ts               Marka & SEO sabitleri (tek nokta)
+  schema.ts             Schema.org JSON-LD üreticileri
+  validation.ts         Form validasyon (TC kimlik, telefon mask, IBAN)
+  email-templates.ts    Sipariş onay & hoşgeldin HTML mail şablonları
+  services/             Servis katmanı (mock → gerçek DB)
+types/                  TypeScript tipleri
+middleware.ts           Admin rotalarını koruyan middleware
+next.config.js          CSP + security headers + image optimization
 ```
 
-## Sonraki Adimlar (canli e-ticarete gecerken)
+---
 
-1. **Veritabani**: `lib/services/mock/*` servislerini Postgres/MySQL/SQLite ile degistirin. ORM olarak Prisma onerilir. Ayni `ProductService`/`CategoryService` arayuzunu uyguladiginizda admin paneli tek satir degisiklikle gercek DB'ye baglanir.
-2. **Odeme entegrasyonu**: `app/checkout/page.tsx` icindeki `handlePlaceOrder` su an siparis kaydetmeden basari ekrani gosteriyor. iyzico / Stripe / PayTR API'leri ile entegre edip server action'a tasimak gerekir.
-3. **Bulten / Iletisim formu**: Footer'daki abone formu su an client-side dogrulama yapip onay gosteriyor. Mailchimp/Resend/Brevo gibi bir servise POST eden bir API route ekleyin.
-4. **Gercek urun gorselleri**: Tum gorseller Unsplash placeholder. S3/Cloudinary/Vercel Blob'a urun fotograflarini yukleyip `data/products.ts` veya admin paneli uzerinden URL'leri guncelleyin.
+## ✅ Yayım Öncesi Kontrol Listesi
 
+- [ ] `.env.local` (veya host environment) doldurulmuş
+- [ ] `npm run build` hatasız tamamlanıyor
+- [ ] `npm run lint` 0 uyarı
+- [ ] `/` anasayfa yükleniyor
+- [ ] `/products` boşsa "Yakında" gösteriyor
+- [ ] `/admin-giris` parolayla `/admin`'e yönlendiriyor
+- [ ] `/sitemap.xml` ve `/robots.txt` doğru domain ile görünüyor
+- [ ] `/opengraph-image` 1200×630 PNG üretiyor
+- [ ] WhatsApp env boş ise buton görünmüyor (boşken görünmemeli)
+- [ ] Footer'da sosyal medya env'leri boş ise ikonlar görünmüyor
+- [ ] Mobil görünüm test edildi
+
+---
+
+## 🚦 Sonraki Adımlar (canlıya alırken)
+
+### 1. Domain & SSL
+- `missbella.com.tr` (veya benzeri) domain alımı
+- Vercel'e custom domain ekle → DNS yönlendirmesi → SSL otomatik
+
+### 2. Veritabanı
+- Önerilen: **Supabase** (ücretsiz tier — PostgreSQL + Storage + Auth)
+- Alternatif: Vercel Postgres, PlanetScale, Neon
+- `lib/services/mock/*` servislerini gerçek DB ile değiştir
+
+### 3. Görsel Storage
+- **Supabase Storage** (DB ile aynı sağlayıcı) veya **Cloudinary** önerisi
+- Admin'den ürün eklerken upload
+
+### 4. Ödeme Entegrasyonu
+- TR için: **iyzico** veya **PayTR**
+- Yurt dışı için: **Stripe**
+- `app/checkout/page.tsx` `handlePlaceOrder` fonksiyonunu API route'a bağla
+
+### 5. E-posta Gönderimi
+- **Resend** önerilen (3000 ücretsiz e-posta/ay)
+- `lib/email-templates.ts` HTML şablonları hazır
+- Sipariş onay + bülten + admin bildirim
+
+### 6. Bülten Entegrasyonu
+- Footer formu → Mailchimp / Brevo / ConvertKit
+
+### 7. Analytics & Hata İzleme
+- **Vercel Analytics** (1 tıkla aktif)
+- **Sentry** (ücretsiz tier — error tracking)
+- Google Analytics 4 (opsiyonel)
+
+### 8. Şirket Bilgileri
+KVKK, Mesafeli Satış ve İletişim sayfalarındaki italic placeholder alanlar:
+- Şirket tam unvanı, adresi
+- Vergi dairesi & VKN
+- MERSIS numarası
+- Müşteri hizmetleri telefonu
+
+---
+
+## 📜 Lisans
+
+Tüm hakları saklıdır © Miss Bella

@@ -42,15 +42,20 @@ export default function FavoritesPage() {
             </div>
             <span className="luxe-label">Favoris</span>
             <h1 className="mt-5 font-display text-[42px] leading-[1.05] text-ink-900 md:text-[64px]">
-              Henuz{" "}
-              <span className="font-italic-display text-gradient-fuchsia">favori</span>{" "}
+              Henüz{" "}
+              <span className="font-italic-display text-gradient-fuchsia">
+                favori
+              </span>{" "}
               yok
             </h1>
             <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-ink-700 md:text-base">
               Beğendiğiniz ürünlerdeki kalp ikonuna basarak favorilerinize
-              ekleyebilirsiniz.
+              ekleyebilirsiniz. Favoriler tarayıcınızda saklanır.
             </p>
-            <Link href="/products" className="btn-luxe btn-luxe-dark mt-8 shadow-soft">
+            <Link
+              href="/products"
+              className="btn-luxe btn-luxe-rose mt-8 shadow-luxe"
+            >
               Koleksiyonu Keşfet <ArrowRight strokeWidth={1.5} size={14} />
             </Link>
           </div>

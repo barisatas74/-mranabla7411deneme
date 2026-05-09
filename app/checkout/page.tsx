@@ -20,6 +20,14 @@ import {
   ShippingMethod,
 } from "@/types";
 import { CheckCircle2, CreditCard, Lock, Truck, Wallet } from "lucide-react";
+import {
+  formatPhone,
+  formatPostalCode,
+  formatCardNumber,
+  formatCardExpiry,
+  formatCvc,
+  TR_CITIES,
+} from "@/lib/validation";
 
 const initialFormData: CheckoutFormData = {
   firstName: "",
@@ -340,8 +348,10 @@ export default function CheckoutPage() {
                 type="tel"
                 autoComplete="tel"
                 value={formData.phone}
-                onChange={(value) => updateField("phone", value)}
+                onChange={(value) => updateField("phone", formatPhone(value))}
                 error={errors.phone}
+                placeholder="+90 5__ ___ __ __"
+                inputMode="tel"
               />
               <FormInput
                 label="Adres"
@@ -351,12 +361,14 @@ export default function CheckoutPage() {
                 onChange={(value) => updateField("address", value)}
                 error={errors.address}
               />
-              <FormInput
+              <FormSelect
                 label="İl"
                 autoComplete="address-level1"
                 value={formData.city}
                 onChange={(value) => updateField("city", value)}
                 error={errors.city}
+                options={TR_CITIES}
+                placeholder="İl seçin"
               />
               <FormInput
                 label="İlçe"
@@ -369,8 +381,13 @@ export default function CheckoutPage() {
                 label="Posta Kodu"
                 autoComplete="postal-code"
                 value={formData.postalCode}
-                onChange={(value) => updateField("postalCode", value)}
+                onChange={(value) =>
+                  updateField("postalCode", formatPostalCode(value))
+                }
                 error={errors.postalCode}
+                placeholder="34000"
+                inputMode="numeric"
+                maxLength={5}
               />
             </div>
             <label className="mt-5 block">
@@ -490,24 +507,34 @@ export default function CheckoutPage() {
                   inputMode="numeric"
                   className="md:col-span-2"
                   value={formData.cardNumber}
-                  onChange={(value) => updateField("cardNumber", value)}
+                  onChange={(value) =>
+                    updateField("cardNumber", formatCardNumber(value))
+                  }
                   error={errors.cardNumber}
+                  placeholder="0000 0000 0000 0000"
+                  maxLength={23}
                 />
                 <FormInput
                   label="Son Kullanma (AA/YY)"
                   autoComplete="cc-exp"
                   inputMode="numeric"
                   value={formData.cardExpiry}
-                  onChange={(value) => updateField("cardExpiry", value)}
+                  onChange={(value) =>
+                    updateField("cardExpiry", formatCardExpiry(value))
+                  }
                   error={errors.cardExpiry}
+                  placeholder="AA/YY"
+                  maxLength={5}
                 />
                 <FormInput
                   label="CVC"
                   autoComplete="cc-csc"
                   inputMode="numeric"
                   value={formData.cardCvc}
-                  onChange={(value) => updateField("cardCvc", value)}
+                  onChange={(value) => updateField("cardCvc", formatCvc(value))}
                   error={errors.cardCvc}
+                  placeholder="000"
+                  maxLength={4}
                 />
               </div>
             )}
@@ -658,6 +685,8 @@ function FormInput({
   className,
   autoComplete,
   inputMode,
+  placeholder,
+  maxLength,
 }: {
   label: string;
   value: string;
@@ -667,24 +696,81 @@ function FormInput({
   className?: string;
   autoComplete?: string;
   inputMode?: "text" | "numeric" | "tel" | "email" | "search" | "url";
+  placeholder?: string;
+  maxLength?: number;
 }) {
   return (
     <label className={cn("block", className)}>
-      <span className="text-[11px] uppercase tracking-luxe text-ink-700">{label}</span>
+      <span className="text-[11px] uppercase tracking-luxe text-ink-700">
+        {label}
+      </span>
       <input
         type={type}
         autoComplete={autoComplete}
         inputMode={inputMode}
         value={value}
         onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        maxLength={maxLength}
         className={cn(
-          "mt-1.5 w-full border bg-transparent px-4 py-3 text-sm outline-none transition",
+          "mt-1.5 w-full rounded-lg border bg-white px-4 py-3 text-sm outline-none transition placeholder:text-ink-500/50",
           error
-            ? "border-rose-500 focus:border-rose-500"
-            : "border-ink-900/15 focus:border-rose-500"
+            ? "border-rose-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/15"
+            : "border-ink-900/15 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/15"
         )}
       />
-      {error && <p className="mt-1.5 text-sm text-rose-600">{error}</p>}
+      {error && (
+        <p className="mt-1.5 text-xs text-rose-600">{error}</p>
+      )}
+    </label>
+  );
+}
+
+function FormSelect({
+  label,
+  value,
+  onChange,
+  error,
+  className,
+  autoComplete,
+  options,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  error?: string;
+  className?: string;
+  autoComplete?: string;
+  options: readonly string[];
+  placeholder?: string;
+}) {
+  return (
+    <label className={cn("block", className)}>
+      <span className="text-[11px] uppercase tracking-luxe text-ink-700">
+        {label}
+      </span>
+      <select
+        autoComplete={autoComplete}
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className={cn(
+          "mt-1.5 w-full rounded-lg border bg-white px-4 py-3 text-sm outline-none transition",
+          error
+            ? "border-rose-500 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/15"
+            : "border-ink-900/15 focus:border-rose-500 focus:ring-2 focus:ring-rose-500/15"
+        )}
+      >
+        <option value="">{placeholder ?? "Seçin"}</option>
+        {options.map((option) => (
+          <option key={option} value={option}>
+            {option}
+          </option>
+        ))}
+      </select>
+      {error && (
+        <p className="mt-1.5 text-xs text-rose-600">{error}</p>
+      )}
     </label>
   );
 }
@@ -713,7 +799,9 @@ function validateField(
   formData: CheckoutFormData
 ) {
   const trimmedValue =
-    typeof formData[field] === "string" ? formData[field].trim() : formData[field];
+    typeof formData[field] === "string"
+      ? formData[field].trim()
+      : formData[field];
 
   switch (field) {
     case "firstName":
@@ -722,48 +810,73 @@ function validateField(
     case "district":
       return String(trimmedValue).length >= 2
         ? undefined
-        : "Bu alan en az 2 karakter olmali.";
+        : "Bu alan en az 2 karakter olmalı.";
     case "address":
       return String(trimmedValue).length >= 10
         ? undefined
-        : "Adres bilgisini daha detayli girin.";
+        : "Adres bilgisini daha detaylı girin.";
     case "email":
       return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(trimmedValue))
         ? undefined
-        : "Gecerli bir e-posta girin.";
-    case "phone":
-      return String(trimmedValue).replace(/\D/g, "").length >= 10
+        : "Geçerli bir e-posta girin.";
+    case "phone": {
+      const cleaned = String(trimmedValue)
+        .replace(/\D/g, "")
+        .replace(/^(90|0)/, "");
+      return /^5\d{9}$/.test(cleaned)
         ? undefined
-        : "Gecerli bir telefon numarasi girin.";
+        : "Geçerli bir cep telefonu girin (5XX XXX XX XX).";
+    }
     case "postalCode":
       return /^\d{5}$/.test(String(trimmedValue))
         ? undefined
-        : "Posta kodu 5 haneli olmali.";
+        : "Posta kodu 5 haneli olmalı.";
     case "shippingMethod":
-      return formData.shippingMethod ? undefined : "Bir kargo secenegi secin.";
+      return formData.shippingMethod
+        ? undefined
+        : "Bir kargo seçeneği seçin.";
     case "paymentMethod":
-      return formData.paymentMethod ? undefined : "Bir ödeme yöntemi seçin.";
+      return formData.paymentMethod
+        ? undefined
+        : "Bir ödeme yöntemi seçin.";
     case "cardHolderName":
-      return formData.paymentMethod !== "card" || String(trimmedValue).length >= 3
-        ? undefined
-        : "Kart uzerindeki ismi girin.";
-    case "cardNumber":
       return formData.paymentMethod !== "card" ||
-        String(trimmedValue).replace(/\D/g, "").length === 16
+        String(trimmedValue).length >= 3
         ? undefined
-        : "Kart numarasi 16 haneli olmali.";
+        : "Kart üzerindeki ismi girin.";
+    case "cardNumber": {
+      if (formData.paymentMethod !== "card") return undefined;
+      const digits = String(trimmedValue).replace(/\D/g, "");
+      if (digits.length < 13 || digits.length > 19)
+        return "Kart numarası 13-19 haneli olmalı.";
+      // Luhn
+      let sum = 0;
+      let alt = false;
+      for (let i = digits.length - 1; i >= 0; i--) {
+        let n = parseInt(digits[i], 10);
+        if (alt) {
+          n *= 2;
+          if (n > 9) n -= 9;
+        }
+        sum += n;
+        alt = !alt;
+      }
+      return sum % 10 === 0 ? undefined : "Geçersiz kart numarası.";
+    }
     case "cardExpiry":
       return formData.paymentMethod !== "card" ||
         /^(0[1-9]|1[0-2])\/\d{2}$/.test(String(trimmedValue))
         ? undefined
-        : "AA/YY formatinda son kullanma tarihi girin.";
+        : "AA/YY formatında son kullanma tarihi girin.";
     case "cardCvc":
       return formData.paymentMethod !== "card" ||
         /^\d{3,4}$/.test(String(trimmedValue))
         ? undefined
-        : "CVC 3 veya 4 haneli olmali.";
+        : "CVC 3 veya 4 haneli olmalı.";
     case "acceptTerms":
-      return formData.acceptTerms ? undefined : "Devam etmek icin onay vermelisiniz.";
+      return formData.acceptTerms
+        ? undefined
+        : "Devam etmek için onay vermeniz gerekiyor.";
     case "customerNote":
     default:
       return undefined;

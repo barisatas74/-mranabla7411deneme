@@ -81,16 +81,25 @@ export default function CartView() {
             </div>
             <span className="luxe-label">Panier Vide</span>
             <h1 className="mt-5 font-display text-[42px] leading-[1.05] text-ink-900 md:text-[64px]">
-              Sepetiniz <span className="font-italic-display text-gradient-fuchsia">bos</span>
+              Sepetiniz{" "}
+              <span className="font-italic-display text-gradient-fuchsia">
+                boş
+              </span>
             </h1>
             <p className="mx-auto mt-5 max-w-md text-sm leading-relaxed text-ink-700 md:text-base">
               Koleksiyondan ürün eklediğinizde seçimleriniz burada listelenecek.
             </p>
             <div className="mt-10 flex flex-col justify-center gap-3 sm:flex-row">
-              <Link href="/products" className="btn-luxe btn-luxe-dark shadow-soft">
+              <Link
+                href="/products"
+                className="btn-luxe btn-luxe-rose shadow-luxe"
+              >
                 Alışverişe Başla <ArrowRight strokeWidth={1.5} size={14} />
               </Link>
-              <Link href="/products?filter=new" className="btn-luxe btn-luxe-outline">
+              <Link
+                href="/products?filter=new"
+                className="btn-luxe btn-luxe-outline"
+              >
                 Yeni Sezonu Keşfet
               </Link>
             </div>

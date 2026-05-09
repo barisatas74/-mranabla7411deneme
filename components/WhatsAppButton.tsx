@@ -36,21 +36,24 @@ export default function FloatingWhatsApp() {
       onMouseEnter={() => setExpanded(true)}
       onMouseLeave={() => setExpanded(false)}
       className={cn(
-        "fixed bottom-5 right-5 z-40 flex items-center gap-3 rounded-full bg-[#25D366] text-white shadow-luxe transition-all duration-500 hover:bg-[#1ebe57] md:bottom-7 md:right-7",
+        "fixed bottom-5 right-5 z-40 flex items-center gap-3 rounded-full bg-[#25D366] text-white shadow-luxe transition-all duration-500 hover:scale-105 hover:bg-[#1ebe57] hover:shadow-[0_18px_40px_-10px_rgba(37,211,102,0.6)] md:bottom-7 md:right-7",
         visible
           ? "translate-y-0 opacity-100"
           : "pointer-events-none translate-y-6 opacity-0",
         expanded ? "pl-4 pr-5" : "pl-3.5 pr-3.5"
       )}
     >
-      <WhatsAppIcon />
+      <span className="relative flex">
+        <WhatsAppIcon />
+        <span className="absolute inset-0 -z-10 animate-ping rounded-full bg-white/40 opacity-50" />
+      </span>
       <span
         className={cn(
           "overflow-hidden whitespace-nowrap py-3 text-[11px] font-medium uppercase tracking-wider transition-all duration-500",
           expanded ? "max-w-[180px]" : "max-w-0"
         )}
       >
-        Bize Yazin
+        Bize Yazın
       </span>
     </a>
   );

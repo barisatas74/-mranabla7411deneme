@@ -6,6 +6,7 @@ import Footer from "@/components/Footer";
 import FloatingWhatsApp from "@/components/WhatsAppButton";
 import AddToCartToast from "@/components/AddToCartToast";
 import CookieConsent from "@/components/CookieConsent";
+import ScrollToTop from "@/components/ScrollToTop";
 
 export default function AppChrome({
   children,
@@ -26,12 +27,13 @@ export default function AppChrome({
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-50 focus:rounded-md focus:bg-ink-950 focus:px-4 focus:py-2 focus:text-sm focus:text-bone-50"
       >
-        Icerige gec
+        İçeriğe geç
       </a>
       <Navbar />
       <main id="main-content">{children}</main>
       <Footer />
       <FloatingWhatsApp />
+      <ScrollToTop />
       <AddToCartToast />
       <CookieConsent />
     </>

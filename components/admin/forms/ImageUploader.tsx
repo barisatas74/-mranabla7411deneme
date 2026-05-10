@@ -111,8 +111,8 @@ export default function ImageUploader({
   async function handleRemove(url: string) {
     const next = value.filter((item) => item !== url);
     onChange(next);
-    // Sunucudan da sil — yalnizca yuklenmis olanlar /uploads/ ile baslar.
-    if (url.startsWith("/uploads/")) {
+    // Sunucu hangi URL'i silecegini biliyor (lokal /uploads veya FTP public URL).
+    if (url) {
       void deleteUploadedImage(url);
     }
   }

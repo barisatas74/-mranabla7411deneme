@@ -58,9 +58,11 @@ export async function deleteUploadedImages(urls: string[]): Promise<number> {
   return data.deleted ?? 0;
 }
 
-/** Tek bir gorseli sil (best-effort, hata durumunda sessizce gecer) */
+/** Tek bir gorseli sil (best-effort, hata durumunda sessizce gecer).
+ * Sunucu tarafi URL'in storage driver ile eslesip eslesmedigine kendisi bakar;
+ * eslesmiyorsa sessizce false doner. Bu yuzden burada filtre uygulamiyoruz. */
 export async function deleteUploadedImage(url: string): Promise<void> {
-  if (!url || !url.startsWith("/uploads/")) return;
+  if (!url) return;
   try {
     await deleteUploadedImages([url]);
   } catch {

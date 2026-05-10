@@ -34,9 +34,14 @@ const securityHeaders = [
 
 const nextConfig = {
   images: {
-    // Uzak gorsel kaynaklari host kurulumunda eklenecek
-    // (Supabase Storage / Cloudinary / S3 vb.)
-    remotePatterns: [],
+    // Uzak gorsel kaynaklari (FTP ile hosting'e yuklenen gorseller dahil).
+    // FTP_PUBLIC_URL hangi domain ise buraya eklenmelidir.
+    remotePatterns: [
+      { protocol: "https", hostname: "missbellalingree.com" },
+      { protocol: "https", hostname: "www.missbellalingree.com" },
+      { protocol: "https", hostname: "cdn.missbellalingree.com" },
+      // Hosting baska bir subdomain kullaniyorsa buraya ekleyin.
+    ],
   },
   async headers() {
     return [

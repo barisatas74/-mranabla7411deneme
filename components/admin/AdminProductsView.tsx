@@ -14,6 +14,7 @@ import {
 } from "@/components/admin/feedback/AdminFeedbackProvider";
 import { getStockState } from "@/lib/admin";
 import { productService } from "@/lib/services";
+import { deleteUploadedImages } from "@/lib/upload-client";
 import { formatPrice } from "@/lib/utils";
 import { AdminProduct } from "@/types";
 
@@ -67,6 +68,7 @@ export default function AdminProductsView({
       return;
     }
 
+    const productToRemove = products.find((product) => product.id === productId);
     const removed = await productService.remove(productId);
 
     if (!removed) {
@@ -79,6 +81,12 @@ export default function AdminProductsView({
     }
 
     setProducts((current) => current.filter((product) => product.id !== productId));
+
+    // Sunucudan da gorselleri sil (best-effort)
+    if (productToRemove?.images?.length) {
+      void deleteUploadedImages(productToRemove.images);
+    }
+
     toast({
       title: "Ürün silindi",
       description: `${productName} kaldırıldı.`,

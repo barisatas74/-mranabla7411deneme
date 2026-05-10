@@ -14,8 +14,10 @@ import {
   AdminSelectField,
   AdminTextAreaField,
 } from "@/components/admin/forms/AdminFormFields";
+import ImageUploader from "@/components/admin/forms/ImageUploader";
 import { getCategoryProductCount, slugify, validateCategoryForm } from "@/lib/admin";
 import { categoryService } from "@/lib/services";
+import { deleteUploadedImage } from "@/lib/upload-client";
 import { AdminCategory, AdminCategoryFormValues, AdminProduct } from "@/types";
 
 function toFormValues(
@@ -84,6 +86,7 @@ export default function AdminCategoriesView({
       return;
     }
 
+    const categoryToRemove = categories.find((category) => category.id === categoryId);
     const removed = await categoryService.remove(categoryId);
 
     if (!removed) {
@@ -96,6 +99,11 @@ export default function AdminCategoriesView({
     }
 
     setCategories((current) => current.filter((category) => category.id !== categoryId));
+
+    // Sunucudan kategori gorselini sil (best-effort)
+    if (categoryToRemove?.image) {
+      void deleteUploadedImage(categoryToRemove.image);
+    }
     if (editingId === categoryId) {
       resetForm();
     }
@@ -243,12 +251,36 @@ export default function AdminCategoriesView({
               }
               error={errors.slug}
             />
-            <AdminInputField
-              label="Görsel URL"
-              value={values.image}
-              onChange={(value) => setValues((current) => ({ ...current, image: value }))}
-              error={errors.image}
-            />
+            <div>
+              <span className="block text-sm font-medium text-slate-700">
+                Kategori görseli
+              </span>
+              <p className="mt-1 text-xs text-slate-500">
+                Yüklediğiniz dosya WebP&apos;e dönüştürülüp sunucuya
+                kaydedilir. Yenisini yüklediğinizde eski görsel otomatik
+                silinir.
+              </p>
+              <div className="mt-3">
+                <ImageUploader
+                  folder="categories"
+                  multiple={false}
+                  value={values.image ? [values.image] : []}
+                  onChange={(urls) => {
+                    const previous = values.image;
+                    const next = urls[0] ?? "";
+                    setValues((current) => ({ ...current, image: next }));
+                    // Yeni gorsel sec/cikar — eski uploaded ise sunucudan sil
+                    if (previous && previous !== next) {
+                      void deleteUploadedImage(previous);
+                    }
+                  }}
+                  error={errors.image}
+                  onNotify={(title, description, variant) =>
+                    toast({ title, description, variant })
+                  }
+                />
+              </div>
+            </div>
             <AdminInputField
               label="Tagline"
               value={values.tagline}

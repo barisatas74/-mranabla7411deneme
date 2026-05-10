@@ -70,47 +70,86 @@ Ya da boş bırak — ilk yüklemede otomatik oluşturulur.
 ### 3) Public URL'i belirle
 
 Görsellerin internetten erişilebilir olması için bir URL gerek.
+**3 seçenek** var:
 
-#### 🅰️ Seçenek A — Alt domain (önerilen, en temiz)
+#### 🆎 Seçenek 1 — Vercel rewrite (önerilen, alt domain GEREKMEZ)
+
+Hosting'in sana otomatik verdiği bir direct URL vardır. Genellikle:
+- `https://kullaniciadi.hostingadi.com.tr`
+- `https://server123.hostingadi.com`
+- `https://kullaniciadi.hostingadi.com:2083` gibi
+
+cPanel'in ana sayfasında ya da hosting şirketinin "hesap bilgileri"
+e-postasında geçer.
+
+Vercel `/uploads/*` yollarını **bu URL'e proxy'ler**, kullanıcı hep
+ana domain altında görür.
+
+**Vercel env:**
+```
+FTP_PUBLIC_URL      = https://www.missbellalingree.com/uploads
+HOSTING_DIRECT_URL  = https://kullaniciadi.hostingadi.com
+```
+
+**Avantajları:**
+- ✅ Subdomain açmana gerek yok
+- ✅ DNS değişikliği yok
+- ✅ URL'ler `missbellalingree.com/uploads/...` görünür (profesyonel)
+- ✅ SSL otomatik (Vercel hallediyor)
+
+**Dezavantajları:**
+- ⚠️ Her görsel isteği Vercel'den geçer → Vercel bandwidth tüketir
+  (Vercel free 100 GB/ay → küçük-orta site için fazlasıyla yeter)
+
+#### 🅰️ Seçenek 2 — Alt domain (subdomain)
 
 Vercel ana domain'i (`missbellalingree.com`) tutuyor. Görseller için
 **alt domain** açıyoruz:
 
-1. Domain panelinden (Natro/GoDaddy vb.) DNS kayıtlarına gir
-2. Yeni A record ekle:
+1. Domain panelinden DNS'e A record ekle:
    ```
    Tip:   A
-   İsim:  cdn        (yani cdn.missbellalingree.com olur)
+   İsim:  cdn
    Değer: <hosting'in IP adresi>
    ```
-   Hosting IP'sini cPanel ana sayfasında "Shared IP Address" altında bulursun.
-3. cPanel'de **Domains** → **Create Subdomain** → `cdn`
+2. cPanel'de **Domains** → **Create Subdomain** → `cdn`
    - Document Root: `public_html/uploads`
-4. SSL için cPanel **SSL/TLS Status** → cdn subdomain için "Run AutoSSL"
-5. Test: `https://cdn.missbellalingree.com/products/` → 403 ya da boş klasör listesi olmalı (bağlantı çalışıyor demek)
+3. SSL için cPanel **SSL/TLS Status** → cdn için "Run AutoSSL"
 
-Sonuç:
+**Vercel env:**
 ```
-FTP_PUBLIC_URL = https://cdn.missbellalingree.com
+FTP_PUBLIC_URL      = https://cdn.missbellalingree.com
+HOSTING_DIRECT_URL  = (boş bırak)
 ```
 
-> Yukarıda `FTP_BASE_PATH=/public_html/uploads` ve subdomain kökü
-> aynı klasörü gösteriyor → görseller `https://cdn.missbellalingree.com/products/x.webp`
-> olarak yayınlanır.
+**Avantajları:** Vercel bandwidth tüketmez, daha hızlı
+**Dezavantajları:** DNS + SSL kurulumu lazım
 
-#### 🅱️ Seçenek B — Hosting'in geçici/farklı bir domain'i
+#### 🅱️ Seçenek 3 — Hosting URL'i direkt kullan
 
-Hosting bazen ücretsiz alt domain verir (ör: `kullaniciadi.hostingadi.com`):
-```
-FTP_PUBLIC_URL = https://kullaniciadi.hostingadi.com/uploads
-```
-Çalışır ama profesyonel görünmez.
+`FTP_PUBLIC_URL = https://kullaniciadi.hostingadi.com/uploads`
+
+Çalışır ama URL'ler hosting domain'iyle görünür — profesyonel değil.
 
 ### 4) Vercel'e env değişkenlerini gir
 
 Vercel Dashboard → Project → **Settings** → **Environment Variables**
 (Production/Preview/Development hepsini işaretle):
 
+**Seçenek 1 (rewrite — subdomain'sız):**
+```
+STORAGE_DRIVER       = ftp
+FTP_HOST             = ftp.missbellalingree.com
+FTP_PORT             = 21
+FTP_USER             = uploads@missbellalingree.com
+FTP_PASSWORD         = <FTP şifresi>
+FTP_SECURE           = false
+FTP_BASE_PATH        = /public_html/uploads
+FTP_PUBLIC_URL       = https://www.missbellalingree.com/uploads
+HOSTING_DIRECT_URL   = https://kullaniciadi.hostingadi.com
+```
+
+**Seçenek 2 (subdomain — cdn.missbellalingree.com):**
 ```
 STORAGE_DRIVER  = ftp
 FTP_HOST        = ftp.missbellalingree.com

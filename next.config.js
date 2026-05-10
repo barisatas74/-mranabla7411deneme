@@ -34,14 +34,36 @@ const securityHeaders = [
 
 const nextConfig = {
   images: {
-    // Uzak gorsel kaynaklari (FTP ile hosting'e yuklenen gorseller dahil).
-    // FTP_PUBLIC_URL hangi domain ise buraya eklenmelidir.
+    // Uzak gorsel kaynaklari. Ana domain ve hosting'in direct URL'i.
     remotePatterns: [
       { protocol: "https", hostname: "missbellalingree.com" },
       { protocol: "https", hostname: "www.missbellalingree.com" },
       { protocol: "https", hostname: "cdn.missbellalingree.com" },
-      // Hosting baska bir subdomain kullaniyorsa buraya ekleyin.
+      // Hosting'in direkt URL'i HOSTING_DIRECT_URL env'inden okunacaksa
+      // o domain'i de buraya elle eklemeniz gerekir.
     ],
+  },
+  /**
+   * /uploads/* yollarini hosting'e proxy'le.
+   * HOSTING_DIRECT_URL env tanimliysa Vercel ana domain'den gelen
+   * /uploads/products/x.webp istegini hosting'in disk'ine yonlendirir.
+   * Boylece subdomain (cdn.missbellalingree.com) acmaya gerek kalmaz.
+   *
+   * Ornek HOSTING_DIRECT_URL degerleri:
+   *   https://kullaniciadi.hostingadi.com.tr
+   *   https://server123.hostingadi.com
+   *
+   * Hosting'in size verdigi otomatik URL ne ise oraya yazin (sondaki / olmadan).
+   */
+  async rewrites() {
+    const hostingUrl = (process.env.HOSTING_DIRECT_URL ?? "").replace(/\/$/, "");
+    if (!hostingUrl) return [];
+    return [
+      {
+        source: "/uploads/:path*",
+        destination: `${hostingUrl}/uploads/:path*`,
+      },
+    ];
   },
   async headers() {
     return [

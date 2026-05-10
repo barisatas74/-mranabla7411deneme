@@ -95,8 +95,8 @@ export default function GizlilikPage() {
       <h2>İletişim</h2>
       <p>
         Gizlilik ve veri güvenliği ile ilgili tüm sorularınız için{" "}
-        <a href="mailto:kvkk@missbella.com.tr">kvkk@missbella.com.tr</a>{" "}
-        adresine ulaşabilirsiniz.
+        <a href="tel:+905309907163">0530 990 71 63</a> numaralı destek hattımızı
+        arayabilirsiniz.
       </p>
     </LegalLayout>
   );

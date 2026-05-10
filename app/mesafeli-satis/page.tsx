@@ -23,22 +23,12 @@ export default function MesafeliSatisPage() {
 
       <h3>Satıcı</h3>
       <p>
-        Unvan: <strong>Miss Bella</strong>
+        Unvan: <strong>Miss Bella İç Giyim Ve Butik</strong>
         <br />
-        Adres: <em>[Şirket merkez adresi]</em>
+        Adres: Eşref Dinçer Mah., Eski Pazar Cd. No: 20/A, 16600 Gemlik / Bursa
         <br />
-        Vergi Dairesi / No: <em>[Vergi dairesi] / [VKN]</em>
-        <br />
-        MERSİS No: <em>[MERSİS numarası]</em>
-        <br />
-        E-posta:{" "}
-        <a href="mailto:hello@missbella.com.tr">hello@missbella.com.tr</a>
-        <br />
-        Destek Hattı: <em>[Telefon]</em>
-      </p>
-      <p className="text-[12px] text-ink-600">
-        İtalik alanlar canlıya alınmadan önce gerçek şirket bilgileri ile
-        güncellenmelidir.
+        Destek Hattı:{" "}
+        <a href="tel:+905309907163">0530 990 71 63</a>
       </p>
 
       <h3>Alıcı</h3>
@@ -93,10 +83,10 @@ export default function MesafeliSatisPage() {
       <h2>Madde 6 &mdash; Cayma Hakkının Kullanılması</h2>
       <p>
         Cayma hakkını kullanmak isteyen alıcı, 14 günlük süre içinde{" "}
-        <a href="mailto:iade@missbella.com.tr">iade@missbella.com.tr</a>{" "}
-        adresine sipariş numarası ile yazılı bildirimde bulunmalıdır. Cayma
-        bildirimi sonrasında ürün, anlaşmalı kargo aracılığıyla satıcıya
-        gönderilir. Geri ödeme, ürünün satıcıya ulaşmasının ardından en geç{" "}
+        <a href="tel:+905309907163">0530 990 71 63</a> numaralı destek hattımıza
+        sipariş numarası ile bildirimde bulunmalıdır. Cayma bildirimi
+        sonrasında ürün, anlaşmalı kargo aracılığıyla satıcıya gönderilir.
+        Geri ödeme, ürünün satıcıya ulaşmasının ardından en geç{" "}
         <strong>10 iş günü</strong> içinde aynı ödeme yöntemine yapılır.
       </p>
 
@@ -104,8 +94,8 @@ export default function MesafeliSatisPage() {
       <p>
         Alıcı; ambalajı açılmamış ve hijyen etiketi yerinde olan ürünleri 14
         gün içinde iade edebilir. İade talepleri sipariş numarası ile birlikte{" "}
-        <a href="mailto:iade@missbella.com.tr">iade@missbella.com.tr</a>{" "}
-        adresine iletilmelidir. Detaylı bilgi için{" "}
+        <a href="tel:+905309907163">0530 990 71 63</a> numaralı destek hattımıza
+        iletilmelidir. Detaylı bilgi için{" "}
         <a href="/iade-politikasi">İade Politikası</a> sayfasını
         inceleyebilirsiniz.
       </p>
@@ -125,10 +115,6 @@ export default function MesafeliSatisPage() {
         tamamlanana kadar geçerliliğini korur.
       </p>
 
-      <p className="mt-10 text-[12px] text-ink-600">
-        Bu sözleşme metni; şirket bilgilerinin doldurulması ve hukuki denetim
-        ile birlikte canlıya alınmadan önce nihai hale getirilmelidir.
-      </p>
     </LegalLayout>
   );
 }

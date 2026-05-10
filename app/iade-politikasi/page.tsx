@@ -53,9 +53,9 @@ export default function IadePage() {
       <h3>1. Talep Oluşturma</h3>
       <p>
         Sipariş numaranız ile birlikte{" "}
-        <a href="mailto:iade@missbella.com.tr">iade@missbella.com.tr</a>{" "}
-        adresine ya da WhatsApp destek hattımıza ulaşın. Talebinizde iade
-        gerekçesini kısaca belirtmeniz süreci hızlandırır.
+        <a href="tel:+905309907163">0530 990 71 63</a> numaralı destek hattımıza
+        ya da WhatsApp üzerinden ulaşın. Talebinizde iade gerekçesini kısaca
+        belirtmeniz süreci hızlandırır.
       </p>
 
       <h3>2. Kargo Gönderimi</h3>
@@ -91,8 +91,8 @@ export default function IadePage() {
       <h2>İletişim</h2>
       <p>
         Destek için{" "}
-        <a href="mailto:destek@missbella.com.tr">destek@missbella.com.tr</a>{" "}
-        adresine yazabilir veya WhatsApp üzerinden müşteri hizmetlerimize
+        <a href="tel:+905309907163">0530 990 71 63</a> numaralı hattımızı
+        arayabilir veya WhatsApp üzerinden müşteri hizmetlerimize
         ulaşabilirsiniz.
       </p>
     </LegalLayout>

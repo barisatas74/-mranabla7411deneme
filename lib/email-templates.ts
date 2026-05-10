@@ -78,7 +78,7 @@ function emailShell(content: string, preheader = ""): string {
     <!-- Footer -->
     <div style="margin-top:40px;padding-top:24px;border-top:1px solid #ffe1ef;text-align:center;">
       <p style="margin:0 0 12px;font-size:13px;color:${MUTED_COLOR};">
-        Sorularınız için: <a href="mailto:${SITE.email}" style="color:${BRAND_COLOR};text-decoration:none;">${SITE.email}</a>
+        Sorularınız için: <a href="mailto:${SITE.email || SITE.phone}" style="color:${BRAND_COLOR};text-decoration:none;">${SITE.email || SITE.phone}</a>
       </p>
       <p style="margin:0 0 12px;font-size:11px;color:${MUTED_COLOR};letter-spacing:1px;">
         © ${new Date().getFullYear()} ${SITE.name} · Tüm hakları saklıdır
@@ -220,7 +220,7 @@ export function orderConfirmationEmail(data: OrderEmailData): {
     </div>
 
     <p style="margin:20px 0 0;font-size:12px;color:${MUTED_COLOR};text-align:center;line-height:1.6;">
-      Sorularınız için bize <a href="mailto:${SITE.email}" style="color:${BRAND_COLOR};">${SITE.email}</a> adresinden ulaşabilirsiniz.
+      Sorularınız için bize <a href="mailto:${SITE.email || SITE.phone}" style="color:${BRAND_COLOR};">${SITE.email || SITE.phone}</a> adresinden ulaşabilirsiniz.
     </p>
   `;
 
@@ -242,7 +242,7 @@ ${data.shippingAddress.fullName}
 ${data.shippingAddress.address}
 ${data.shippingAddress.district} / ${data.shippingAddress.city}
 
-Sorularınız için: ${SITE.email}
+Sorularınız için: ${SITE.email || SITE.phone}
 
 — ${SITE.name}
 ${SITE.url}

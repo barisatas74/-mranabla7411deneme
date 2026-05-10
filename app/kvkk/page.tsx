@@ -23,18 +23,12 @@ export default function KvkkPage() {
 
       <h2>1. Veri Sorumlusu</h2>
       <p>
-        <strong>Miss Bella</strong>
+        <strong>Miss Bella İç Giyim Ve Butik</strong>
         <br />
-        Adres: <em>[Şirket merkez adresi]</em>
+        Adres: Eşref Dinçer Mah., Eski Pazar Cd. No: 20/A, 16600 Gemlik / Bursa
         <br />
-        Vergi Dairesi / No: <em>[Vergi dairesi] / [VKN]</em>
-        <br />
-        MERSİS No: <em>[MERSİS numarası]</em>
-        <br />
-        E-posta:{" "}
-        <a href="mailto:kvkk@missbella.com.tr">kvkk@missbella.com.tr</a>
-        <br />
-        Destek Hattı: <em>[Telefon]</em>
+        Destek Hattı:{" "}
+        <a href="tel:+905309907163">0530 990 71 63</a>
       </p>
 
       <h2>2. İşlenen Kişisel Veriler</h2>
@@ -137,16 +131,10 @@ export default function KvkkPage() {
       <h2>8. Başvuru Yöntemi</h2>
       <p>
         KVKK kapsamındaki taleplerinizi{" "}
-        <a href="mailto:kvkk@missbella.com.tr">kvkk@missbella.com.tr</a>{" "}
-        adresine iletebilir veya yukarıda belirtilen şirket adresine yazılı
-        olarak gönderebilirsiniz. Başvurularınız, mevzuatta belirtilen 30 günlük
-        süre içinde değerlendirilerek tarafınıza yanıt verilir.
-      </p>
-
-      <p className="mt-10 text-[12px] text-ink-600">
-        Bu metin bilgilendirme amaçlıdır. Yasal yayın öncesinde italik olarak
-        gösterilen alanların gerçek şirket bilgileri ile doldurulması ve
-        metnin bir hukuk danışmanı tarafından kontrol edilmesi tavsiye edilir.
+        <a href="tel:+905309907163">0530 990 71 63</a> numaralı destek hattımıza
+        iletebilir veya yukarıda belirtilen şirket adresine yazılı olarak
+        gönderebilirsiniz. Başvurularınız, mevzuatta belirtilen 30 günlük süre
+        içinde değerlendirilerek tarafınıza yanıt verilir.
       </p>
     </LegalLayout>
   );

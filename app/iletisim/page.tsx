@@ -3,7 +3,7 @@ import Container from "@/components/Container";
 import Breadcrumb from "@/components/Breadcrumb";
 import ContactForm from "@/components/ContactForm";
 import { WhatsAppSupportButton } from "@/components/WhatsAppButton";
-import { Mail, MapPin, Phone, Instagram, Clock } from "lucide-react";
+import { MapPin, Phone, Clock } from "lucide-react";
 
 export const metadata: Metadata = {
   title: "İletişim",
@@ -63,46 +63,32 @@ export default function IletisimPage() {
               </p>
               <ul className="mt-6 space-y-5 text-sm text-ink-800">
                 <ContactRow
-                  icon={<Mail size={16} strokeWidth={1.5} />}
-                  title="E-posta"
+                  icon={<Phone size={16} strokeWidth={1.5} />}
+                  title="Telefon / WhatsApp"
                   value={
                     <a
-                      href="mailto:hello@missbella.com.tr"
+                      href="tel:+905309907163"
                       className="hover:text-rose-600"
                     >
-                      hello@missbella.com.tr
+                      0530 990 71 63
                     </a>
-                  }
-                />
-                <ContactRow
-                  icon={<Phone size={16} strokeWidth={1.5} />}
-                  title="Telefon"
-                  value={
-                    <span className="text-ink-500">[Telefon eklenecek]</span>
-                  }
-                />
-                <ContactRow
-                  icon={<Instagram size={16} strokeWidth={1.5} />}
-                  title="Instagram"
-                  value={
-                    <span className="text-ink-500">
-                      [Instagram hesabı eklenecek]
-                    </span>
                   }
                 />
                 <ContactRow
                   icon={<MapPin size={16} strokeWidth={1.5} />}
                   title="Adres"
                   value={
-                    <span className="text-ink-500">
-                      [Şirket merkez adresi eklenecek]
+                    <span>
+                      Eşref Dinçer Mah., Eski Pazar Cd. No: 20/A
+                      <br />
+                      16600 Gemlik / Bursa
                     </span>
                   }
                 />
                 <ContactRow
                   icon={<Clock size={16} strokeWidth={1.5} />}
                   title="Çalışma Saatleri"
-                  value="Pazartesi – Cuma · 09:00–18:00"
+                  value="Pazartesi – Cumartesi · 09:00–19:00"
                 />
               </ul>
 

@@ -101,7 +101,7 @@ export function validateProductForm(values: AdminProductFormValues) {
   }
 
   if (values.images.length === 0) {
-    errors.images = "En az bir görsel bağlantısı ekleyin.";
+    errors.images = "En az bir görsel yükleyin.";
   }
 
   if (values.colors.length === 0) {

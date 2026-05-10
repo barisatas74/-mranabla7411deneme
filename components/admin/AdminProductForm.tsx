@@ -3,7 +3,7 @@
 import { useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Plus, Trash2, X } from "lucide-react";
+import { ImagePlus, Plus, Trash2, Upload, X } from "lucide-react";
 import AdminSectionHeader from "@/components/admin/AdminSectionHeader";
 import {
   AdminCheckboxField,
@@ -57,7 +57,9 @@ export default function AdminProductForm({
     Partial<Record<keyof AdminProductFormValues, string>>
   >({});
   const [submitState, setSubmitState] = useState<"idle" | "saving" | "saved">("idle");
-  const [imageDraft, setImageDraft] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
+  const [isDraggingOver, setIsDraggingOver] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [sizeDraft, setSizeDraft] = useState("");
   const [colorNameDraft, setColorNameDraft] = useState("");
   const [colorHexDraft, setColorHexDraft] = useState("#0f172a");
@@ -100,19 +102,82 @@ export default function AdminProductForm({
     }
   }
 
-  function addImage() {
-    const nextUrl = imageDraft.trim();
+  const MAX_IMAGE_SIZE_MB = 5;
+  const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp", "image/avif"];
 
-    if (!/^https?:\/\//.test(nextUrl)) {
+  function fileToDataUrl(file: File): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result));
+      reader.onerror = () => reject(new Error("Dosya okunamadi"));
+      reader.readAsDataURL(file);
+    });
+  }
+
+  async function handleFiles(fileList: FileList | File[]) {
+    const files = Array.from(fileList);
+    if (files.length === 0) return;
+
+    const invalidType = files.find((file) => !ACCEPTED_IMAGE_TYPES.includes(file.type));
+    if (invalidType) {
       setErrors((current) => ({
         ...current,
-        images: "Geçerli bir görsel URL'i girin.",
+        images: "Sadece JPG, PNG, WEBP veya AVIF görseller yüklenebilir.",
       }));
       return;
     }
 
-    update("images", [...values.images, nextUrl]);
-    setImageDraft("");
+    const tooLarge = files.find((file) => file.size > MAX_IMAGE_SIZE_MB * 1024 * 1024);
+    if (tooLarge) {
+      setErrors((current) => ({
+        ...current,
+        images: `Her görsel en fazla ${MAX_IMAGE_SIZE_MB} MB olabilir.`,
+      }));
+      return;
+    }
+
+    setIsUploading(true);
+    try {
+      const dataUrls = await Promise.all(files.map(fileToDataUrl));
+      update("images", [...values.images, ...dataUrls]);
+      toast({
+        title: files.length > 1 ? `${files.length} görsel eklendi` : "Görsel eklendi",
+        description: "Galeriye eklenen görseller ürünle birlikte kaydedilecek.",
+        variant: "success",
+      });
+    } catch {
+      setErrors((current) => ({
+        ...current,
+        images: "Görsel okunurken bir hata oluştu. Tekrar deneyin.",
+      }));
+    } finally {
+      setIsUploading(false);
+    }
+  }
+
+  function handleFileInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+    if (event.target.files) {
+      void handleFiles(event.target.files);
+      event.target.value = "";
+    }
+  }
+
+  function handleDrop(event: React.DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    setIsDraggingOver(false);
+    if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
+      void handleFiles(event.dataTransfer.files);
+    }
+  }
+
+  function handleDragOver(event: React.DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    if (!isDraggingOver) setIsDraggingOver(true);
+  }
+
+  function handleDragLeave(event: React.DragEvent<HTMLDivElement>) {
+    event.preventDefault();
+    setIsDraggingOver(false);
   }
 
   function removeImage(index: number) {
@@ -337,32 +402,81 @@ export default function AdminProductForm({
           </section>
 
           <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="text-lg font-semibold text-slate-950">Görseller</h2>
-            <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-              <AdminInputField
-                className="flex-1"
-                label="Görsel URL"
-                value={imageDraft}
-                onChange={setImageDraft}
-                placeholder="https://..."
-                error={errors.images}
-              />
-              <button
-                type="button"
-                onClick={addImage}
-                className="mt-7 inline-flex h-[50px] items-center justify-center gap-2 rounded-full bg-slate-950 px-5 text-sm font-medium text-white transition hover:bg-slate-800"
-              >
-                <Plus size={16} />
-                Görsel Ekle
-              </button>
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div>
+                <h2 className="text-lg font-semibold text-slate-950">Görseller</h2>
+                <p className="mt-1 text-xs text-slate-500">
+                  JPG · PNG · WEBP · AVIF · maks. {MAX_IMAGE_SIZE_MB} MB / dosya
+                </p>
+              </div>
+              {values.images.length > 0 && (
+                <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium text-slate-700">
+                  {values.images.length} görsel
+                </span>
+              )}
             </div>
+
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept={ACCEPTED_IMAGE_TYPES.join(",")}
+              multiple
+              hidden
+              onChange={handleFileInputChange}
+            />
+
+            <div
+              onDrop={handleDrop}
+              onDragOver={handleDragOver}
+              onDragLeave={handleDragLeave}
+              onClick={() => fileInputRef.current?.click()}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(event) => {
+                if (event.key === "Enter" || event.key === " ") {
+                  event.preventDefault();
+                  fileInputRef.current?.click();
+                }
+              }}
+              className={`mt-5 flex cursor-pointer flex-col items-center justify-center gap-3 rounded-[24px] border-2 border-dashed px-6 py-10 text-center transition ${
+                isDraggingOver
+                  ? "border-rose-400 bg-rose-50/60"
+                  : "border-slate-300 bg-slate-50 hover:border-slate-400 hover:bg-slate-100"
+              } ${isUploading ? "pointer-events-none opacity-60" : ""}`}
+            >
+              <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white text-slate-700 shadow-sm">
+                {isUploading ? (
+                  <Upload size={22} className="animate-pulse" />
+                ) : (
+                  <ImagePlus size={22} />
+                )}
+              </span>
+              <div>
+                <p className="text-sm font-semibold text-slate-900">
+                  {isUploading ? "Görseller yükleniyor..." : "Görselleri buraya sürükleyin"}
+                </p>
+                <p className="mt-1 text-xs text-slate-500">
+                  veya{" "}
+                  <span className="font-medium text-rose-600 underline-offset-4 hover:underline">
+                    bilgisayarınızdan seçin
+                  </span>
+                </p>
+              </div>
+              <p className="text-[10px] uppercase tracking-[0.25em] text-slate-400">
+                Birden fazla dosya seçebilirsiniz
+              </p>
+            </div>
+
+            {errors.images && (
+              <p className="mt-3 text-sm text-rose-600">{errors.images}</p>
+            )}
 
             {values.images.length > 0 ? (
               <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
                 {values.images.map((image, index) => (
                   <div
-                    key={`${image}-${index}`}
-                    className="overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50"
+                    key={`${image.slice(0, 32)}-${index}`}
+                    className="group relative overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50"
                   >
                     <div className="relative aspect-[4/5]">
                       <Image
@@ -371,10 +485,18 @@ export default function AdminProductForm({
                         fill
                         sizes="(max-width: 768px) 100vw, 240px"
                         className="object-cover"
+                        unoptimized={image.startsWith("data:")}
                       />
+                      {index === 0 && (
+                        <span className="absolute left-3 top-3 rounded-full bg-slate-950/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
+                          Kapak
+                        </span>
+                      )}
                     </div>
                     <div className="flex items-center justify-between gap-3 px-4 py-3">
-                      <p className="truncate text-xs text-slate-500">{image}</p>
+                      <p className="truncate text-xs text-slate-500">
+                        Görsel {index + 1}
+                      </p>
                       <button
                         type="button"
                         onClick={() => removeImage(index)}
@@ -388,7 +510,7 @@ export default function AdminProductForm({
                 ))}
               </div>
             ) : (
-              <EmptyHint text="Henüz görsel eklenmedi." />
+              <EmptyHint text="Henüz görsel eklenmedi. Yukarıdaki kutuya sürükleyerek başlayın." />
             )}
           </section>
 
@@ -511,6 +633,7 @@ export default function AdminProductForm({
                     fill
                     sizes="(max-width: 1280px) 100vw, 360px"
                     className="object-cover"
+                    unoptimized={heroImage.startsWith("data:")}
                   />
                 ) : (
                   <div className="flex h-full items-center justify-center text-sm text-slate-400">

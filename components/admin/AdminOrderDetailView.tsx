@@ -13,7 +13,7 @@ import {
   PAYMENT_STATUS_OPTIONS,
   SHIPPING_STATUS_OPTIONS,
 } from "@/lib/admin";
-import { orderService } from "@/lib/services";
+import { updateOrderStatusAction } from "@/lib/actions/admin";
 import { formatPrice } from "@/lib/utils";
 import { AdminOrder } from "@/types";
 
@@ -24,7 +24,7 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
   const [shippingStatus, setShippingStatus] = useState(order.shippingStatus);
 
   async function handleSave() {
-    const updatedOrder = await orderService.updateStatus(order.id, {
+    const updatedOrder = await updateOrderStatusAction(order.id, {
       status,
       paymentStatus,
       shippingStatus,

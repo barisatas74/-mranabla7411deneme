@@ -1,11 +1,17 @@
-import { mockCategoryService } from "@/lib/services/mock/category-service";
-import { mockDashboardService } from "@/lib/services/mock/dashboard-service";
-import { mockOrderService } from "@/lib/services/mock/order-service";
-import { mockProductService } from "@/lib/services/mock/product-service";
-import { mockSettingsService } from "@/lib/services/mock/settings-service";
+/**
+ * @deprecated Bu giris noktasi artik kullanilmiyor.
+ *
+ * Sunucu tarafinda DB/mock secimi icin: `@/lib/services/server`
+ * Istemci tarafindaki mutasyonlar icin: `@/lib/actions/admin`
+ *
+ * Geriye donuk uyumluluk amaciyla server modulunu re-export eder.
+ */
 
-export const productService = mockProductService;
-export const categoryService = mockCategoryService;
-export const orderService = mockOrderService;
-export const settingsService = mockSettingsService;
-export const dashboardService = mockDashboardService;
+export {
+  productService,
+  categoryService,
+  orderService,
+  settingsService,
+  dashboardService,
+  getServiceMode,
+} from "@/lib/services/server";

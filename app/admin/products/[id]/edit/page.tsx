@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import AdminProductForm from "@/components/admin/AdminProductForm";
 import AdminPageError from "@/components/admin/AdminPageError";
-import { categoryService, productService } from "@/lib/services";
+import { categoryService, productService } from "@/lib/services/server";
 
 export const metadata: Metadata = {
   title: "Urun Duzenle",

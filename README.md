@@ -170,13 +170,14 @@ next.config.js          CSP + security headers + image optimization
 ## 🚦 Sonraki Adımlar (canlıya alırken)
 
 ### 1. Domain & SSL
-- `missbella.com.tr` (veya benzeri) domain alımı
+- Domain: `missbellalingree.com`
 - Vercel'e custom domain ekle → DNS yönlendirmesi → SSL otomatik
 
 ### 2. Veritabanı
-- Önerilen: **Supabase** (ücretsiz tier — PostgreSQL + Storage + Auth)
-- Alternatif: Vercel Postgres, PlanetScale, Neon
-- `lib/services/mock/*` servislerini gerçek DB ile değiştir
+- **MySQL / MariaDB** desteklidir (hosting sağlayıcısının verdiği)
+- Şema dosyası: `db/schema.mysql.sql` — phpMyAdmin'den import
+- `.env` içinde `DB_TYPE=mysql` ve `DB_HOST/DB_USER/...` değerlerini doldurun
+- Doldurulduğunda mock yerine otomatik MySQL devreye girer
 
 ### 3. Görsel Storage
 - **Supabase Storage** (DB ile aynı sağlayıcı) veya **Cloudinary** önerisi

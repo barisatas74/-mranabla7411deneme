@@ -9,7 +9,7 @@ import {
   AdminTextAreaField,
 } from "@/components/admin/forms/AdminFormFields";
 import { validateSettingsForm } from "@/lib/admin";
-import { settingsService } from "@/lib/services";
+import { updateSettingsAction } from "@/lib/actions/admin";
 import { AdminSettings, AdminSettingsFormValues } from "@/types";
 
 function toFormValues(settings: AdminSettings): AdminSettingsFormValues {
@@ -58,7 +58,7 @@ export default function AdminSettingsForm({
       return;
     }
 
-    await settingsService.update({
+    await updateSettingsAction({
       storeName: values.storeName,
       supportEmail: values.supportEmail,
       supportPhone: values.supportPhone,

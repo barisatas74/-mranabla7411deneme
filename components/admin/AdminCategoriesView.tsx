@@ -16,7 +16,11 @@ import {
 } from "@/components/admin/forms/AdminFormFields";
 import ImageUploader from "@/components/admin/forms/ImageUploader";
 import { getCategoryProductCount, slugify, validateCategoryForm } from "@/lib/admin";
-import { categoryService } from "@/lib/services";
+import {
+  createCategoryAction,
+  deleteCategoryAction,
+  updateCategoryAction,
+} from "@/lib/actions/admin";
 import { deleteUploadedImage } from "@/lib/upload-client";
 import { AdminCategory, AdminCategoryFormValues, AdminProduct } from "@/types";
 
@@ -87,7 +91,7 @@ export default function AdminCategoriesView({
     }
 
     const categoryToRemove = categories.find((category) => category.id === categoryId);
-    const removed = await categoryService.remove(categoryId);
+    const removed = await deleteCategoryAction(categoryId);
 
     if (!removed) {
       toast({
@@ -125,7 +129,7 @@ export default function AdminCategoriesView({
     }
 
     if (editingId) {
-      const updatedCategory = await categoryService.update(editingId, values);
+      const updatedCategory = await updateCategoryAction(editingId, values);
 
       if (!updatedCategory) {
         toast({
@@ -147,7 +151,7 @@ export default function AdminCategoriesView({
         variant: "success",
       });
     } else {
-      const createdCategory = await categoryService.create(values);
+      const createdCategory = await createCategoryAction(values);
       setCategories((current) => [createdCategory, ...current]);
       toast({
         title: "Kategori eklendi",

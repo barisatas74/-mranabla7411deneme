@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import AdminSettingsForm from "@/components/admin/AdminSettingsForm";
-import { settingsService } from "@/lib/services";
+import { settingsService } from "@/lib/services/server";
 
 export const metadata: Metadata = {
   title: "Ayarlar",

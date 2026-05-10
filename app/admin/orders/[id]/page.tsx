@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import AdminOrderDetailView from "@/components/admin/AdminOrderDetailView";
 import AdminPageError from "@/components/admin/AdminPageError";
-import { orderService } from "@/lib/services";
+import { orderService } from "@/lib/services/server";
 
 export const metadata: Metadata = {
   title: "Siparis Detayi",

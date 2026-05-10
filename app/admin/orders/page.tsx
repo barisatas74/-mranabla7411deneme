@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import AdminOrdersView from "@/components/admin/AdminOrdersView";
-import { orderService } from "@/lib/services";
+import { orderService } from "@/lib/services/server";
 
 export const metadata: Metadata = {
   title: "Siparisler",

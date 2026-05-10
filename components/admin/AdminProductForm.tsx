@@ -15,8 +15,10 @@ import ImageUploader from "@/components/admin/forms/ImageUploader";
 import { useAdminToast } from "@/components/admin/feedback/AdminFeedbackProvider";
 import { useUnsavedChangesWarning } from "@/components/admin/hooks/useUnsavedChangesWarning";
 import { slugify, validateProductForm } from "@/lib/admin";
-import { productService } from "@/lib/services";
-import { deleteUploadedImages } from "@/lib/upload-client";
+import {
+  createProductAction,
+  updateProductAction,
+} from "@/lib/actions/admin";
 import { AdminCategory, AdminProduct, AdminProductFormValues } from "@/types";
 
 function getInitialValues(
@@ -190,8 +192,8 @@ export default function AdminProductForm({
     };
 
     const savedProduct = product
-      ? await productService.update(product.id, payload)
-      : await productService.create(payload);
+      ? await updateProductAction(product.id, payload)
+      : await createProductAction(payload);
 
     if (!savedProduct) {
       setSubmitState("idle");

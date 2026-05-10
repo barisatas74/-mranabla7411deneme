@@ -13,7 +13,7 @@ import {
   useAdminToast,
 } from "@/components/admin/feedback/AdminFeedbackProvider";
 import { getStockState } from "@/lib/admin";
-import { productService } from "@/lib/services";
+import { deleteProductAction } from "@/lib/actions/admin";
 import { deleteUploadedImages } from "@/lib/upload-client";
 import { formatPrice } from "@/lib/utils";
 import { AdminProduct } from "@/types";
@@ -69,7 +69,7 @@ export default function AdminProductsView({
     }
 
     const productToRemove = products.find((product) => product.id === productId);
-    const removed = await productService.remove(productId);
+    const removed = await deleteProductAction(productId);
 
     if (!removed) {
       toast({

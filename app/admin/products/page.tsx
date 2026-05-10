@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import AdminProductsView from "@/components/admin/AdminProductsView";
-import { productService } from "@/lib/services";
+import { productService } from "@/lib/services/server";
 
 export const metadata: Metadata = {
   title: "Admin Products",

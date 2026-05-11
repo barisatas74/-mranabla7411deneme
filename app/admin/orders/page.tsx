@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import AdminOrdersView from "@/components/admin/AdminOrdersView";
 import { orderService } from "@/lib/services/server";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Siparisler",
 };

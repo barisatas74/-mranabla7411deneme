@@ -140,9 +140,7 @@ export function validateCategoryForm(values: AdminCategoryFormValues) {
     errors.slug = "Slug zorunludur.";
   }
 
-  if (!/^https?:\/\//.test(values.image.trim())) {
-    errors.image = "Geçerli bir görsel bağlantısı girin.";
-  }
+  // Gorsel zorunlulugu kaldirildi — FTP hazir olunca tekrar eklenebilir.
 
   if (values.description.trim().length < 10) {
     errors.description = "Kisa bir kategori açıklaması yazin.";

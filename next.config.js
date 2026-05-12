@@ -39,6 +39,7 @@ const nextConfig = {
       { protocol: "https", hostname: "missbellalingree.com" },
       { protocol: "https", hostname: "www.missbellalingree.com" },
       { protocol: "https", hostname: "cdn.missbellalingree.com" },
+      { protocol: "http", hostname: "cdn.missbellalingree.com" },
       // Hosting'in direkt URL'i HOSTING_DIRECT_URL env'inden okunacaksa
       // o domain'i de buraya elle eklemeniz gerekir.
     ],

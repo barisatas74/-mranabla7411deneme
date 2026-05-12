@@ -100,9 +100,7 @@ export function validateProductForm(values: AdminProductFormValues) {
     errors.description = "Açıklama en az 20 karakter olmali.";
   }
 
-  if (values.images.length === 0) {
-    errors.images = "En az bir görsel yükleyin.";
-  }
+  // Gorsel zorunlulugu kaldirildi — FTP hazir olunca tekrar eklenebilir.
 
   if (values.colors.length === 0) {
     errors.colors = "En az bir renk tanimi ekleyin.";

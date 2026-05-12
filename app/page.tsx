@@ -9,6 +9,8 @@ import BrandStory from "@/components/BrandStory";
 import TrustBadges from "@/components/TrustBadges";
 import { products } from "@/data/products";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Anasayfa",
   description:

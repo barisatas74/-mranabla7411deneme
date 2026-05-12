@@ -6,6 +6,8 @@ import { isCategorySlug } from "@/data/categories";
 import { products } from "@/data/products";
 import { ProductFilter, ProductSort } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   title: "Ürünler",
   description:

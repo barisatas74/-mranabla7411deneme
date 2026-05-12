@@ -107,6 +107,7 @@ export function filterProducts(args: {
   colors?: string[];
   minPrice?: number;
   maxPrice?: number;
+  products?: Product[];
 }) {
   const {
     category = "all",
@@ -117,8 +118,9 @@ export function filterProducts(args: {
     colors = [],
     minPrice,
     maxPrice,
+    products: inputProducts,
   } = args;
-  let filtered = [...products];
+  let filtered = [...(inputProducts ?? products)];
   const normalizedQuery = query.trim().toLocaleLowerCase("tr");
 
   if (category !== "all") {

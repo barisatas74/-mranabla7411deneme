@@ -2,11 +2,11 @@ import Link from "next/link";
 import Container from "./Container";
 import ProductCard from "./ProductCard";
 import Reveal from "./Reveal";
-import { getFeaturedProducts } from "@/data/products";
 import { ArrowUpRight } from "lucide-react";
+import { Product } from "@/types";
 
-export default function FeaturedProducts() {
-  const items = getFeaturedProducts();
+export default function FeaturedProducts({ products }: { products: Product[] }) {
+  const items = products.filter((p) => p.isFeatured).slice(0, 8);
 
   if (items.length === 0) return null;
 

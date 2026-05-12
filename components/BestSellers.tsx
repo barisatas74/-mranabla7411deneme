@@ -2,11 +2,11 @@ import Link from "next/link";
 import Container from "./Container";
 import ProductCard from "./ProductCard";
 import Reveal from "./Reveal";
-import { products, sortProducts } from "@/data/products";
 import { ArrowUpRight, Crown } from "lucide-react";
+import { Product } from "@/types";
 
-export default function BestSellers() {
-  const items = sortProducts([...products], "featured")
+export default function BestSellers({ products }: { products: Product[] }) {
+  const items = [...products]
     .filter((product) => product.stock > 0)
     .slice(0, 4);
 

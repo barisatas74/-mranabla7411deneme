@@ -7,7 +7,7 @@ import BestSellers from "@/components/BestSellers";
 import ComingSoon from "@/components/ComingSoon";
 import BrandStory from "@/components/BrandStory";
 import TrustBadges from "@/components/TrustBadges";
-import { products } from "@/data/products";
+import { productService } from "@/lib/services/server";
 
 export const dynamic = "force-dynamic";
 
@@ -17,8 +17,9 @@ export const metadata: Metadata = {
     "Miss Bella anasayfasında premium iç giyim koleksiyonları, yeni sezon seçimleri ve öne çıkan ürünleri keşfedin.",
 };
 
-export default function HomePage() {
-  const hasProducts = products.length > 0;
+export default async function HomePage() {
+  const allProducts = await productService.list().catch(() => []);
+  const hasProducts = allProducts.length > 0;
 
   return (
     <>
@@ -28,8 +29,8 @@ export default function HomePage() {
         <>
           <CategoryShowcase />
           <TrustStrip />
-          <FeaturedProducts />
-          <BestSellers />
+          <FeaturedProducts products={allProducts} />
+          <BestSellers products={allProducts} />
         </>
       ) : (
         <>

@@ -9,11 +9,10 @@ import {
   filterProducts,
   getAvailableColors,
   getAvailableSizes,
-  products,
 } from "@/data/products";
 import { getProductPriceBounds } from "@/lib/commerce";
 import { cn, formatPrice } from "@/lib/utils";
-import { ProductCategorySlug, ProductFilter, ProductSort } from "@/types";
+import { Product, ProductCategorySlug, ProductFilter, ProductSort } from "@/types";
 import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
 
 type CategoryTab = ProductCategorySlug | "all";
@@ -22,6 +21,7 @@ type ProductsCatalogProps = {
   initialCategory: CategoryTab;
   initialFilter: ProductFilter;
   initialSort: ProductSort;
+  products: Product[];
 };
 
 const filterOptions: { label: string; value: ProductFilter }[] = [
@@ -30,15 +30,15 @@ const filterOptions: { label: string; value: ProductFilter }[] = [
   { label: "İndirimdekiler", value: "sale" },
 ];
 
-const priceBounds = getProductPriceBounds(products);
-const allSizes = getAvailableSizes(products);
-const allColors = getAvailableColors(products);
-
 export default function ProductsCatalog({
   initialCategory,
   initialFilter,
   initialSort,
+  products,
 }: ProductsCatalogProps) {
+  const priceBounds = getProductPriceBounds(products);
+  const allSizes = getAvailableSizes(products);
+  const allColors = getAvailableColors(products);
   const [activeCategory, setActiveCategory] = useState<CategoryTab>(initialCategory);
   const [activeFilter, setActiveFilter] = useState<ProductFilter>(initialFilter);
   const [sort, setSort] = useState<ProductSort>(initialSort);
@@ -62,6 +62,7 @@ export default function ProductsCatalog({
         colors: selectedColors,
         minPrice: parsePriceInput(priceMin, priceBounds.min),
         maxPrice: parsePriceInput(priceMax, priceBounds.max),
+        products,
       }),
     [
       activeCategory,

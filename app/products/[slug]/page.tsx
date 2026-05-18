@@ -1,6 +1,11 @@
 import type { Metadata } from "next";
 import ProductDetailView from "@/components/products/ProductDetailView";
-import { getProductBySlug } from "@/data/products";
+import { productService } from "@/lib/services/server";
+
+async function getProductBySlug(slug: string) {
+  const all = await productService.list().catch(() => []);
+  return all.find((p) => p.slug === slug);
+}
 import { notFound } from "next/navigation";
 
 export const dynamic = "force-dynamic";
@@ -15,7 +20,7 @@ export async function generateMetadata({
   params,
 }: ProductDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     return {
@@ -46,7 +51,7 @@ const SITE_URL =
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { slug } = await params;
-  const product = getProductBySlug(slug);
+  const product = await getProductBySlug(slug);
 
   if (!product) {
     notFound();

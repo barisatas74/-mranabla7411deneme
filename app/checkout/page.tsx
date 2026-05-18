@@ -28,6 +28,7 @@ import {
   formatCvc,
   TR_CITIES,
 } from "@/lib/validation";
+import { placeOrderAction } from "@/lib/actions/orders";
 
 const initialFormData: CheckoutFormData = {
   firstName: "",
@@ -61,6 +62,8 @@ export default function CheckoutPage() {
   const [formData, setFormData] = useState<CheckoutFormData>(initialFormData);
   const [errors, setErrors] = useState<CheckoutFieldErrors>({});
   const [placedOrder, setPlacedOrder] = useState<PlacedOrder | null>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
   const summary = useMemo(
     () =>
@@ -118,7 +121,7 @@ export default function CheckoutPage() {
     }
   }
 
-  function handlePlaceOrder() {
+  async function handlePlaceOrder() {
     const fieldsToValidate: (keyof CheckoutFormData)[] = [
       "firstName",
       "lastName",
@@ -144,15 +147,58 @@ export default function CheckoutPage() {
       return;
     }
 
-    const order: PlacedOrder = {
-      orderNumber: `LR-${Date.now().toString().slice(-6)}`,
-      summary,
-      customerName: `${formData.firstName} ${formData.lastName}`.trim(),
-      lines,
-    };
+    setIsSubmitting(true);
+    setSubmitError(null);
 
-    setPlacedOrder(order);
-    clearCart();
+    try {
+      const created = await placeOrderAction({
+        customer: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          phone: formData.phone,
+          city: formData.city,
+          district: formData.district,
+          address: formData.address,
+        },
+        items: lines.map((line) => ({
+          productId: line.productId,
+          productName: line.product.name,
+          productSlug: line.product.slug,
+          image: line.product.images[0] ?? "",
+          unitPrice: line.product.price,
+          quantity: line.quantity,
+          color: line.color,
+          size: line.size,
+        })),
+        subtotal: summary.subtotal,
+        shippingFee: summary.shipping,
+        discount: summary.discount,
+        total: summary.total,
+        note: formData.customerNote || undefined,
+        paymentMethod: formData.paymentMethod,
+        shippingMethod: formData.shippingMethod,
+      });
+
+      if (!created) {
+        setSubmitError(
+          "Sipariş kaydedilemedi. Lütfen tekrar deneyin veya bizimle iletişime geçin."
+        );
+        return;
+      }
+
+      const order: PlacedOrder = {
+        orderNumber: created.orderNumber,
+        summary,
+        customerName: `${formData.firstName} ${formData.lastName}`.trim(),
+        lines,
+      };
+
+      setPlacedOrder(order);
+      clearCart();
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   if (!isHydrated) {
@@ -566,12 +612,19 @@ export default function CheckoutPage() {
 
             <button
               type="button"
-              onClick={handlePlaceOrder}
-              className="btn-luxe btn-luxe-dark mt-7 w-full shadow-luxe"
+              onClick={() => void handlePlaceOrder()}
+              disabled={isSubmitting}
+              className="btn-luxe btn-luxe-dark mt-7 w-full shadow-luxe disabled:cursor-not-allowed disabled:opacity-70"
             >
               <Lock size={13} strokeWidth={1.5} />
-              {formatPrice(summary.total)} / Siparisi Tamamla
+              {isSubmitting
+                ? "Sipariş kaydediliyor..."
+                : `${formatPrice(summary.total)} / Siparişi Tamamla`}
             </button>
+
+            {submitError && (
+              <p className="mt-3 text-center text-sm text-rose-600">{submitError}</p>
+            )}
 
             <p className="mt-3 flex items-center justify-center gap-1.5 text-center text-xs text-ink-700/60">
               <Lock size={11} /> 256-bit SSL sertifikası ile güvenli ödeme.
@@ -586,13 +639,15 @@ export default function CheckoutPage() {
             {lines.map((line) => (
               <div key={line.id} className="flex gap-3">
                 <div className="relative h-20 w-16 flex-shrink-0 bg-powder-50">
-                  <Image
-                    src={line.product.images[0]}
-                    alt={line.product.name}
-                    fill
-                    sizes="64px"
-                    className="object-cover"
-                  />
+                  {line.product.images[0] ? (
+                    <Image
+                      src={line.product.images[0]}
+                      alt={line.product.name}
+                      fill
+                      sizes="64px"
+                      className="object-cover"
+                    />
+                  ) : null}
                   <span className="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-ink-900 text-[10px] text-white">
                     {line.quantity}
                   </span>

@@ -45,11 +45,10 @@ export type CartItem = {
   quantity: number;
   size: string;
   color: string;
-};
-
-export type CartLine = CartItem & {
   product: Product;
 };
+
+export type CartLine = CartItem;
 
 export type ShippingMethod = "standard" | "express";
 
@@ -175,6 +174,18 @@ export type AdminOrderStatusUpdate = Pick<
   AdminOrder,
   "status" | "paymentStatus" | "shippingStatus"
 >;
+
+export type CreateOrderInput = {
+  customer: AdminOrderCustomer;
+  items: Omit<AdminOrderItem, "id">[];
+  subtotal: number;
+  shippingFee: number;
+  discount: number;
+  total: number;
+  note?: string;
+  paymentMethod?: string;
+  shippingMethod?: string;
+};
 
 export type AdminSettings = {
   storeName: string;

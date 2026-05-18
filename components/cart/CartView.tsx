@@ -165,13 +165,15 @@ export default function CartView() {
                 href={`/products/${line.product.slug}`}
                 className="relative aspect-[4/5] w-full overflow-hidden bg-bone-100 sm:h-40 sm:w-32 sm:flex-shrink-0"
               >
-                <Image
-                  src={line.product.images[0]}
-                  alt={line.product.name}
-                  fill
-                  sizes="(max-width: 640px) 100vw, 128px"
-                  className="object-cover"
-                />
+                {line.product.images[0] && (
+                  <Image
+                    src={line.product.images[0]}
+                    alt={line.product.name}
+                    fill
+                    sizes="(max-width: 640px) 100vw, 128px"
+                    className="object-cover"
+                  />
+                )}
               </Link>
 
               <div className="flex min-w-0 flex-1 flex-col">

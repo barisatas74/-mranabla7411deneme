@@ -10,7 +10,6 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import { getProductById } from "@/data/products";
 import {
   DEFAULT_COUPON_CODE,
   isCouponValid,
@@ -68,7 +67,9 @@ function normalizeStoredItems(value: unknown): CartItem[] {
       typeof entry.productId !== "string" ||
       typeof entry.quantity !== "number" ||
       typeof entry.size !== "string" ||
-      typeof entry.color !== "string"
+      typeof entry.color !== "string" ||
+      !entry.product ||
+      typeof entry.product !== "object"
     ) {
       return [];
     }
@@ -79,9 +80,10 @@ function normalizeStoredItems(value: unknown): CartItem[] {
       quantity: Math.max(1, Math.floor(entry.quantity)),
       size: entry.size,
       color: entry.color,
+      product: entry.product as Product,
     };
 
-    return getProductById(item.productId) ? [item] : [];
+    return [item];
   });
 }
 
@@ -114,14 +116,7 @@ function normalizeStoredState(value: unknown): StoredCartState {
 }
 
 function hydrateLines(items: CartItem[]): CartLine[] {
-  return items.flatMap((item) => {
-    const product = getProductById(item.productId);
-    if (!product) {
-      return [];
-    }
-
-    return [{ ...item, product }];
-  });
+  return items;
 }
 
 export function CartProvider({ children }: { children: ReactNode }) {
@@ -204,6 +199,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         quantity: normalizedQuantity,
         size: normalizedSize,
         color: normalizedColor,
+        product,
       };
 
       setItems((currentItems) => {
@@ -215,6 +211,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
               ? {
                   ...item,
                   quantity: Math.min(item.quantity + normalizedQuantity, product.stock),
+                  product,
                 }
               : item
           );
@@ -223,7 +220,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
         return [...currentItems, nextItem];
       });
 
-      showToast({ ...nextItem, product });
+      showToast(nextItem);
     },
     [showToast]
   );
@@ -235,8 +232,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
           return [item];
         }
 
-        const product = getProductById(item.productId);
-        const maxStock = product?.stock ?? quantity;
+        const maxStock = item.product?.stock ?? quantity;
         const nextQuantity = Math.max(0, Math.min(quantity, maxStock));
 
         if (nextQuantity === 0) {

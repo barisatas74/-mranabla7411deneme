@@ -7,6 +7,7 @@ import {
   AdminProduct,
   AdminProductInput,
   AdminSettings,
+  CreateOrderInput,
 } from "@/types";
 
 export interface ProductService {
@@ -28,6 +29,7 @@ export interface CategoryService {
 export interface OrderService {
   list(): Promise<AdminOrder[]>;
   getById(id: string): Promise<AdminOrder | null>;
+  create(input: CreateOrderInput): Promise<AdminOrder>;
   updateStatus(
     id: string,
     input: AdminOrderStatusUpdate

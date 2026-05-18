@@ -202,13 +202,15 @@ export default function AdminProductsView({
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-4">
                         <div className="relative h-14 w-12 overflow-hidden rounded-2xl bg-slate-100">
-                          <Image
-                            src={product.images[0]}
-                            alt={product.name}
-                            fill
-                            sizes="48px"
-                            className="object-cover"
-                          />
+                          {product.images[0] && (
+                            <Image
+                              src={product.images[0]}
+                              alt={product.name}
+                              fill
+                              sizes="48px"
+                              className="object-cover"
+                            />
+                          )}
                         </div>
                         <div>
                           <p className="font-medium text-slate-950">{product.name}</p>

@@ -39,12 +39,14 @@ export default function AddToCartToast() {
 
           <div className="flex gap-4 p-5">
             <div className="relative w-20 h-24 flex-shrink-0 bg-bone-100 overflow-hidden">
-              <Image
-                src={toast.line.product.images[0]}
-                alt={toast.line.product.name}
-                fill
-                className="object-cover"
-              />
+              {toast.line.product.images[0] && (
+                <Image
+                  src={toast.line.product.images[0]}
+                  alt={toast.line.product.name}
+                  fill
+                  className="object-cover"
+                />
+              )}
             </div>
             <div className="flex-1 min-w-0">
               <p className="font-display text-lg text-ink-900 leading-tight line-clamp-2">

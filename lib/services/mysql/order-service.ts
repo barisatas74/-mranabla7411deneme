@@ -4,11 +4,17 @@ import { getDb } from "@/lib/db";
 import {
   AdminOrder,
   AdminOrderItem,
+  CreateOrderInput,
   OrderStatus,
   PaymentStatus,
   ShippingStatus,
 } from "@/types";
-import { parseDate, toNumber } from "@/lib/services/mysql/_helpers";
+import {
+  generateId,
+  generateOrderNumber,
+  parseDate,
+  toNumber,
+} from "@/lib/services/mysql/_helpers";
 import type { RowDataPacket } from "mysql2";
 
 type OrderRow = RowDataPacket & {
@@ -127,6 +133,65 @@ export const mysqlOrderService: OrderService = {
     );
 
     return rowToOrder(rows[0], itemRows.map(rowToItem));
+  },
+
+  async create(input: CreateOrderInput) {
+    const db = getDb();
+    const id = generateId("o");
+    const orderNumber = generateOrderNumber();
+
+    await db.execute(
+      `INSERT INTO orders
+        (id, order_number,
+         customer_first_name, customer_last_name, customer_email, customer_phone,
+         customer_city, customer_district, customer_address,
+         subtotal, shipping_fee, discount, total, note)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [
+        id,
+        orderNumber,
+        input.customer.firstName,
+        input.customer.lastName,
+        input.customer.email,
+        input.customer.phone,
+        input.customer.city,
+        input.customer.district,
+        input.customer.address,
+        input.subtotal,
+        input.shippingFee,
+        input.discount,
+        input.total,
+        input.note ?? null,
+      ]
+    );
+
+    for (const item of input.items) {
+      const itemId = generateId("oi");
+      await db.execute(
+        `INSERT INTO order_items
+          (id, order_id, product_id, product_name, product_slug,
+           image, unit_price, quantity, color, size)
+         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        [
+          itemId,
+          id,
+          item.productId || null,
+          item.productName,
+          item.productSlug,
+          item.image || null,
+          item.unitPrice,
+          item.quantity,
+          item.color || null,
+          item.size || null,
+        ]
+      );
+    }
+
+    const created = await mysqlOrderService.getById(id);
+    if (!created) {
+      throw new Error("Siparis olusturuldu fakat okunamadi.");
+    }
+    return created;
   },
 
   async updateStatus(id, input) {

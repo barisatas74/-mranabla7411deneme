@@ -185,6 +185,29 @@ export type CreateOrderInput = {
   note?: string;
   paymentMethod?: string;
   shippingMethod?: string;
+  userId?: string;
+};
+
+export type User = {
+  id: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone: string;
+  createdAt: string;
+};
+
+export type RegisterInput = {
+  email: string;
+  password: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+};
+
+export type LoginInput = {
+  email: string;
+  password: string;
 };
 
 export type AdminSettings = {

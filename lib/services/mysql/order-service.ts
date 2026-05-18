@@ -142,14 +142,15 @@ export const mysqlOrderService: OrderService = {
 
     await db.execute(
       `INSERT INTO orders
-        (id, order_number,
+        (id, order_number, user_id,
          customer_first_name, customer_last_name, customer_email, customer_phone,
          customer_city, customer_district, customer_address,
          subtotal, shipping_fee, discount, total, note)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         id,
         orderNumber,
+        input.userId ?? null,
         input.customer.firstName,
         input.customer.lastName,
         input.customer.email,

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import { Menu, Search, ShoppingBag, Heart } from "lucide-react";
+import { LogOut, Menu, Search, ShoppingBag, Heart, User as UserIcon } from "lucide-react";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
 import { useCart } from "./CartContext";
@@ -11,7 +11,8 @@ import { useWishlist } from "./WishlistContext";
 import SearchOverlay from "./SearchOverlay";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import { AdminCategory, Product } from "@/types";
+import { AdminCategory, Product, User } from "@/types";
+import { logoutAction } from "@/lib/actions/auth";
 
 type NavEffect = "pulse" | "stretch" | "slide" | "lift" | "moon" | "flash";
 
@@ -47,9 +48,10 @@ const announcements = [
 type NavbarProps = {
   categories: AdminCategory[];
   products: Product[];
+  currentUser: User | null;
 };
 
-export default function Navbar({ categories, products }: NavbarProps) {
+export default function Navbar({ categories, products, currentUser }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -135,6 +137,7 @@ export default function Navbar({ categories, products }: NavbarProps) {
             >
               <Search strokeWidth={1.4} size={18} />
             </button>
+            <UserMenu currentUser={currentUser} />
             <Link
               href="/favorilerim"
               aria-label="Favorilerim"
@@ -177,6 +180,7 @@ export default function Navbar({ categories, products }: NavbarProps) {
         onClose={() => setOpen(false)}
         items={navItems}
         cartCount={itemCount}
+        currentUser={currentUser}
       />
 
       <SearchOverlay
@@ -185,6 +189,120 @@ export default function Navbar({ categories, products }: NavbarProps) {
         products={products}
       />
     </>
+  );
+}
+
+function UserMenu({ currentUser }: { currentUser: User | null }) {
+  const [open, setOpen] = useState(false);
+  const [pending, startTransition] = useTransition();
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleClick(event: MouseEvent) {
+      if (ref.current && !ref.current.contains(event.target as Node)) {
+        setOpen(false);
+      }
+    }
+    function handleKey(event: KeyboardEvent) {
+      if (event.key === "Escape") setOpen(false);
+    }
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        aria-label={currentUser ? "Hesabım" : "Giriş yap"}
+        onClick={() => setOpen((prev) => !prev)}
+        className="relative p-2.5 text-ink-900 transition hover:text-rose-600"
+      >
+        <UserIcon strokeWidth={1.4} size={18} />
+        {currentUser && (
+          <span className="absolute right-1.5 top-1.5 h-1.5 w-1.5 rounded-full bg-rose-600" />
+        )}
+      </button>
+
+      {open && (
+        <div className="absolute right-0 top-full z-50 mt-2 w-60 border border-ink-900/10 bg-white p-3 shadow-luxe">
+          {currentUser ? (
+            <>
+              <div className="border-b border-ink-900/8 px-2 pb-3">
+                <p className="text-[10px] uppercase tracking-luxe text-ink-600">
+                  Hoş geldiniz
+                </p>
+                <p className="mt-1 truncate text-sm font-medium text-ink-900">
+                  {currentUser.firstName} {currentUser.lastName}
+                </p>
+                <p className="mt-0.5 truncate text-[11px] text-ink-600">
+                  {currentUser.email}
+                </p>
+              </div>
+              <div className="mt-2 space-y-0.5">
+                <Link
+                  href="/hesabim"
+                  onClick={() => setOpen(false)}
+                  className="block rounded px-2 py-2 text-sm text-ink-900 transition hover:bg-bone-50 hover:text-rose-600"
+                >
+                  Hesabım
+                </Link>
+                <Link
+                  href="/favorilerim"
+                  onClick={() => setOpen(false)}
+                  className="block rounded px-2 py-2 text-sm text-ink-900 transition hover:bg-bone-50 hover:text-rose-600"
+                >
+                  Favorilerim
+                </Link>
+                <button
+                  type="button"
+                  disabled={pending}
+                  onClick={() => {
+                    setOpen(false);
+                    startTransition(() => logoutAction());
+                  }}
+                  className="flex w-full items-center gap-2 rounded px-2 py-2 text-left text-sm text-ink-900 transition hover:bg-bone-50 hover:text-rose-600 disabled:opacity-60"
+                >
+                  <LogOut size={14} strokeWidth={1.5} />
+                  {pending ? "Çıkış yapılıyor..." : "Çıkış Yap"}
+                </button>
+              </div>
+            </>
+          ) : (
+            <>
+              <p className="px-2 py-2 text-[11px] uppercase tracking-luxe text-ink-600">
+                Hesap
+              </p>
+              <div className="space-y-0.5">
+                <Link
+                  href="/giris"
+                  onClick={() => setOpen(false)}
+                  className="block rounded px-2 py-2 text-sm text-ink-900 transition hover:bg-bone-50 hover:text-rose-600"
+                >
+                  Giriş Yap
+                </Link>
+                <Link
+                  href="/uye-ol"
+                  onClick={() => setOpen(false)}
+                  className="block rounded bg-rose-600 px-2 py-2 text-center text-sm text-white transition hover:bg-rose-700"
+                >
+                  Üye Ol
+                </Link>
+              </div>
+              <p className="mt-3 border-t border-ink-900/8 px-2 pt-3 text-[11px] text-ink-600">
+                Üyelik ile siparişlerinizi takip edin ve favorilerinizi
+                senkronlayın.
+              </p>
+            </>
+          )}
+        </div>
+      )}
+    </div>
   );
 }
 

@@ -8,6 +8,7 @@ import JsonLd from "@/components/JsonLd";
 import { SITE } from "@/lib/site";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { categoryService, productService } from "@/lib/services/server";
+import { getCurrentUser } from "@/lib/actions/auth";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -122,9 +123,10 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const [categories, products] = await Promise.all([
+  const [categories, products, currentUser] = await Promise.all([
     categoryService.list().catch(() => []),
     productService.list().catch(() => []),
+    getCurrentUser().catch(() => null),
   ]);
 
   return (
@@ -136,7 +138,11 @@ export default async function RootLayout({
       <body className="antialiased">
         <CartProvider>
           <WishlistProvider>
-            <AppChrome categories={categories} products={products}>
+            <AppChrome
+              categories={categories}
+              products={products}
+              currentUser={currentUser}
+            >
               {children}
             </AppChrome>
           </WishlistProvider>

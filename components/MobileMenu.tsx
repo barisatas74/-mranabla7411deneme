@@ -1,21 +1,26 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useTransition } from "react";
 import Link from "next/link";
-import { Heart, Instagram, Search, ShoppingBag, X } from "lucide-react";
+import { Heart, Instagram, LogOut, Search, ShoppingBag, User as UserIcon, X } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { logoutAction } from "@/lib/actions/auth";
+import { User } from "@/types";
 
 export default function MobileMenu({
   open,
   onClose,
   items,
   cartCount,
+  currentUser,
 }: {
   open: boolean;
   onClose: () => void;
   items: { label: string; href: string }[];
   cartCount: number;
+  currentUser: User | null;
 }) {
+  const [pending, startTransition] = useTransition();
   useEffect(() => {
     if (!open) {
       document.body.style.overflow = "";
@@ -93,6 +98,39 @@ export default function MobileMenu({
         </nav>
 
         <div className="mt-4 space-y-1 border-t border-ink-900/8 px-6 pt-5">
+          {currentUser ? (
+            <>
+              <div className="mb-2 rounded bg-bone-100 px-3 py-2.5">
+                <p className="text-[10px] uppercase tracking-luxe text-ink-600">
+                  Hoş geldiniz
+                </p>
+                <p className="mt-0.5 truncate text-sm font-medium text-ink-900">
+                  {currentUser.firstName} {currentUser.lastName}
+                </p>
+              </div>
+              <MobileLink
+                icon={<UserIcon strokeWidth={1.4} size={16} />}
+                label="Hesabım"
+                href="/hesabim"
+                onClose={onClose}
+              />
+            </>
+          ) : (
+            <>
+              <MobileLink
+                icon={<UserIcon strokeWidth={1.4} size={16} />}
+                label="Giriş Yap"
+                href="/giris"
+                onClose={onClose}
+              />
+              <MobileLink
+                icon={<UserIcon strokeWidth={1.4} size={16} />}
+                label="Üye Ol"
+                href="/uye-ol"
+                onClose={onClose}
+              />
+            </>
+          )}
           <MobileLink
             icon={<ShoppingBag strokeWidth={1.4} size={16} />}
             label={`Sepetim${cartCount > 0 ? ` (${cartCount})` : ""}`}
@@ -107,6 +145,22 @@ export default function MobileMenu({
           />
           <MobileLink label="Hakkımızda" href="/hakkimizda" onClose={onClose} />
           <MobileLink label="İletişim" href="/iletisim" onClose={onClose} />
+          {currentUser && (
+            <button
+              type="button"
+              disabled={pending}
+              onClick={() => {
+                onClose();
+                startTransition(() => logoutAction());
+              }}
+              className="flex w-full items-center gap-3 py-2.5 text-left text-sm text-ink-800 transition hover:text-rose-600 disabled:opacity-60"
+            >
+              <span className="text-rose-600">
+                <LogOut strokeWidth={1.4} size={16} />
+              </span>
+              {pending ? "Çıkış yapılıyor..." : "Çıkış Yap"}
+            </button>
+          )}
         </div>
 
         <div className="mt-auto px-6 py-6">

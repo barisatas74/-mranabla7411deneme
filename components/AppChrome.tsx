@@ -7,16 +7,18 @@ import FloatingWhatsApp from "@/components/WhatsAppButton";
 import AddToCartToast from "@/components/AddToCartToast";
 import CookieConsent from "@/components/CookieConsent";
 import ScrollToTop from "@/components/ScrollToTop";
-import { AdminCategory, Product } from "@/types";
+import { AdminCategory, Product, User } from "@/types";
 
 export default function AppChrome({
   children,
   categories,
   products,
+  currentUser,
 }: {
   children: React.ReactNode;
   categories: AdminCategory[];
   products: Product[];
+  currentUser: User | null;
 }) {
   const pathname = usePathname();
   const isAdminRoute =
@@ -34,7 +36,11 @@ export default function AppChrome({
       >
         İçeriğe geç
       </a>
-      <Navbar categories={categories} products={products} />
+      <Navbar
+        categories={categories}
+        products={products}
+        currentUser={currentUser}
+      />
       <main id="main-content">{children}</main>
       <Footer />
       <FloatingWhatsApp />

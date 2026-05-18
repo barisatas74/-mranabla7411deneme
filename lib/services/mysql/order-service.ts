@@ -185,6 +185,16 @@ export const mysqlOrderService: OrderService = {
           item.size || null,
         ]
       );
+
+      // Stok düşür (stok eksiye düşmesin)
+      if (item.productId) {
+        await db.execute(
+          `UPDATE products
+           SET stock = GREATEST(stock - ?, 0)
+           WHERE id = ?`,
+          [item.quantity, item.productId]
+        );
+      }
     }
 
     const created = await mysqlOrderService.getById(id);

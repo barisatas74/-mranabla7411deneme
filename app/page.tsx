@@ -7,7 +7,7 @@ import BestSellers from "@/components/BestSellers";
 import ComingSoon from "@/components/ComingSoon";
 import BrandStory from "@/components/BrandStory";
 import TrustBadges from "@/components/TrustBadges";
-import { productService } from "@/lib/services/server";
+import { categoryService, productService } from "@/lib/services/server";
 
 export const dynamic = "force-dynamic";
 
@@ -18,7 +18,10 @@ export const metadata: Metadata = {
 };
 
 export default async function HomePage() {
-  const allProducts = await productService.list().catch(() => []);
+  const [allProducts, allCategories] = await Promise.all([
+    productService.list().catch(() => []),
+    categoryService.list().catch(() => []),
+  ]);
   const hasProducts = allProducts.length > 0;
 
   return (
@@ -27,7 +30,7 @@ export default async function HomePage() {
       <Marquee />
       {hasProducts ? (
         <>
-          <CategoryShowcase />
+          <CategoryShowcase categories={allCategories} />
           <TrustStrip />
           <FeaturedProducts products={allProducts} />
           <BestSellers products={allProducts} />

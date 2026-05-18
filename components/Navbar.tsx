@@ -9,10 +9,9 @@ import MobileMenu from "./MobileMenu";
 import { useCart } from "./CartContext";
 import { useWishlist } from "./WishlistContext";
 import SearchOverlay from "./SearchOverlay";
-import { categories } from "@/data/categories";
-import { products } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { AdminCategory, Product } from "@/types";
 
 type NavEffect = "pulse" | "stretch" | "slide" | "lift" | "moon" | "flash";
 
@@ -45,7 +44,12 @@ const announcements = [
   "Yeni sezon koleksiyonu şimdi yayında",
 ];
 
-export default function Navbar() {
+type NavbarProps = {
+  categories: AdminCategory[];
+  products: Product[];
+};
+
+export default function Navbar({ categories, products }: NavbarProps) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
@@ -162,6 +166,8 @@ export default function Navbar() {
           <MegaMenuPanel
             activeMenu={activeMenu}
             onClose={() => setActiveMenu(null)}
+            categories={categories}
+            products={products}
           />
         )}
       </header>
@@ -173,7 +179,11 @@ export default function Navbar() {
         cartCount={itemCount}
       />
 
-      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+      <SearchOverlay
+        open={searchOpen}
+        onClose={() => setSearchOpen(false)}
+        products={products}
+      />
     </>
   );
 }
@@ -203,9 +213,13 @@ function NavLink({
 function MegaMenuPanel({
   activeMenu,
   onClose,
+  categories,
+  products,
 }: {
   activeMenu: string;
   onClose: () => void;
+  categories: AdminCategory[];
+  products: Product[];
 }) {
   const item = navItems.find((nav) => nav.label === activeMenu);
 
@@ -225,7 +239,7 @@ function MegaMenuPanel({
         .slice(0, 3);
     }
     return [];
-  }, [item]);
+  }, [item, products]);
 
   if (!item || previewProducts.length === 0) return null;
 

@@ -7,6 +7,7 @@ import AppChrome from "@/components/AppChrome";
 import JsonLd from "@/components/JsonLd";
 import { SITE } from "@/lib/site";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
+import { categoryService, productService } from "@/lib/services/server";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -116,11 +117,16 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const [categories, products] = await Promise.all([
+    categoryService.list().catch(() => []),
+    productService.list().catch(() => []),
+  ]);
+
   return (
     <html lang="tr" className={`${inter.variable} ${cormorant.variable}`}>
       <head>
@@ -130,7 +136,9 @@ export default function RootLayout({
       <body className="antialiased">
         <CartProvider>
           <WishlistProvider>
-            <AppChrome>{children}</AppChrome>
+            <AppChrome categories={categories} products={products}>
+              {children}
+            </AppChrome>
           </WishlistProvider>
         </CartProvider>
       </body>

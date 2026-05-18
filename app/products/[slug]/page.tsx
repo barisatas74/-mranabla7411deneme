@@ -1,12 +1,19 @@
 import type { Metadata } from "next";
 import ProductDetailView from "@/components/products/ProductDetailView";
-import { productService } from "@/lib/services/server";
-
-async function getProductBySlug(slug: string) {
-  const all = await productService.list().catch(() => []);
-  return all.find((p) => p.slug === slug);
-}
+import { categoryService, productService } from "@/lib/services/server";
 import { notFound } from "next/navigation";
+
+async function loadProductData(slug: string) {
+  const [products, categories] = await Promise.all([
+    productService.list().catch(() => []),
+    categoryService.list().catch(() => []),
+  ]);
+  return {
+    product: products.find((p) => p.slug === slug),
+    products,
+    categories,
+  };
+}
 
 export const dynamic = "force-dynamic";
 
@@ -20,7 +27,7 @@ export async function generateMetadata({
   params,
 }: ProductDetailPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const product = await getProductBySlug(slug);
+  const { product } = await loadProductData(slug);
 
   if (!product) {
     return {
@@ -53,7 +60,7 @@ const SITE_URL =
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { slug } = await params;
-  const product = await getProductBySlug(slug);
+  const { product, products, categories } = await loadProductData(slug);
 
   if (!product) {
     notFound();
@@ -86,7 +93,11 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ProductDetailView product={product} />
+      <ProductDetailView
+        product={product}
+        allProducts={products}
+        categories={categories}
+      />
     </>
   );
 }

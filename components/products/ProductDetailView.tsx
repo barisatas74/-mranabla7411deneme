@@ -9,13 +9,9 @@ import { useCart } from "@/components/CartContext";
 import { useWishlist } from "@/components/WishlistContext";
 import { WhatsAppProductButton } from "@/components/WhatsAppButton";
 import SizeGuideModal from "@/components/SizeGuideModal";
-import {
-  getCategoryName,
-  getRelatedProducts,
-  isProductOnSale,
-} from "@/data/products";
+import { isProductOnSale } from "@/data/products";
 import { cn, formatPrice } from "@/lib/utils";
-import { Product } from "@/types";
+import { AdminCategory, Product } from "@/types";
 import {
   ChevronDown,
   Heart,
@@ -33,12 +29,25 @@ type VariantErrors = {
   size?: string;
 };
 
-export default function ProductDetailView({ product }: { product: Product }) {
+type ProductDetailViewProps = {
+  product: Product;
+  allProducts?: Product[];
+  categories?: AdminCategory[];
+};
+
+export default function ProductDetailView({
+  product,
+  allProducts = [],
+  categories = [],
+}: ProductDetailViewProps) {
   const { addItem } = useCart();
   const { has: hasFavorite, toggle: toggleFavorite } = useWishlist();
   const relatedProducts = useMemo(
-    () => getRelatedProducts(product.id, product.category, 4),
-    [product.category, product.id]
+    () =>
+      allProducts
+        .filter((p) => p.id !== product.id && p.category === product.category)
+        .slice(0, 4),
+    [allProducts, product.category, product.id]
   );
   const [imageIndex, setImageIndex] = useState(0);
   const [selectedColor, setSelectedColor] = useState<string | null>(null);
@@ -143,7 +152,8 @@ export default function ProductDetailView({ product }: { product: Product }) {
 
           <div className="md:col-span-5 md:sticky md:top-28 md:self-start">
             <span className="text-[10px] uppercase tracking-editorial text-rose-600">
-              {getCategoryName(product.category)}
+              {categories.find((c) => c.slug === product.category)?.name ??
+                product.category}
             </span>
             <h1 className="mt-2 font-display text-[34px] leading-[1.05] text-ink-900 md:text-[48px]">
               {product.name}

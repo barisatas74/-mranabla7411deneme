@@ -2,10 +2,14 @@ import Link from "next/link";
 import Image from "next/image";
 import Container from "./Container";
 import Reveal from "./Reveal";
-import { categories } from "@/data/categories";
 import { ArrowUpRight } from "lucide-react";
+import { AdminCategory } from "@/types";
 
-export default function CategoryShowcase() {
+export default function CategoryShowcase({
+  categories,
+}: {
+  categories: AdminCategory[];
+}) {
   return (
     <section className="py-24 md:py-32 bg-bone-50 relative">
       <Container>

@@ -7,13 +7,16 @@ import { Search, X } from "lucide-react";
 import { filterProducts } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
+import { Product } from "@/types";
 
 export default function SearchOverlay({
   open,
   onClose,
+  products,
 }: {
   open: boolean;
   onClose: () => void;
+  products: Product[];
 }) {
   const [query, setQuery] = useState("");
 
@@ -41,8 +44,8 @@ export default function SearchOverlay({
   const results = useMemo(() => {
     const trimmed = query.trim();
     if (trimmed.length < 2) return [];
-    return filterProducts({ query: trimmed }).slice(0, 6);
-  }, [query]);
+    return filterProducts({ query: trimmed, products }).slice(0, 6);
+  }, [query, products]);
 
   return (
     <div
@@ -98,6 +101,7 @@ export default function SearchOverlay({
                     className="flex items-center gap-4 px-5 py-3 transition hover:bg-bone-100"
                   >
                     <div className="relative h-16 w-12 flex-shrink-0 overflow-hidden bg-bone-100">
+                      {product.images[0] && (
                       <Image
                         src={product.images[0]}
                         alt={product.name}
@@ -105,6 +109,7 @@ export default function SearchOverlay({
                         sizes="48px"
                         className="object-cover"
                       />
+                      )}
                     </div>
                     <div className="min-w-0 flex-1">
                       <p className="truncate font-display text-base text-ink-900">

@@ -206,6 +206,14 @@ export const mysqlOrderService: OrderService = {
 
   async updateStatus(id, input) {
     const db = getDb();
+
+    // Mevcut siparisi al — durum gecisini kontrol etmek icin
+    const existing = await mysqlOrderService.getById(id);
+    if (!existing) return null;
+
+    const wasCancelled = existing.status === "iptal-edildi";
+    const willBeCancelled = input.status === "iptal-edildi";
+
     const [result] = await db.execute(
       `UPDATE orders SET status = ?, payment_status = ?, shipping_status = ?
        WHERE id = ?`,
@@ -214,6 +222,30 @@ export const mysqlOrderService: OrderService = {
 
     const affected = (result as { affectedRows?: number }).affectedRows ?? 0;
     if (affected === 0) return null;
+
+    // Stok ayarlamasi
+    if (!wasCancelled && willBeCancelled) {
+      // Iptal edildi → stoklari geri yukle
+      for (const item of existing.items) {
+        if (item.productId) {
+          await db.execute(
+            `UPDATE products SET stock = stock + ? WHERE id = ?`,
+            [item.quantity, item.productId]
+          );
+        }
+      }
+    } else if (wasCancelled && !willBeCancelled) {
+      // Iptal geri alindi → stoklari tekrar dus
+      for (const item of existing.items) {
+        if (item.productId) {
+          await db.execute(
+            `UPDATE products SET stock = GREATEST(stock - ?, 0) WHERE id = ?`,
+            [item.quantity, item.productId]
+          );
+        }
+      }
+    }
+
     return mysqlOrderService.getById(id);
   },
 };

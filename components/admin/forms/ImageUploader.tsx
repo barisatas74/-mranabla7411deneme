@@ -1,14 +1,28 @@
 "use client";
 
 import { useRef, useState } from "react";
-import Image from "next/image";
-import { ImagePlus, Trash2, Upload } from "lucide-react";
+import { ImagePlus, Upload } from "lucide-react";
 import {
   deleteUploadedImage,
   uploadImages,
   type UploadFolder,
 } from "@/lib/upload-client";
 import ImageCropModal from "@/components/admin/forms/ImageCropModal";
+import SortableImageItem from "@/components/admin/forms/SortableImageItem";
+import {
+  DndContext,
+  PointerSensor,
+  TouchSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+} from "@dnd-kit/sortable";
 
 const ACCEPTED_INPUT_TYPES = "image/jpeg,image/png,image/webp,image/avif";
 const MAX_FILE_SIZE_MB = 10;
@@ -48,6 +62,22 @@ export default function ImageUploader({
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
   const [cropQueue, setCropQueue] = useState<File[]>([]);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 6 } }),
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 200, tolerance: 6 },
+    })
+  );
+
+  function handleDragEnd(event: DragEndEvent) {
+    const { active, over } = event;
+    if (!over || active.id === over.id) return;
+    const oldIndex = value.indexOf(String(active.id));
+    const newIndex = value.indexOf(String(over.id));
+    if (oldIndex < 0 || newIndex < 0) return;
+    onChange(arrayMove(value, oldIndex, newIndex));
+  }
 
   async function uploadFiles(files: File[]) {
     setIsUploading(true);
@@ -213,47 +243,38 @@ export default function ImageUploader({
       )}
 
       {value.length > 0 && (
-        <div
-          className={`grid gap-4 ${
-            multiple ? "sm:grid-cols-2 xl:grid-cols-3" : ""
-          }`}
-        >
-          {value.map((url, index) => (
-            <div
-              key={`${url}-${index}`}
-              className="group relative overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50"
-            >
-              <div className="relative aspect-[3/4]">
-                <Image
-                  src={url}
-                  alt={`Görsel ${index + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 100vw, 240px"
-                  className="object-cover"
-                  unoptimized={url.startsWith("data:")}
-                />
-                {showCoverBadge && index === 0 && multiple && (
-                  <span className="absolute left-3 top-3 rounded-full bg-slate-950/85 px-3 py-1 text-[10px] font-semibold uppercase tracking-wider text-white">
-                    Kapak
-                  </span>
-                )}
+        <>
+          {multiple && value.length > 1 && (
+            <p className="text-xs text-slate-500">
+              Görselleri sürükleyerek sıralayabilirsin. İlk görsel kapak olur.
+            </p>
+          )}
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            onDragEnd={handleDragEnd}
+          >
+            <SortableContext items={value} strategy={rectSortingStrategy}>
+              <div
+                className={`grid gap-4 ${
+                  multiple ? "sm:grid-cols-2 xl:grid-cols-3" : ""
+                }`}
+              >
+                {value.map((url, index) => (
+                  <SortableImageItem
+                    key={url}
+                    id={url}
+                    url={url}
+                    index={index}
+                    showCoverBadge={showCoverBadge}
+                    multiple={multiple}
+                    onRemove={() => void handleRemove(url)}
+                  />
+                ))}
               </div>
-              <div className="flex items-center justify-between gap-3 px-4 py-3">
-                <p className="truncate text-xs text-slate-500">
-                  Görsel {index + 1}
-                </p>
-                <button
-                  type="button"
-                  onClick={() => void handleRemove(url)}
-                  className="rounded-full p-2 text-slate-400 transition hover:bg-white hover:text-rose-600"
-                  aria-label="Görseli sil"
-                >
-                  <Trash2 size={15} />
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
+            </SortableContext>
+          </DndContext>
+        </>
       )}
     </div>
   );

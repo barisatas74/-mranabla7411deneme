@@ -8,6 +8,7 @@ import {
   uploadImages,
   type UploadFolder,
 } from "@/lib/upload-client";
+import ImageCropModal from "@/components/admin/forms/ImageCropModal";
 
 const ACCEPTED_INPUT_TYPES = "image/jpeg,image/png,image/webp,image/avif";
 const MAX_FILE_SIZE_MB = 10;
@@ -46,29 +47,9 @@ export default function ImageUploader({
   const [isUploading, setIsUploading] = useState(false);
   const [isDraggingOver, setIsDraggingOver] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
+  const [cropQueue, setCropQueue] = useState<File[]>([]);
 
-  async function processFiles(fileList: FileList | File[]) {
-    const files = Array.from(fileList);
-    if (files.length === 0) return;
-
-    setLocalError(null);
-
-    if (!multiple && files.length > 1) {
-      const first = files.slice(0, 1);
-      await processFiles(first);
-      return;
-    }
-
-    const tooLarge = files.find(
-      (file) => file.size > MAX_FILE_SIZE_MB * 1024 * 1024
-    );
-    if (tooLarge) {
-      const message = `Her görsel en fazla ${MAX_FILE_SIZE_MB} MB olabilir.`;
-      setLocalError(message);
-      onNotify?.("Yükleme başarısız", message, "error");
-      return;
-    }
-
+  async function uploadFiles(files: File[]) {
     setIsUploading(true);
     try {
       const uploaded = await uploadImages(files, folder);
@@ -93,9 +74,43 @@ export default function ImageUploader({
     }
   }
 
+  function processFiles(fileList: FileList | File[]) {
+    let files = Array.from(fileList);
+    if (files.length === 0) return;
+
+    setLocalError(null);
+
+    if (!multiple && files.length > 1) {
+      files = files.slice(0, 1);
+    }
+
+    const tooLarge = files.find(
+      (file) => file.size > MAX_FILE_SIZE_MB * 1024 * 1024
+    );
+    if (tooLarge) {
+      const message = `Her görsel en fazla ${MAX_FILE_SIZE_MB} MB olabilir.`;
+      setLocalError(message);
+      onNotify?.("Yükleme başarısız", message, "error");
+      return;
+    }
+
+    // Kirpma modalini ac — kullanici tamamlayinca yukleme baslar
+    setCropQueue(files);
+  }
+
+  function handleCropConfirm(croppedFile: File) {
+    const remaining = cropQueue.slice(1);
+    setCropQueue(remaining);
+    void uploadFiles([croppedFile]);
+  }
+
+  function handleCropCancel() {
+    setCropQueue((current) => current.slice(1));
+  }
+
   function handleInputChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (event.target.files) {
-      void processFiles(event.target.files);
+      processFiles(event.target.files);
       event.target.value = "";
     }
   }
@@ -104,7 +119,7 @@ export default function ImageUploader({
     event.preventDefault();
     setIsDraggingOver(false);
     if (event.dataTransfer.files && event.dataTransfer.files.length > 0) {
-      void processFiles(event.dataTransfer.files);
+      processFiles(event.dataTransfer.files);
     }
   }
 
@@ -119,8 +134,19 @@ export default function ImageUploader({
 
   const displayError = error ?? localError;
 
+  const activeCropFile = cropQueue[0];
+
   return (
     <div className="space-y-3">
+      {activeCropFile && (
+        <ImageCropModal
+          key={activeCropFile.name + activeCropFile.size}
+          file={activeCropFile}
+          onCancel={handleCropCancel}
+          onConfirm={handleCropConfirm}
+        />
+      )}
+
       <input
         ref={inputRef}
         type="file"
@@ -197,7 +223,7 @@ export default function ImageUploader({
               key={`${url}-${index}`}
               className="group relative overflow-hidden rounded-[24px] border border-slate-200 bg-slate-50"
             >
-              <div className="relative aspect-[4/5]">
+              <div className="relative aspect-[3/4]">
                 <Image
                   src={url}
                   alt={`Görsel ${index + 1}`}

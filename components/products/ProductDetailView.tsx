@@ -118,14 +118,20 @@ export default function ProductDetailView({ product }: { product: Product }) {
               </div>
 
               <div className="order-1 relative aspect-[3/4] overflow-hidden bg-bone-100 shadow-card md:order-2">
-                <Image
-                  src={product.images[imageIndex]}
-                  alt={product.name}
-                  fill
-                  priority
-                  sizes="(max-width: 768px) 100vw, 60vw"
-                  className="object-cover"
-                />
+                {product.images[imageIndex] ? (
+                  <Image
+                    src={product.images[imageIndex]}
+                    alt={product.name}
+                    fill
+                    priority
+                    sizes="(max-width: 768px) 100vw, 60vw"
+                    className="object-cover"
+                  />
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center text-xs uppercase tracking-[0.25em] text-ink-700/50">
+                    Görsel yok
+                  </div>
+                )}
                 {product.isNew && (
                   <span className="absolute left-4 top-4 bg-bone-50/95 px-3 py-1.5 text-[10px] uppercase tracking-editorial backdrop-blur">
                     Yeni sezon

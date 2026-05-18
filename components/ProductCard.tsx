@@ -51,13 +51,19 @@ export default function ProductCard({ product }: { product: Product }) {
       <div className="group relative">
         <Link href={`/products/${product.slug}`} className="block">
           <div className="relative aspect-[3/4] overflow-hidden bg-bone-100">
-            <Image
-              src={product.images[0]}
-              alt={product.name}
-              fill
-              sizes="(max-width: 768px) 50vw, 25vw"
-              className="object-cover transition-all duration-[1200ms] ease-out group-hover:scale-[1.04]"
-            />
+            {product.images[0] ? (
+              <Image
+                src={product.images[0]}
+                alt={product.name}
+                fill
+                sizes="(max-width: 768px) 50vw, 25vw"
+                className="object-cover transition-all duration-[1200ms] ease-out group-hover:scale-[1.04]"
+              />
+            ) : (
+              <div className="absolute inset-0 flex items-center justify-center bg-bone-100 text-[10px] uppercase tracking-[0.25em] text-ink-700/50">
+                Görsel yok
+              </div>
+            )}
             {product.images[1] && (
               <Image
                 src={product.images[1]}

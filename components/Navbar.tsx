@@ -1,15 +1,13 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState, useTransition } from "react";
+import { useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { LogOut, Menu, Search, ShoppingBag, Heart, User as UserIcon } from "lucide-react";
 import Container from "./Container";
 import MobileMenu from "./MobileMenu";
 import { useCart } from "./CartContext";
 import { useWishlist } from "./WishlistContext";
 import SearchOverlay from "./SearchOverlay";
-import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { AdminCategory, Product, User } from "@/types";
 import { logoutAction } from "@/lib/actions/auth";
@@ -55,7 +53,6 @@ export default function Navbar({ categories, products, currentUser }: NavbarProp
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
-  const [activeMenu, setActiveMenu] = useState<string | null>(null);
   const { itemCount } = useCart();
   const { count: wishlistCount } = useWishlist();
 
@@ -85,7 +82,6 @@ export default function Navbar({ categories, products, currentUser }: NavbarProp
             ? "border-b border-ink-900/8 bg-bone-50/92 py-0 backdrop-blur-md"
             : "bg-transparent py-1"
         )}
-        onMouseLeave={() => setActiveMenu(null)}
       >
         <Container className="flex h-16 items-center justify-between md:h-[76px]">
           <button
@@ -99,12 +95,7 @@ export default function Navbar({ categories, products, currentUser }: NavbarProp
 
           <div className="hidden flex-1 items-center gap-9 md:flex">
             {navItems.slice(0, 3).map((item) => (
-              <NavLink
-                key={item.href}
-                item={item}
-                onHover={setActiveMenu}
-                isActive={activeMenu === item.label}
-              />
+              <NavLink key={item.href} item={item} />
             ))}
           </div>
 
@@ -119,12 +110,7 @@ export default function Navbar({ categories, products, currentUser }: NavbarProp
 
           <div className="hidden flex-1 items-center justify-end gap-9 md:flex">
             {navItems.slice(3).map((item) => (
-              <NavLink
-                key={item.href}
-                item={item}
-                onHover={setActiveMenu}
-                isActive={activeMenu === item.label}
-              />
+              <NavLink key={item.href} item={item} />
             ))}
           </div>
 
@@ -165,14 +151,6 @@ export default function Navbar({ categories, products, currentUser }: NavbarProp
           </div>
         </Container>
 
-        {activeMenu && (
-          <MegaMenuPanel
-            activeMenu={activeMenu}
-            onClose={() => setActiveMenu(null)}
-            categories={categories}
-            products={products}
-          />
-        )}
       </header>
 
       <MobileMenu
@@ -306,123 +284,13 @@ function UserMenu({ currentUser }: { currentUser: User | null }) {
   );
 }
 
-function NavLink({
-  item,
-  onHover,
-  isActive,
-}: {
-  item: NavItem;
-  onHover: (label: string | null) => void;
-  isActive: boolean;
-}) {
+function NavLink({ item }: { item: NavItem }) {
   const effectClass = `nav-effect-${item.effect}`;
 
   return (
-    <Link
-      href={item.href}
-      onMouseEnter={() => onHover(item.label)}
-      className={cn("nav-link", effectClass, isActive && "is-active")}
-    >
+    <Link href={item.href} className={cn("nav-link", effectClass)}>
       {item.effect === "slide" ? <span>{item.label}</span> : item.label}
     </Link>
   );
 }
 
-function MegaMenuPanel({
-  activeMenu,
-  onClose,
-  categories,
-  products,
-}: {
-  activeMenu: string;
-  onClose: () => void;
-  categories: AdminCategory[];
-  products: Product[];
-}) {
-  const item = navItems.find((nav) => nav.label === activeMenu);
-
-  const previewProducts = useMemo(() => {
-    if (!item) return [];
-    if (item.category) {
-      return products
-        .filter((product) => product.category === item.category)
-        .slice(0, 3);
-    }
-    if (item.filter === "new") {
-      return products.filter((product) => product.isNew).slice(0, 3);
-    }
-    if (item.filter === "sale") {
-      return products
-        .filter((product) => product.oldPrice && product.oldPrice > product.price)
-        .slice(0, 3);
-    }
-    return [];
-  }, [item, products]);
-
-  if (!item || previewProducts.length === 0) return null;
-
-  return (
-    <div
-      className="absolute inset-x-0 top-full hidden border-t border-ink-900/8 bg-bone-50/98 shadow-luxe backdrop-blur md:block"
-      onMouseEnter={() => undefined}
-    >
-      <Container className="grid grid-cols-12 gap-8 py-10">
-        <div className="col-span-3">
-          <p className="luxe-label plain text-rose-600">{item.label}</p>
-          <h3 className="mt-3 font-display text-3xl text-ink-900">
-            Keşfet
-          </h3>
-          <ul className="mt-6 space-y-3 text-sm text-ink-800">
-            {categories.slice(0, 6).map((category) => (
-              <li key={category.slug}>
-                <Link
-                  href={`/products?category=${category.slug}`}
-                  onClick={onClose}
-                  className="inline-block transition hover:translate-x-1 hover:text-rose-600"
-                >
-                  {category.name}
-                </Link>
-              </li>
-            ))}
-            <li className="pt-2">
-              <Link
-                href="/products"
-                onClick={onClose}
-                className="inline-block text-[11px] uppercase tracking-editorial text-rose-600"
-              >
-                Tüm Ürünler →
-              </Link>
-            </li>
-          </ul>
-        </div>
-
-        <div className="col-span-9 grid grid-cols-3 gap-4">
-          {previewProducts.map((product) => (
-            <Link
-              key={product.id}
-              href={`/products/${product.slug}`}
-              onClick={onClose}
-              className="group block"
-            >
-              <div className="relative aspect-[4/5] overflow-hidden bg-bone-100">
-                <Image
-                  src={product.images[0]}
-                  alt={product.name}
-                  fill
-                  sizes="240px"
-                  className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
-                />
-              </div>
-              <p className="mt-3 truncate font-display text-base text-ink-900 group-hover:text-rose-600">
-                {product.name}
-              </p>
-              <p className="mt-0.5 text-sm font-medium text-ink-900">
-                {formatPrice(product.price)}
-              </p>
-            </Link>
-          ))}
-        </div>
-      </Container>
-    </div>
-  );
-}

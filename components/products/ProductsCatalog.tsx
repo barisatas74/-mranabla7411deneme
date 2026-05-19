@@ -1,6 +1,6 @@
 "use client";
 
-import { useDeferredValue, useMemo, useState } from "react";
+import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import Container from "@/components/Container";
 import ProductCard from "@/components/ProductCard";
@@ -36,9 +36,9 @@ export default function ProductsCatalog({
   initialSort,
   products,
 }: ProductsCatalogProps) {
-  const priceBounds = getProductPriceBounds(products);
-  const allSizes = getAvailableSizes(products);
-  const allColors = getAvailableColors(products);
+  const priceBounds = useMemo(() => getProductPriceBounds(products), [products]);
+  const allSizes = useMemo(() => getAvailableSizes(products), [products]);
+  const allColors = useMemo(() => getAvailableColors(products), [products]);
   const [activeCategory, setActiveCategory] = useState<CategoryTab>(initialCategory);
   const [activeFilter, setActiveFilter] = useState<ProductFilter>(initialFilter);
   const [sort, setSort] = useState<ProductSort>(initialSort);
@@ -50,6 +50,17 @@ export default function ProductsCatalog({
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const deferredSearchQuery = useDeferredValue(searchQuery);
+
+  useEffect(() => {
+    setActiveCategory(initialCategory);
+    setActiveFilter(initialFilter);
+    setSort(initialSort);
+  }, [initialCategory, initialFilter, initialSort]);
+
+  useEffect(() => {
+    setPriceMin(String(priceBounds.min));
+    setPriceMax(String(priceBounds.max));
+  }, [priceBounds.max, priceBounds.min]);
 
   const filteredProducts = useMemo(
     () =>

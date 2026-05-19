@@ -22,12 +22,22 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
   const [status, setStatus] = useState(order.status);
   const [paymentStatus, setPaymentStatus] = useState(order.paymentStatus);
   const [shippingStatus, setShippingStatus] = useState(order.shippingStatus);
+  const [trackingNumber, setTrackingNumber] = useState(
+    order.trackingNumber ?? ""
+  );
+  const [trackingCarrier, setTrackingCarrier] = useState(
+    order.trackingCarrier ?? ""
+  );
+  const [trackingUrl, setTrackingUrl] = useState(order.trackingUrl ?? "");
 
   async function handleSave() {
     const updatedOrder = await updateOrderStatusAction(order.id, {
       status,
       paymentStatus,
       shippingStatus,
+      trackingNumber: trackingNumber.trim() || undefined,
+      trackingCarrier: trackingCarrier.trim() || undefined,
+      trackingUrl: trackingUrl.trim() || undefined,
     });
 
     if (!updatedOrder) {
@@ -148,6 +158,32 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
                 onChange={(value) => setShippingStatus(value as AdminOrder["shippingStatus"])}
                 options={SHIPPING_STATUS_OPTIONS}
               />
+
+              <div className="border-t border-slate-200 pt-4">
+                <p className="mb-3 text-xs font-medium uppercase tracking-[0.25em] text-slate-500">
+                  Kargo Takip Bilgisi
+                </p>
+                <div className="space-y-3">
+                  <TrackingField
+                    label="Kargo Firması"
+                    value={trackingCarrier}
+                    onChange={setTrackingCarrier}
+                    placeholder="Aras, Yurtiçi, MNG..."
+                  />
+                  <TrackingField
+                    label="Takip Numarası"
+                    value={trackingNumber}
+                    onChange={setTrackingNumber}
+                    placeholder="örn: 1234567890"
+                  />
+                  <TrackingField
+                    label="Takip URL'si (opsiyonel)"
+                    value={trackingUrl}
+                    onChange={setTrackingUrl}
+                    placeholder="https://..."
+                  />
+                </div>
+              </div>
             </div>
             <button
               type="button"
@@ -180,6 +216,33 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
         </div>
       </div>
     </div>
+  );
+}
+
+function TrackingField({
+  label,
+  value,
+  onChange,
+  placeholder,
+}: {
+  label: string;
+  value: string;
+  onChange: (value: string) => void;
+  placeholder?: string;
+}) {
+  return (
+    <label className="block">
+      <span className="mb-1 block text-xs font-medium text-slate-700">
+        {label}
+      </span>
+      <input
+        type="text"
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        className="w-full rounded-2xl border border-slate-200 bg-white px-4 py-2.5 text-sm outline-none transition focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10"
+      />
+    </label>
   );
 }
 

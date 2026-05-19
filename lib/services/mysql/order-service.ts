@@ -35,6 +35,9 @@ type OrderRow = RowDataPacket & {
   discount: string | number;
   total: string | number;
   note: string | null;
+  tracking_number: string | null;
+  tracking_carrier: string | null;
+  tracking_url: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -75,6 +78,9 @@ function rowToOrder(row: OrderRow, items: AdminOrderItem[]): AdminOrder {
     discount: toNumber(row.discount),
     total: toNumber(row.total),
     note: row.note ?? undefined,
+    trackingNumber: row.tracking_number ?? undefined,
+    trackingCarrier: row.tracking_carrier ?? undefined,
+    trackingUrl: row.tracking_url ?? undefined,
   };
 }
 
@@ -216,9 +222,19 @@ export const mysqlOrderService: OrderService = {
     const willBeCancelled = input.status === "iptal-edildi";
 
     const [result] = await db.execute(
-      `UPDATE orders SET status = ?, payment_status = ?, shipping_status = ?
+      `UPDATE orders
+         SET status = ?, payment_status = ?, shipping_status = ?,
+             tracking_number = ?, tracking_carrier = ?, tracking_url = ?
        WHERE id = ?`,
-      [input.status, input.paymentStatus, input.shippingStatus, id]
+      [
+        input.status,
+        input.paymentStatus,
+        input.shippingStatus,
+        input.trackingNumber?.trim() || null,
+        input.trackingCarrier?.trim() || null,
+        input.trackingUrl?.trim() || null,
+        id,
+      ]
     );
 
     const affected = (result as { affectedRows?: number }).affectedRows ?? 0;

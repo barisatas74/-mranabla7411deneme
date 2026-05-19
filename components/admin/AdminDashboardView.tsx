@@ -96,7 +96,7 @@ export default function AdminDashboardView({
             <div className="p-6">
               <AdminEmptyState
                 title="Sipariş bulunamadi"
-                description="Mock veri kaynaginda gosterilecek sipariş bulunmuyor."
+                description="Henüz sipariş kaydı bulunmuyor."
               />
             </div>
           )}

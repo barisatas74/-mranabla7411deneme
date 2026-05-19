@@ -119,6 +119,31 @@ export const mysqlUserService = {
     return mysqlUserService.getById(id);
   },
 
+  async changePassword(
+    id: string,
+    currentPassword: string,
+    newPassword: string
+  ): Promise<{ ok: boolean; message?: string }> {
+    const db = getDb();
+    const [rows] = await db.execute<UserRow[]>(
+      `SELECT * FROM users WHERE id = ? LIMIT 1`,
+      [id]
+    );
+    const row = rows[0];
+    if (!row) return { ok: false, message: "Kullanıcı bulunamadı." };
+    const ok = await verifyPassword(currentPassword, row.password_hash);
+    if (!ok) return { ok: false, message: "Mevcut şifreniz hatalı." };
+    if (newPassword.length < 6) {
+      return { ok: false, message: "Yeni şifre en az 6 karakter olmalı." };
+    }
+    const newHash = await hashPassword(newPassword);
+    await db.execute(`UPDATE users SET password_hash = ? WHERE id = ?`, [
+      newHash,
+      id,
+    ]);
+    return { ok: true };
+  },
+
   async listOrdersByUserId(userId: string) {
     const db = getDb();
     const [rows] = await db.execute<RowDataPacket[]>(

@@ -168,12 +168,19 @@ export type AdminOrder = {
   discount: number;
   total: number;
   note?: string;
+  trackingNumber?: string;
+  trackingCarrier?: string;
+  trackingUrl?: string;
 };
 
 export type AdminOrderStatusUpdate = Pick<
   AdminOrder,
   "status" | "paymentStatus" | "shippingStatus"
->;
+> & {
+  trackingNumber?: string;
+  trackingCarrier?: string;
+  trackingUrl?: string;
+};
 
 export type CreateOrderInput = {
   customer: AdminOrderCustomer;

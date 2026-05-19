@@ -92,6 +92,46 @@ export async function logoutAction() {
   redirect("/");
 }
 
+export async function updateProfileAction(input: {
+  firstName: string;
+  lastName: string;
+  phone?: string;
+}): Promise<ActionResult> {
+  try {
+    const current = await getCurrentUser();
+    if (!current) return { ok: false, message: "Oturum bulunamadı." };
+    if (!input.firstName.trim() || !input.lastName.trim()) {
+      return { ok: false, message: "Ad ve soyad zorunludur." };
+    }
+    await userService.update(current.id, {
+      firstName: input.firstName.trim(),
+      lastName: input.lastName.trim(),
+      phone: input.phone?.trim() ?? "",
+    });
+    return { ok: true };
+  } catch {
+    return { ok: false, message: "Profil güncellenemedi." };
+  }
+}
+
+export async function changePasswordAction(input: {
+  currentPassword: string;
+  newPassword: string;
+}): Promise<ActionResult> {
+  try {
+    const current = await getCurrentUser();
+    if (!current) return { ok: false, message: "Oturum bulunamadı." };
+    const result = await userService.changePassword(
+      current.id,
+      input.currentPassword,
+      input.newPassword
+    );
+    return result;
+  } catch {
+    return { ok: false, message: "Şifre değiştirilemedi." };
+  }
+}
+
 /** Sunucu tarafinda mevcut kullaniciyi don (cookie'den okur) */
 export async function getCurrentUser(): Promise<User | null> {
   try {

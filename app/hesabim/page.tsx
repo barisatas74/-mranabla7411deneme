@@ -56,7 +56,15 @@ export default async function AccountPage() {
       <Container className="py-12 md:py-16">
         <div className="grid gap-8 md:grid-cols-[280px_1fr]">
           <aside className="h-fit border border-ink-900/10 bg-white p-6 shadow-card">
-            <p className="luxe-label plain text-rose-600">Hesap Bilgilerim</p>
+            <div className="flex items-center justify-between">
+              <p className="luxe-label plain text-rose-600">Hesap Bilgilerim</p>
+              <Link
+                href="/hesabim/duzenle"
+                className="text-[11px] uppercase tracking-luxe text-rose-600 underline-offset-2 hover:underline"
+              >
+                Düzenle
+              </Link>
+            </div>
             <dl className="mt-5 space-y-4 text-sm">
               <div>
                 <dt className="text-[11px] uppercase tracking-luxe text-ink-600">
@@ -181,6 +189,34 @@ export default async function AccountPage() {
                         </div>
                       ))}
                     </div>
+
+                    {order.trackingNumber && (
+                      <div className="mt-4 rounded-lg border border-rose-200 bg-rose-50/50 p-3">
+                        <p className="text-[10px] uppercase tracking-luxe text-rose-700">
+                          Kargo Takibi
+                        </p>
+                        <p className="mt-1 text-sm text-ink-900">
+                          {order.trackingCarrier && (
+                            <span className="font-medium">
+                              {order.trackingCarrier}
+                            </span>
+                          )}{" "}
+                          <span className="font-mono text-xs">
+                            {order.trackingNumber}
+                          </span>
+                        </p>
+                        {order.trackingUrl && (
+                          <a
+                            href={order.trackingUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="mt-1 inline-block text-xs text-rose-600 underline-offset-2 hover:underline"
+                          >
+                            Kargomu Takip Et →
+                          </a>
+                        )}
+                      </div>
+                    )}
 
                     <footer className="mt-4 flex items-center justify-between border-t border-ink-900/8 pt-4">
                       <span className="text-xs text-ink-600">

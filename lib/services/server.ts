@@ -29,10 +29,12 @@ import { mysqlOrderService } from "@/lib/services/mysql/order-service";
 import { mysqlProductService } from "@/lib/services/mysql/product-service";
 import { mysqlSettingsService } from "@/lib/services/mysql/settings-service";
 import { mysqlUserService } from "@/lib/services/mysql/user-service";
+import { mysqlAddressService } from "@/lib/services/mysql/address-service";
 
 const useMysql = isDbEnabled();
 
 export const userService = mysqlUserService;
+export const addressService = mysqlAddressService;
 
 export const productService: ProductService = useMysql
   ? mysqlProductService

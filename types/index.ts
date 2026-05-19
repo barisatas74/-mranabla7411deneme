@@ -217,6 +217,29 @@ export type LoginInput = {
   password: string;
 };
 
+export type UserAddress = {
+  id: string;
+  userId: string;
+  label: string;
+  fullName: string;
+  phone: string;
+  city: string;
+  district: string;
+  address: string;
+  isDefault: boolean;
+  createdAt: string;
+};
+
+export type UserAddressInput = {
+  label: string;
+  fullName: string;
+  phone: string;
+  city: string;
+  district: string;
+  address: string;
+  isDefault?: boolean;
+};
+
 export type AdminSettings = {
   storeName: string;
   supportEmail: string;

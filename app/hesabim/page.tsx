@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
-import { Package } from "lucide-react";
+import { MapPin, Package } from "lucide-react";
 import Breadcrumb from "@/components/Breadcrumb";
 import Container from "@/components/Container";
 import LogoutButton from "./LogoutButton";
@@ -97,6 +97,17 @@ export default async function AccountPage() {
                 </dd>
               </div>
             </dl>
+
+            <Link
+              href="/hesabim/adresler"
+              className="mt-6 flex items-center justify-between border-t border-ink-900/10 pt-4 text-sm text-ink-900 hover:text-rose-600"
+            >
+              <span className="inline-flex items-center gap-2">
+                <MapPin size={14} strokeWidth={1.5} className="text-rose-600" />
+                Adreslerim
+              </span>
+              <span className="text-xs text-ink-600">→</span>
+            </Link>
           </aside>
 
           <div>

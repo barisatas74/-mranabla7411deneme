@@ -19,8 +19,9 @@ import {
   PaymentMethod,
   ShippingMethod,
   User,
+  UserAddress,
 } from "@/types";
-import { CheckCircle2, CreditCard, Lock, Truck, Wallet, UserCheck } from "lucide-react";
+import { CheckCircle2, CreditCard, Lock, MapPin, Truck, Wallet, UserCheck } from "lucide-react";
 import {
   formatPhone,
   formatPostalCode,
@@ -50,14 +51,22 @@ const initialFormData: CheckoutFormData = {
   acceptTerms: false,
 };
 
-function buildInitialFormData(user: User | null): CheckoutFormData {
+function buildInitialFormData(
+  user: User | null,
+  savedAddresses: UserAddress[] = []
+): CheckoutFormData {
   if (!user) return initialFormData;
+  const defaultAddr =
+    savedAddresses.find((a) => a.isDefault) ?? savedAddresses[0];
   return {
     ...initialFormData,
     firstName: user.firstName ?? "",
     lastName: user.lastName ?? "",
     email: user.email ?? "",
-    phone: user.phone ?? "",
+    phone: defaultAddr?.phone || user.phone || "",
+    city: defaultAddr?.city ?? "",
+    district: defaultAddr?.district ?? "",
+    address: defaultAddr?.address ?? "",
   };
 }
 
@@ -70,14 +79,42 @@ type PlacedOrder = {
 
 export default function CheckoutClient({
   currentUser,
+  savedAddresses = [],
 }: {
   currentUser: User | null;
+  savedAddresses?: UserAddress[];
 }) {
   const { lines, couponCode, clearCart, isHydrated } = useCart();
   const [step, setStep] = useState<1 | 2 | 3>(1);
-  const [formData, setFormData] = useState<CheckoutFormData>(() =>
-    buildInitialFormData(currentUser)
+  const initialDefaultId =
+    savedAddresses.find((a) => a.isDefault)?.id ?? savedAddresses[0]?.id ?? null;
+  const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
+    initialDefaultId
   );
+  const [formData, setFormData] = useState<CheckoutFormData>(() =>
+    buildInitialFormData(currentUser, savedAddresses)
+  );
+
+  function applyAddress(addressId: string | null) {
+    setSelectedAddressId(addressId);
+    if (!addressId) return;
+    const addr = savedAddresses.find((a) => a.id === addressId);
+    if (!addr) return;
+    setFormData((current) => ({
+      ...current,
+      phone: addr.phone,
+      city: addr.city,
+      district: addr.district,
+      address: addr.address,
+    }));
+    setErrors((current) => ({
+      ...current,
+      phone: undefined,
+      city: undefined,
+      district: undefined,
+      address: undefined,
+    }));
+  }
   const [errors, setErrors] = useState<CheckoutFieldErrors>({});
   const [placedOrder, setPlacedOrder] = useState<PlacedOrder | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -413,6 +450,72 @@ export default function CheckoutClient({
           )}
 
           <Section n={1} title="Müşteri Bilgileri" active={step === 1}>
+            {savedAddresses.length > 0 && (
+              <div className="mb-6 border border-ink-900/10 bg-bone-50/60 p-4">
+                <div className="mb-3 flex items-center justify-between">
+                  <p className="inline-flex items-center gap-2 text-[11px] uppercase tracking-luxe text-rose-600">
+                    <MapPin size={14} strokeWidth={1.5} /> Kayıtlı Adreslerim
+                  </p>
+                  <Link
+                    href="/hesabim/adresler"
+                    className="text-[11px] uppercase tracking-luxe text-ink-700 hover:text-rose-600"
+                  >
+                    Yönet →
+                  </Link>
+                </div>
+                <div className="grid gap-2 md:grid-cols-2">
+                  {savedAddresses.map((addr) => (
+                    <button
+                      key={addr.id}
+                      type="button"
+                      onClick={() => applyAddress(addr.id)}
+                      className={cn(
+                        "border p-3 text-left text-sm transition",
+                        selectedAddressId === addr.id
+                          ? "border-rose-500 bg-rose-50/40 ring-1 ring-rose-500/15"
+                          : "border-ink-900/15 bg-white hover:border-ink-900/30"
+                      )}
+                    >
+                      <div className="flex items-center justify-between gap-2">
+                        <span className="font-medium text-ink-900">
+                          {addr.label}
+                        </span>
+                        {addr.isDefault && (
+                          <span className="rounded-full bg-emerald-50 px-2 py-0.5 text-[9px] font-medium uppercase tracking-wide text-emerald-700 ring-1 ring-emerald-200">
+                            Varsayılan
+                          </span>
+                        )}
+                      </div>
+                      <p className="mt-1 text-xs text-ink-700">{addr.fullName}</p>
+                      <p className="text-[11px] text-ink-600 line-clamp-1">
+                        {addr.address}
+                      </p>
+                      <p className="text-[11px] text-ink-600">
+                        {addr.district} / {addr.city}
+                      </p>
+                    </button>
+                  ))}
+                  <button
+                    type="button"
+                    onClick={() => applyAddress(null)}
+                    className={cn(
+                      "border border-dashed p-3 text-left text-sm transition",
+                      selectedAddressId === null
+                        ? "border-rose-500 bg-rose-50/40 text-rose-700"
+                        : "border-ink-900/20 bg-white text-ink-700 hover:border-ink-900/40"
+                    )}
+                  >
+                    <span className="inline-flex items-center gap-1.5 text-[12px] uppercase tracking-luxe">
+                      <MapPin size={12} /> Yeni Adres Gir
+                    </span>
+                    <p className="mt-1 text-[11px] text-ink-600">
+                      Aşağıdaki formu doldurun.
+                    </p>
+                  </button>
+                </div>
+              </div>
+            )}
+
             <div className="grid gap-4 md:grid-cols-2">
               <FormInput
                 label="Ad"

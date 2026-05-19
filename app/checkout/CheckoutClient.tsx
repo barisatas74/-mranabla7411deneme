@@ -247,7 +247,7 @@ export default function CheckoutClient({
               Sipariş Alındı
             </p>
             <h1 className="mt-3 text-center font-display text-4xl text-ink-900 md:text-5xl">
-              Teşekkürler, {placedOrder.customerName}
+              Teşekkürler, {placedOrder.customerName.split(" ").map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(" ")}
             </h1>
             <p className="mx-auto mt-4 max-w-xl text-center text-sm leading-relaxed text-ink-700 md:text-base">
               Sipariş numaranız <span className="font-medium text-ink-900">{placedOrder.orderNumber}</span>.

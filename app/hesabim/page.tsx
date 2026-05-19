@@ -230,12 +230,15 @@ export default async function AccountPage() {
                     )}
 
                     <footer className="mt-4 flex items-center justify-between border-t border-ink-900/8 pt-4">
-                      <span className="text-xs text-ink-600">
-                        {order.items.length} ürün
-                      </span>
+                      <Link
+                        href={`/hesabim/siparis/${order.orderNumber}`}
+                        className="text-[11px] uppercase tracking-luxe text-rose-600 underline-offset-2 hover:underline"
+                      >
+                        Detayları Gör →
+                      </Link>
                       <div className="text-right">
                         <p className="text-[11px] uppercase tracking-luxe text-ink-600">
-                          Toplam
+                          Toplam · {order.items.length} ürün
                         </p>
                         <p className="mt-1 font-display text-xl text-ink-900">
                           {formatPrice(order.total)}

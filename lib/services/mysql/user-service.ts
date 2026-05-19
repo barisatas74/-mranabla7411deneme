@@ -153,6 +153,22 @@ export const mysqlUserService = {
     return rows.map((r) => String(r.id));
   },
 
+  async getOrderForUserByNumber(
+    userId: string,
+    orderNumber: string
+  ): Promise<AdminOrder | null> {
+    const db = getDb();
+    const [rows] = await db.execute<RowDataPacket[]>(
+      `SELECT id FROM orders WHERE user_id = ? AND order_number = ? LIMIT 1`,
+      [userId, orderNumber]
+    );
+    if (!rows[0]) return null;
+    const { mysqlOrderService } = await import(
+      "@/lib/services/mysql/order-service"
+    );
+    return await mysqlOrderService.getById(String(rows[0].id));
+  },
+
   async getOrdersForUser(userId: string): Promise<AdminOrder[]> {
     const { mysqlOrderService } = await import(
       "@/lib/services/mysql/order-service"

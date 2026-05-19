@@ -147,6 +147,7 @@ export default function AddressManager({
                 <p className="text-ink-600">{addr.address}</p>
                 <p className="text-[12px] text-ink-600">
                   {addr.district} / {addr.city}
+                  {addr.postalCode ? ` · ${addr.postalCode}` : ""}
                 </p>
               </div>
 

@@ -2,7 +2,7 @@
 
 import { useState, type FormEvent } from "react";
 import { UserAddress, UserAddressInput } from "@/types";
-import { formatPhone } from "@/lib/validation";
+import { formatPhone, formatPostalCode } from "@/lib/validation";
 
 export default function AddressForm({
   initial,
@@ -24,6 +24,7 @@ export default function AddressForm({
     city: initial?.city ?? "",
     district: initial?.district ?? "",
     address: initial?.address ?? "",
+    postalCode: initial?.postalCode ?? "",
     isDefault: initial?.isDefault ?? false,
   });
 
@@ -68,7 +69,7 @@ export default function AddressForm({
         required
       />
 
-      <div className="grid gap-4 md:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         <Field
           label="Şehir"
           value={form.city}
@@ -82,6 +83,13 @@ export default function AddressForm({
           onChange={(v) => update("district", v)}
           autoComplete="address-level2"
           required
+        />
+        <Field
+          label="Posta Kodu"
+          value={form.postalCode ?? ""}
+          onChange={(v) => update("postalCode", formatPostalCode(v))}
+          autoComplete="postal-code"
+          placeholder="34000"
         />
       </div>
 

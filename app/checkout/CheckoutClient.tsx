@@ -67,6 +67,7 @@ function buildInitialFormData(
     city: defaultAddr?.city ?? "",
     district: defaultAddr?.district ?? "",
     address: defaultAddr?.address ?? "",
+    postalCode: defaultAddr?.postalCode ?? "",
   };
 }
 
@@ -106,6 +107,7 @@ export default function CheckoutClient({
       city: addr.city,
       district: addr.district,
       address: addr.address,
+      postalCode: addr.postalCode ?? "",
     }));
     setErrors((current) => ({
       ...current,
@@ -113,6 +115,7 @@ export default function CheckoutClient({
       city: undefined,
       district: undefined,
       address: undefined,
+      postalCode: undefined,
     }));
   }
   const [errors, setErrors] = useState<CheckoutFieldErrors>({});

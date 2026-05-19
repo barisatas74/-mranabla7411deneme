@@ -226,6 +226,7 @@ export type UserAddress = {
   city: string;
   district: string;
   address: string;
+  postalCode: string;
   isDefault: boolean;
   createdAt: string;
 };
@@ -237,6 +238,7 @@ export type UserAddressInput = {
   city: string;
   district: string;
   address: string;
+  postalCode?: string;
   isDefault?: boolean;
 };
 

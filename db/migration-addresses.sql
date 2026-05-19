@@ -14,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `user_addresses` (
   `city`         VARCHAR(80)  NOT NULL,
   `district`     VARCHAR(120) NOT NULL,
   `address`      TEXT         NOT NULL,
+  `postal_code`  VARCHAR(12)  NULL,
   `is_default`   TINYINT(1)   NOT NULL DEFAULT 0,
   `created_at`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at`   DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -22,3 +23,18 @@ CREATE TABLE IF NOT EXISTS `user_addresses` (
   CONSTRAINT `fk_addr_user`
     FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- Posta kodu kolonu — zaten tablo varsa idempotent ekleme
+SET @col_exists := (
+  SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE()
+    AND TABLE_NAME   = 'user_addresses'
+    AND COLUMN_NAME  = 'postal_code'
+);
+SET @sql := IF(@col_exists = 0,
+  'ALTER TABLE `user_addresses` ADD COLUMN `postal_code` VARCHAR(12) NULL AFTER `address`',
+  'SELECT "postal_code zaten mevcut" AS info'
+);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;

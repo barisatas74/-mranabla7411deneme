@@ -17,6 +17,7 @@ type AddressRow = RowDataPacket & {
   city: string;
   district: string;
   address: string;
+  postal_code: string | null;
   is_default: number;
   created_at: string;
 };
@@ -31,6 +32,7 @@ function rowToAddress(row: AddressRow): UserAddress {
     city: row.city,
     district: row.district,
     address: row.address,
+    postalCode: row.postal_code ?? "",
     isDefault: toBool(row.is_default),
     createdAt: parseDate(row.created_at),
   };
@@ -44,6 +46,7 @@ function sanitize(input: UserAddressInput) {
     city: input.city.trim().slice(0, 80),
     district: input.district.trim().slice(0, 120),
     address: input.address.trim().slice(0, 2000),
+    postalCode: input.postalCode?.trim().slice(0, 12) || null,
   };
 }
 
@@ -93,8 +96,8 @@ export const mysqlAddressService = {
 
     await db.execute(
       `INSERT INTO user_addresses
-        (id, user_id, label, full_name, phone, city, district, address, is_default)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        (id, user_id, label, full_name, phone, city, district, address, postal_code, is_default)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
       [
         id,
         userId,
@@ -104,6 +107,7 @@ export const mysqlAddressService = {
         s.city,
         s.district,
         s.address,
+        s.postalCode,
         makeDefault ? 1 : 0,
       ]
     );
@@ -134,7 +138,7 @@ export const mysqlAddressService = {
     await db.execute(
       `UPDATE user_addresses
           SET label = ?, full_name = ?, phone = ?, city = ?,
-              district = ?, address = ?, is_default = ?
+              district = ?, address = ?, postal_code = ?, is_default = ?
         WHERE id = ? AND user_id = ?`,
       [
         s.label,
@@ -143,6 +147,7 @@ export const mysqlAddressService = {
         s.city,
         s.district,
         s.address,
+        s.postalCode,
         setDefault ? 1 : existing.isDefault ? 1 : 0,
         id,
         userId,

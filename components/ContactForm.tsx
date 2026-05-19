@@ -67,8 +67,18 @@ export default function ContactForm() {
 
     setStatus("submitting");
     try {
-      // Şu an gerçek bir endpoint yok — host kurulumunda /api/contact eklenecek
-      await new Promise((resolve) => setTimeout(resolve, 800));
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          email: form.email.trim(),
+          phone: form.phone.trim() || undefined,
+          subject: form.subject,
+          message: form.message.trim(),
+        }),
+      });
+      if (!res.ok) throw new Error("server error");
       setStatus("success");
       setForm(initialState);
     } catch {

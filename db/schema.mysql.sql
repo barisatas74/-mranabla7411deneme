@@ -221,6 +221,37 @@ INSERT INTO `settings` (
 );
 
 -- =============================================================================
+-- Kullanici (uyelik) tablosu
+-- =============================================================================
+CREATE TABLE IF NOT EXISTS `users` (
+  `id`            VARCHAR(64)  NOT NULL,
+  `email`         VARCHAR(180) NOT NULL,
+  `password_hash` VARCHAR(255) NOT NULL,
+  `first_name`    VARCHAR(120) NOT NULL,
+  `last_name`     VARCHAR(120) NOT NULL,
+  `phone`         VARCHAR(40)  NULL,
+  `created_at`    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`    DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_users_email` (`email`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- orders.user_id (guest siparisler icin NULL)
+SET @col_exists := (
+  SELECT COUNT(*) FROM INFORMATION_SCHEMA.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE()
+    AND TABLE_NAME   = 'orders'
+    AND COLUMN_NAME  = 'user_id'
+);
+SET @sql := IF(@col_exists = 0,
+  'ALTER TABLE `orders` ADD COLUMN `user_id` VARCHAR(64) NULL AFTER `id`, ADD KEY `idx_orders_user` (`user_id`)',
+  'SELECT "user_id zaten mevcut" AS info'
+);
+PREPARE stmt FROM @sql;
+EXECUTE stmt;
+DEALLOCATE PREPARE stmt;
+
+-- =============================================================================
 -- Kullanici / Yetki notu
 -- =============================================================================
 -- Eger MySQL 8.x kullaniyorsaniz ve "caching_sha2_password" sebebiyle Node tarafi

@@ -19,11 +19,11 @@ export const metadata: Metadata = {
 export const dynamic = "force-dynamic";
 
 const STATUS_LABELS: Record<string, string> = {
-  pending: "Onay Bekliyor",
-  confirmed: "Onaylandı",
-  shipped: "Kargoya Verildi",
-  delivered: "Teslim Edildi",
-  cancelled: "İptal Edildi",
+  beklemede: "Onay Bekliyor",
+  hazirlaniyor: "Hazırlanıyor",
+  "kargoya-verildi": "Kargoya Verildi",
+  tamamlandi: "Teslim Edildi",
+  "iptal-edildi": "İptal Edildi",
 };
 
 export default async function AccountPage() {

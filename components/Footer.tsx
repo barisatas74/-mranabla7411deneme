@@ -40,7 +40,7 @@ export default function Footer() {
   const [honey, setHoney] = useState("");
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
 
-  function handleSubscribe(event: FormEvent<HTMLFormElement>) {
+  async function handleSubscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     if (honey) {
       setStatus("success");
@@ -51,8 +51,18 @@ export default function Footer() {
       setStatus("error");
       return;
     }
-    setStatus("success");
-    setEmail("");
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim() }),
+      });
+      if (!res.ok) throw new Error("server error");
+      setStatus("success");
+      setEmail("");
+    } catch {
+      setStatus("error");
+    }
   }
 
   return (

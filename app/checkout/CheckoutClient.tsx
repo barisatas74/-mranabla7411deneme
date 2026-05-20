@@ -86,7 +86,6 @@ export default function CheckoutClient({
   savedAddresses?: UserAddress[];
 }) {
   const { lines, couponCode, clearCart, isHydrated } = useCart();
-  const [step, setStep] = useState<1 | 2 | 3>(1);
   const initialDefaultId =
     savedAddresses.find((a) => a.isDefault)?.id ?? savedAddresses[0]?.id ?? null;
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
@@ -154,31 +153,6 @@ export default function CheckoutClient({
     return Object.keys(validationErrors).length === 0;
   }
 
-  function handleContinueToShipping() {
-    const isValid = validateFields([
-      "firstName",
-      "lastName",
-      "email",
-      "phone",
-      "city",
-      "district",
-      "address",
-      "postalCode",
-    ]);
-
-    if (isValid) {
-      setStep(2);
-    }
-  }
-
-  function handleContinueToPayment() {
-    const isValid = validateFields(["shippingMethod"]);
-
-    if (isValid) {
-      setStep(3);
-    }
-  }
-
   async function handlePlaceOrder() {
     const fieldsToValidate: (keyof CheckoutFormData)[] = [
       "firstName",
@@ -201,7 +175,22 @@ export default function CheckoutClient({
     const isValid = validateFields(fieldsToValidate);
 
     if (!isValid) {
-      setStep(3);
+      // İlk hata olan alanı bulup oraya scroll et
+      const firstError = fieldsToValidate.find(
+        (f) => validateField(f, formData) !== undefined
+      );
+      if (firstError) {
+        const el = document.querySelector(
+          `[data-field="${firstError}"]`
+        ) as HTMLElement | null;
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "center" });
+          const input = el.querySelector("input, textarea, select") as
+            | HTMLElement
+            | null;
+          input?.focus({ preventScroll: true });
+        }
+      }
       return;
     }
 
@@ -400,21 +389,12 @@ export default function CheckoutClient({
             ].map((item, index) => (
               <div key={item.n} className="flex items-center gap-3 md:gap-4">
                 <div className="flex items-center gap-2">
-                  <span
-                    className={cn(
-                      "flex h-7 w-7 items-center justify-center rounded-full text-xs",
-                      step >= item.n
-                        ? "bg-ink-900 text-white"
-                        : "border border-ink-900/20 bg-white text-ink-700/60"
-                    )}
-                  >
-                    {step > item.n ? <CheckCircle2 size={14} /> : item.n}
+                  <span className="flex h-7 w-7 items-center justify-center rounded-full bg-ink-900 text-xs text-white">
+                    {item.n}
                   </span>
-                  <span className={step >= item.n ? "text-ink-900" : "text-ink-700/50"}>
-                    {item.label}
-                  </span>
+                  <span className="text-ink-900">{item.label}</span>
                 </div>
-                {index < 2 && <span className="h-px w-6 bg-ink-900/20 md:w-10" />}
+                {index < 2 && <span className="h-px w-6 bg-ink-900/30 md:w-10" />}
               </div>
             ))}
           </div>
@@ -452,7 +432,7 @@ export default function CheckoutClient({
             </div>
           )}
 
-          <Section n={1} title="Müşteri Bilgileri" active={step === 1}>
+          <Section n={1} title="Müşteri Bilgileri">
             {savedAddresses.length > 0 && (
               <div className="mb-6 border border-ink-900/10 bg-bone-50/60 p-4">
                 <div className="mb-3 flex items-center justify-between">
@@ -526,6 +506,7 @@ export default function CheckoutClient({
                 value={formData.firstName}
                 onChange={(value) => updateField("firstName", value)}
                 error={errors.firstName}
+                dataField="firstName"
               />
               <FormInput
                 label="Soyad"
@@ -533,6 +514,7 @@ export default function CheckoutClient({
                 value={formData.lastName}
                 onChange={(value) => updateField("lastName", value)}
                 error={errors.lastName}
+                dataField="lastName"
               />
               <FormInput
                 label="E-posta"
@@ -541,6 +523,7 @@ export default function CheckoutClient({
                 value={formData.email}
                 onChange={(value) => updateField("email", value)}
                 error={errors.email}
+                dataField="email"
               />
               <FormInput
                 label="Telefon"
@@ -551,6 +534,7 @@ export default function CheckoutClient({
                 error={errors.phone}
                 placeholder="+90 5__ ___ __ __"
                 inputMode="tel"
+                dataField="phone"
               />
               <FormInput
                 label="Adres"
@@ -559,6 +543,7 @@ export default function CheckoutClient({
                 value={formData.address}
                 onChange={(value) => updateField("address", value)}
                 error={errors.address}
+                dataField="address"
               />
               <FormSelect
                 label="İl"
@@ -568,6 +553,7 @@ export default function CheckoutClient({
                 error={errors.city}
                 options={TR_CITIES}
                 placeholder="İl seçin"
+                dataField="city"
               />
               <FormInput
                 label="İlçe"
@@ -575,6 +561,7 @@ export default function CheckoutClient({
                 value={formData.district}
                 onChange={(value) => updateField("district", value)}
                 error={errors.district}
+                dataField="district"
               />
               <FormInput
                 label="Posta Kodu"
@@ -587,6 +574,7 @@ export default function CheckoutClient({
                 placeholder="34000"
                 inputMode="numeric"
                 maxLength={5}
+                dataField="postalCode"
               />
             </div>
             <label className="mt-5 block">
@@ -601,17 +589,10 @@ export default function CheckoutClient({
                 placeholder="Kargo notu veya teslimat bilgisi ekleyebilirsiniz."
               />
             </label>
-            <button
-              type="button"
-              onClick={handleContinueToShipping}
-              className="btn-luxe btn-luxe-dark mt-7 shadow-soft"
-            >
-              Devam Et
-            </button>
           </Section>
 
-          <Section n={2} title="Kargo Seçimi" active={step === 2}>
-            <div className="space-y-3">
+          <Section n={2} title="Kargo Seçimi">
+            <div className="space-y-3" data-field="shippingMethod">
               {SHIPPING_METHODS.map((method) => {
                 const shippingPrice = getCartSummary(lines, {
                   couponCode,
@@ -650,26 +631,10 @@ export default function CheckoutClient({
             {errors.shippingMethod && (
               <p className="mt-3 text-sm text-rose-600">{errors.shippingMethod}</p>
             )}
-            <div className="mt-7 flex gap-3">
-              <button
-                type="button"
-                onClick={() => setStep(1)}
-                className="btn-luxe btn-luxe-outline"
-              >
-                Geri
-              </button>
-              <button
-                type="button"
-                onClick={handleContinueToPayment}
-                className="btn-luxe btn-luxe-dark shadow-soft"
-              >
-                Devam Et
-              </button>
-            </div>
           </Section>
 
-          <Section n={3} title="Ödeme Yöntemi" active={step === 3}>
-            <div className="mb-6 grid gap-3 md:grid-cols-3">
+          <Section n={3} title="Ödeme Yöntemi">
+            <div className="mb-6 grid gap-3 md:grid-cols-3" data-field="paymentMethod">
               {PAYMENT_METHODS.map((method) => (
                 <button
                   key={method.id}
@@ -699,6 +664,7 @@ export default function CheckoutClient({
                   value={formData.cardHolderName}
                   onChange={(value) => updateField("cardHolderName", value)}
                   error={errors.cardHolderName}
+                  dataField="cardHolderName"
                 />
                 <FormInput
                   label="Kart Numarası"
@@ -712,6 +678,7 @@ export default function CheckoutClient({
                   error={errors.cardNumber}
                   placeholder="0000 0000 0000 0000"
                   maxLength={23}
+                  dataField="cardNumber"
                 />
                 <FormInput
                   label="Son Kullanma (AA/YY)"
@@ -724,6 +691,7 @@ export default function CheckoutClient({
                   error={errors.cardExpiry}
                   placeholder="AA/YY"
                   maxLength={5}
+                  dataField="cardExpiry"
                 />
                 <FormInput
                   label="CVC"
@@ -734,11 +702,12 @@ export default function CheckoutClient({
                   error={errors.cardCvc}
                   placeholder="000"
                   maxLength={4}
+                  dataField="cardCvc"
                 />
               </div>
             )}
 
-            <label className="mt-7 flex items-start gap-2.5 text-[12px] leading-relaxed text-ink-700">
+            <label data-field="acceptTerms" className="mt-7 flex items-start gap-2.5 text-[12px] leading-relaxed text-ink-700">
               <input
                 type="checkbox"
                 checked={formData.acceptTerms}
@@ -851,6 +820,31 @@ export default function CheckoutClient({
           />
         </aside>
       </Container>
+
+      {/* Mobil sticky bottom bar — sadece mobilde */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-ink-900/10 bg-white/95 px-4 py-3 shadow-[0_-8px_24px_rgba(0,0,0,0.08)] backdrop-blur-md lg:hidden">
+        <div className="flex items-center gap-3">
+          <div className="flex-1">
+            <p className="text-[10px] uppercase tracking-luxe text-ink-600">
+              Toplam
+            </p>
+            <p className="font-display text-lg leading-none text-ink-900">
+              {formatPrice(summary.total)}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => void handlePlaceOrder()}
+            disabled={isSubmitting}
+            className="btn-luxe btn-luxe-dark flex-1 shadow-luxe disabled:cursor-not-allowed disabled:opacity-70"
+          >
+            <Lock size={13} strokeWidth={1.5} />
+            {isSubmitting ? "Gönderiliyor..." : "Siparişi Tamamla"}
+          </button>
+        </div>
+      </div>
+      {/* Mobilde sticky bar'ın içeriği örtmemesi için boşluk */}
+      <div className="h-20 lg:hidden" />
     </>
   );
 }
@@ -858,21 +852,14 @@ export default function CheckoutClient({
 function Section({
   n,
   title,
-  active,
   children,
 }: {
   n: number;
   title: string;
-  active: boolean;
   children: React.ReactNode;
 }) {
   return (
-    <div
-      className={cn(
-        "border bg-white p-6 transition md:p-8",
-        active ? "border-rose-200 shadow-card" : "border-rose-100/50 opacity-60"
-      )}
-    >
+    <div className="border border-rose-200 bg-white p-6 shadow-card md:p-8">
       <div className="mb-6 flex items-center gap-3">
         <span className="flex h-8 w-8 items-center justify-center rounded-full bg-ink-900 text-sm text-white">
           {n}
@@ -895,6 +882,7 @@ function FormInput({
   inputMode,
   placeholder,
   maxLength,
+  dataField,
 }: {
   label: string;
   value: string;
@@ -906,9 +894,10 @@ function FormInput({
   inputMode?: "text" | "numeric" | "tel" | "email" | "search" | "url";
   placeholder?: string;
   maxLength?: number;
+  dataField?: string;
 }) {
   return (
-    <label className={cn("block", className)}>
+    <label className={cn("block", className)} data-field={dataField}>
       <span className="text-[11px] uppercase tracking-luxe text-ink-700">
         {label}
       </span>
@@ -943,6 +932,7 @@ function FormSelect({
   autoComplete,
   options,
   placeholder,
+  dataField,
 }: {
   label: string;
   value: string;
@@ -952,9 +942,10 @@ function FormSelect({
   autoComplete?: string;
   options: readonly string[];
   placeholder?: string;
+  dataField?: string;
 }) {
   return (
-    <label className={cn("block", className)}>
+    <label className={cn("block", className)} data-field={dataField}>
       <span className="text-[11px] uppercase tracking-luxe text-ink-700">
         {label}
       </span>

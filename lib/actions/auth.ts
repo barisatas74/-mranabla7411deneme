@@ -80,6 +80,9 @@ export async function loginAction(input: LoginInput): Promise<ActionResult> {
     if (!user) {
       return { ok: false, message: "E-posta veya şifre hatalı." };
     }
+    if (user.status === "suspended") {
+      return { ok: false, message: "Hesabınız geçici olarak askıya alınmıştır." };
+    }
     await setUserCookie(user.id);
     return { ok: true };
   } catch {
@@ -160,7 +163,11 @@ export async function getCurrentUser(): Promise<User | null> {
     const cookie = await readUserCookie();
     const userId = verifySession(cookie ?? undefined);
     if (!userId) return null;
-    return await userService.getById(userId);
+    const user = await userService.getById(userId);
+    if (user?.status === "suspended") {
+      return null;
+    }
+    return user;
   } catch {
     return null;
   }

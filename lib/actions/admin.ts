@@ -14,6 +14,7 @@ import {
   categoryService,
   orderService,
   settingsService,
+  userService,
 } from "@/lib/services/server";
 import { ADMIN_COOKIE_NAME } from "@/lib/admin-auth";
 import {
@@ -21,6 +22,7 @@ import {
   AdminOrderStatusUpdate,
   AdminProductInput,
   AdminSettings,
+  UserStatus,
 } from "@/types";
 import {
   STOREFRONT_CATEGORIES_TAG,
@@ -135,6 +137,25 @@ export async function updateOrderStatusAction(
   revalidatePath("/admin/orders");
   revalidatePath(`/admin/orders/${id}`);
   return order;
+}
+
+// -----------------------------------------------------------------------------
+// Uye aksiyonlari
+// -----------------------------------------------------------------------------
+export async function updateMemberStatusAction(id: string, status: UserStatus) {
+  await ensureAdmin();
+  const member = await userService.updateAdminMemberStatus(id, status);
+  revalidatePath("/admin/members");
+  revalidatePath(`/admin/members/${id}`);
+  return member;
+}
+
+export async function updateMemberNoteAction(id: string, adminNote: string) {
+  await ensureAdmin();
+  const member = await userService.updateAdminMemberNote(id, adminNote);
+  revalidatePath("/admin/members");
+  revalidatePath(`/admin/members/${id}`);
+  return member;
 }
 
 // -----------------------------------------------------------------------------

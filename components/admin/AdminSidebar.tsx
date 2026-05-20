@@ -8,6 +8,7 @@ import {
   Shapes,
   ShoppingCart,
   Settings,
+  UsersRound,
   X,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -17,6 +18,7 @@ const items = [
   { href: "/admin/products", label: "Ürünler", icon: Package },
   { href: "/admin/categories", label: "Kategoriler", icon: Shapes },
   { href: "/admin/orders", label: "Siparişler", icon: ShoppingCart },
+  { href: "/admin/members", label: "Üyeler", icon: UsersRound },
   { href: "/admin/settings", label: "Ayarlar", icon: Settings },
 ];
 

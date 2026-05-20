@@ -9,6 +9,7 @@ const titleMap: Record<string, string> = {
   "/admin/products": "Ürün Yonetimi",
   "/admin/categories": "Kategori Yonetimi",
   "/admin/orders": "Sipariş Yonetimi",
+  "/admin/members": "Üye Yonetimi",
   "/admin/settings": "Genel Ayarlar",
 };
 
@@ -42,6 +43,10 @@ export default function AdminTopbar({
 
     if (pathname.includes("/orders/") && pathname !== "/admin/orders") {
       return "Sipariş Detayi";
+    }
+
+    if (pathname.includes("/members/") && pathname !== "/admin/members") {
+      return "Üye Detayi";
     }
 
     return titleMap[pathname] ?? "Admin";

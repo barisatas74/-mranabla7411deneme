@@ -2,7 +2,14 @@ import "server-only";
 import { getDb } from "@/lib/db";
 import { generateId, parseDate } from "@/lib/services/mysql/_helpers";
 import { hashPassword, verifyPassword } from "@/lib/user-auth";
-import { AdminOrder, RegisterInput, User } from "@/types";
+import {
+  AdminMemberDetail,
+  AdminMemberSummary,
+  AdminOrder,
+  RegisterInput,
+  User,
+  UserStatus,
+} from "@/types";
 import type { RowDataPacket } from "mysql2";
 
 type UserRow = RowDataPacket & {
@@ -12,8 +19,49 @@ type UserRow = RowDataPacket & {
   first_name: string;
   last_name: string;
   phone: string | null;
+  status?: UserStatus;
+  admin_note?: string | null;
+  last_login_at?: string | null;
   created_at: string;
 };
+
+type AdminMemberRow = UserRow & {
+  order_count: number | string;
+  total_spent: number | string | null;
+  last_order_at: string | null;
+};
+
+let adminColumnsReady = false;
+
+async function ensureAdminUserColumns() {
+  if (adminColumnsReady) return;
+  const db = getDb();
+  const [columns] = await db.execute<RowDataPacket[]>(
+    `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
+      WHERE TABLE_SCHEMA = DATABASE()
+        AND TABLE_NAME = 'users'
+        AND COLUMN_NAME IN ('status', 'admin_note', 'last_login_at')`
+  );
+  const existing = new Set(columns.map((column) => String(column.COLUMN_NAME)));
+
+  if (!existing.has("status")) {
+    await db.execute(
+      `ALTER TABLE users
+        ADD COLUMN status ENUM('active','suspended') NOT NULL DEFAULT 'active'
+        AFTER phone`
+    );
+  }
+  if (!existing.has("admin_note")) {
+    await db.execute(`ALTER TABLE users ADD COLUMN admin_note TEXT NULL AFTER status`);
+  }
+  if (!existing.has("last_login_at")) {
+    await db.execute(
+      `ALTER TABLE users ADD COLUMN last_login_at DATETIME NULL AFTER admin_note`
+    );
+  }
+
+  adminColumnsReady = true;
+}
 
 function rowToUser(row: UserRow): User {
   return {
@@ -22,12 +70,28 @@ function rowToUser(row: UserRow): User {
     firstName: row.first_name,
     lastName: row.last_name,
     phone: row.phone ?? "",
+    status: row.status ?? "active",
+    adminNote: row.admin_note ?? "",
+    lastLoginAt: row.last_login_at ? parseDate(row.last_login_at) : undefined,
     createdAt: parseDate(row.created_at),
+  };
+}
+
+function rowToAdminMember(row: AdminMemberRow): AdminMemberSummary {
+  return {
+    ...rowToUser(row),
+    status: row.status ?? "active",
+    adminNote: row.admin_note ?? "",
+    orderCount: Number(row.order_count ?? 0),
+    totalSpent: Number(row.total_spent ?? 0),
+    lastOrderAt: row.last_order_at ? parseDate(row.last_order_at) : undefined,
+    lastLoginAt: row.last_login_at ? parseDate(row.last_login_at) : undefined,
   };
 }
 
 export const mysqlUserService = {
   async getById(id: string): Promise<User | null> {
+    await ensureAdminUserColumns();
     const db = getDb();
     const [rows] = await db.execute<UserRow[]>(
       `SELECT * FROM users WHERE id = ? LIMIT 1`,
@@ -37,6 +101,7 @@ export const mysqlUserService = {
   },
 
   async getByEmail(email: string): Promise<User | null> {
+    await ensureAdminUserColumns();
     const db = getDb();
     const [rows] = await db.execute<UserRow[]>(
       `SELECT * FROM users WHERE email = ? LIMIT 1`,
@@ -46,6 +111,7 @@ export const mysqlUserService = {
   },
 
   async create(input: RegisterInput): Promise<User> {
+    await ensureAdminUserColumns();
     const db = getDb();
     const email = input.email.toLowerCase().trim();
 
@@ -80,6 +146,7 @@ export const mysqlUserService = {
     email: string,
     password: string
   ): Promise<User | null> {
+    await ensureAdminUserColumns();
     const db = getDb();
     const [rows] = await db.execute<UserRow[]>(
       `SELECT * FROM users WHERE email = ? LIMIT 1`,
@@ -88,13 +155,17 @@ export const mysqlUserService = {
     const row = rows[0];
     if (!row) return null;
     const ok = await verifyPassword(password, row.password_hash);
-    return ok ? rowToUser(row) : null;
+    if (!ok) return null;
+    if ((row.status ?? "active") === "suspended") return rowToUser(row);
+    await db.execute(`UPDATE users SET last_login_at = NOW() WHERE id = ?`, [row.id]);
+    return rowToUser({ ...row, last_login_at: new Date().toISOString() });
   },
 
   async update(
     id: string,
     input: Partial<Pick<User, "firstName" | "lastName" | "phone">>
   ): Promise<User | null> {
+    await ensureAdminUserColumns();
     const db = getDb();
     const fields: string[] = [];
     const values: (string | null)[] = [];
@@ -124,6 +195,7 @@ export const mysqlUserService = {
     currentPassword: string,
     newPassword: string
   ): Promise<{ ok: boolean; message?: string }> {
+    await ensureAdminUserColumns();
     const db = getDb();
     const [rows] = await db.execute<UserRow[]>(
       `SELECT * FROM users WHERE id = ? LIMIT 1`,
@@ -145,6 +217,7 @@ export const mysqlUserService = {
   },
 
   async removeAccount(id: string): Promise<boolean> {
+    await ensureAdminUserColumns();
     const db = getDb();
     const existing = await mysqlUserService.getById(id);
     if (!existing) return false;
@@ -155,7 +228,75 @@ export const mysqlUserService = {
     return true;
   },
 
+  async listAdminMembers(): Promise<AdminMemberSummary[]> {
+    await ensureAdminUserColumns();
+    const db = getDb();
+    const [rows] = await db.execute<AdminMemberRow[]>(
+      `SELECT
+          u.id, u.email, u.password_hash, u.first_name, u.last_name, u.phone,
+          u.status, u.admin_note, u.last_login_at, u.created_at,
+          COUNT(o.id) AS order_count,
+          COALESCE(SUM(o.total), 0) AS total_spent,
+          MAX(o.created_at) AS last_order_at
+        FROM users u
+        LEFT JOIN orders o ON o.user_id = u.id
+        GROUP BY
+          u.id, u.email, u.password_hash, u.first_name, u.last_name, u.phone,
+          u.status, u.admin_note, u.last_login_at, u.created_at
+        ORDER BY u.created_at DESC`
+    );
+
+    return rows.map(rowToAdminMember);
+  },
+
+  async getAdminMemberById(id: string): Promise<AdminMemberDetail | null> {
+    await ensureAdminUserColumns();
+    const members = await mysqlUserService.listAdminMembers();
+    const member = members.find((item) => item.id === id);
+    if (!member) return null;
+
+    const [{ mysqlAddressService }] = await Promise.all([
+      import("@/lib/services/mysql/address-service"),
+    ]);
+    const [addresses, orders] = await Promise.all([
+      mysqlAddressService.listForUser(id).catch(() => []),
+      mysqlUserService.getOrdersForUser(id).catch(() => []),
+    ]);
+
+    return {
+      ...member,
+      addresses,
+      orders,
+    };
+  },
+
+  async updateAdminMemberStatus(
+    id: string,
+    status: UserStatus
+  ): Promise<AdminMemberSummary | null> {
+    await ensureAdminUserColumns();
+    const db = getDb();
+    await db.execute(`UPDATE users SET status = ? WHERE id = ?`, [status, id]);
+    const member = await mysqlUserService.getAdminMemberById(id);
+    return member;
+  },
+
+  async updateAdminMemberNote(
+    id: string,
+    adminNote: string
+  ): Promise<AdminMemberSummary | null> {
+    await ensureAdminUserColumns();
+    const db = getDb();
+    await db.execute(`UPDATE users SET admin_note = ? WHERE id = ?`, [
+      adminNote.trim() || null,
+      id,
+    ]);
+    const member = await mysqlUserService.getAdminMemberById(id);
+    return member;
+  },
+
   async listOrdersByUserId(userId: string) {
+    await ensureAdminUserColumns();
     const db = getDb();
     const [rows] = await db.execute<RowDataPacket[]>(
       `SELECT id FROM orders WHERE user_id = ? ORDER BY created_at DESC`,

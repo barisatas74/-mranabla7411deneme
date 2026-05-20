@@ -218,7 +218,12 @@ export type User = {
   lastName: string;
   phone: string;
   createdAt: string;
+  status?: UserStatus;
+  adminNote?: string;
+  lastLoginAt?: string;
 };
+
+export type UserStatus = "active" | "suspended";
 
 export type RegisterInput = {
   email: string;
@@ -256,6 +261,20 @@ export type UserAddressInput = {
   address: string;
   postalCode?: string;
   isDefault?: boolean;
+};
+
+export type AdminMemberSummary = User & {
+  status: UserStatus;
+  adminNote: string;
+  orderCount: number;
+  totalSpent: number;
+  lastOrderAt?: string;
+  lastLoginAt?: string;
+};
+
+export type AdminMemberDetail = AdminMemberSummary & {
+  addresses: UserAddress[];
+  orders: AdminOrder[];
 };
 
 export type AdminSettings = {

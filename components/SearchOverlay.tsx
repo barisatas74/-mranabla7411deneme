@@ -4,21 +4,21 @@ import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Search, X } from "lucide-react";
-import { filterProducts } from "@/data/products";
 import { formatPrice } from "@/lib/utils";
 import { cn } from "@/lib/utils";
-import { Product } from "@/types";
+import { ProductSearchItem } from "@/types";
 
 export default function SearchOverlay({
   open,
   onClose,
-  products,
 }: {
   open: boolean;
   onClose: () => void;
-  products: Product[];
 }) {
   const [query, setQuery] = useState("");
+  const [products, setProducts] = useState<ProductSearchItem[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
 
   useEffect(() => {
     if (!open) {
@@ -41,10 +41,40 @@ export default function SearchOverlay({
     return () => window.removeEventListener("keydown", handler);
   }, [open, onClose]);
 
+  useEffect(() => {
+    if (!open || hasLoaded || isLoading) return;
+
+    let cancelled = false;
+    setIsLoading(true);
+    fetch("/api/products/search")
+      .then((response) => (response.ok ? response.json() : null))
+      .then((data: { products?: ProductSearchItem[] } | null) => {
+        if (cancelled) return;
+        setProducts(Array.isArray(data?.products) ? data.products : []);
+        setHasLoaded(true);
+      })
+      .catch(() => {
+        if (!cancelled) {
+          setProducts([]);
+          setHasLoaded(true);
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [hasLoaded, isLoading, open]);
+
   const results = useMemo(() => {
     const trimmed = query.trim();
     if (trimmed.length < 2) return [];
-    return filterProducts({ query: trimmed, products }).slice(0, 6);
+    const normalizedQuery = trimmed.toLocaleLowerCase("tr");
+    return products
+      .filter((product) => product.searchText.includes(normalizedQuery))
+      .slice(0, 6);
   }, [query, products]);
 
   return (
@@ -83,10 +113,17 @@ export default function SearchOverlay({
         <div className="max-h-[60vh] overflow-y-auto">
           {query.trim().length < 2 && (
             <p className="px-5 py-6 text-sm text-ink-700">
-              En az 2 karakter girerek aramaya başlayabilirsiniz.
+              {isLoading
+                ? "Arama hazırlanıyor..."
+                : "En az 2 karakter girerek aramaya başlayabilirsiniz."}
             </p>
           )}
-          {query.trim().length >= 2 && results.length === 0 && (
+          {query.trim().length >= 2 && isLoading && (
+            <p className="px-5 py-6 text-sm text-ink-700">
+              Arama hazırlanıyor...
+            </p>
+          )}
+          {query.trim().length >= 2 && !isLoading && results.length === 0 && (
             <p className="px-5 py-6 text-sm text-ink-700">
               &quot;{query}&quot; ile eşleşen ürün bulunamadı.
             </p>
@@ -101,9 +138,9 @@ export default function SearchOverlay({
                     className="flex items-center gap-4 px-5 py-3 transition hover:bg-bone-100"
                   >
                     <div className="relative h-16 w-12 flex-shrink-0 overflow-hidden bg-bone-100">
-                      {product.images[0] && (
+                      {product.image && (
                       <Image
-                        src={product.images[0]}
+                        src={product.image}
                         alt={product.name}
                         fill
                         sizes="48px"

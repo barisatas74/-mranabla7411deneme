@@ -20,6 +20,7 @@ export default function LoginForm({ redirectTo }: { redirectTo: string }) {
         setError(result.message ?? "Giriş yapılamadı.");
         return;
       }
+      window.dispatchEvent(new Event("miss-bella-auth-changed"));
       router.push(redirectTo);
       router.refresh();
     });

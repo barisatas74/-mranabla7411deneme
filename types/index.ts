@@ -27,6 +27,16 @@ export type Product = {
   isNew?: boolean;
 };
 
+export type ProductSearchItem = {
+  id: string;
+  name: string;
+  slug: string;
+  category: ProductCategorySlug;
+  price: number;
+  image: string;
+  searchText: string;
+};
+
 export type Category = {
   id: string;
   name: string;

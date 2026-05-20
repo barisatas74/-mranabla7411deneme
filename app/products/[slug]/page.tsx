@@ -1,21 +1,31 @@
 import type { Metadata } from "next";
 import ProductDetailView from "@/components/products/ProductDetailView";
-import { categoryService, productService } from "@/lib/services/server";
+import {
+  getStorefrontCategories,
+  getStorefrontProducts,
+} from "@/lib/storefront-data";
 import { notFound } from "next/navigation";
 
 async function loadProductData(slug: string) {
   const [products, categories] = await Promise.all([
-    productService.list().catch(() => []),
-    categoryService.list().catch(() => []),
+    getStorefrontProducts(),
+    getStorefrontCategories(),
   ]);
   return {
-    product: products.find((p) => p.slug === slug),
+    product: products.find((item) => item.slug === slug) ?? null,
     products,
     categories,
   };
 }
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
+
+export async function generateStaticParams() {
+  const products = await getStorefrontProducts();
+  return products.map((product) => ({
+    slug: product.slug,
+  }));
+}
 
 type ProductDetailPageProps = {
   params: Promise<{
@@ -66,6 +76,10 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
     notFound();
   }
 
+  const relatedProducts = products
+    .filter((item) => item.id !== product.id && item.category === product.category)
+    .slice(0, 4);
+
   const jsonLd = {
     "@context": "https://schema.org/",
     "@type": "Product",
@@ -95,7 +109,7 @@ export default async function ProductDetailPage({ params }: ProductDetailPagePro
       />
       <ProductDetailView
         product={product}
-        allProducts={products}
+        allProducts={relatedProducts}
         categories={categories}
       />
     </>

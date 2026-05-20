@@ -36,6 +36,7 @@ export default function RegisterForm({ redirectTo }: { redirectTo: string }) {
         setError(result.message ?? "Kayıt yapılamadı.");
         return;
       }
+      window.dispatchEvent(new Event("miss-bella-auth-changed"));
       router.push(redirectTo);
       router.refresh();
     });

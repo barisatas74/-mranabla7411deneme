@@ -7,7 +7,7 @@
 
 "use server";
 
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { cookies } from "next/headers";
 import {
   productService,
@@ -22,6 +22,10 @@ import {
   AdminProductInput,
   AdminSettings,
 } from "@/types";
+import {
+  STOREFRONT_CATEGORIES_TAG,
+  STOREFRONT_PRODUCTS_TAG,
+} from "@/lib/cache-tags";
 
 async function ensureAdmin() {
   const expectedToken = process.env.ADMIN_SESSION_TOKEN;
@@ -44,25 +48,39 @@ async function ensureAdmin() {
 export async function createProductAction(input: AdminProductInput) {
   await ensureAdmin();
   const product = await productService.create(input);
+  revalidateTag(STOREFRONT_PRODUCTS_TAG);
+  revalidatePath("/");
   revalidatePath("/admin/products");
   revalidatePath("/products");
+  revalidatePath(`/products/${product.slug}`);
   return product;
 }
 
 export async function updateProductAction(id: string, input: AdminProductInput) {
   await ensureAdmin();
   const product = await productService.update(id, input);
+  revalidateTag(STOREFRONT_PRODUCTS_TAG);
+  revalidatePath("/");
   revalidatePath("/admin/products");
   revalidatePath(`/admin/products/${id}/edit`);
   revalidatePath("/products");
+  if (product?.slug) {
+    revalidatePath(`/products/${product.slug}`);
+  }
   return product;
 }
 
 export async function deleteProductAction(id: string) {
   await ensureAdmin();
+  const existing = await productService.getById(id);
   const ok = await productService.remove(id);
+  revalidateTag(STOREFRONT_PRODUCTS_TAG);
+  revalidatePath("/");
   revalidatePath("/admin/products");
   revalidatePath("/products");
+  if (existing?.slug) {
+    revalidatePath(`/products/${existing.slug}`);
+  }
   return ok;
 }
 
@@ -72,6 +90,8 @@ export async function deleteProductAction(id: string) {
 export async function createCategoryAction(input: AdminCategoryInput) {
   await ensureAdmin();
   const category = await categoryService.create(input);
+  revalidateTag(STOREFRONT_CATEGORIES_TAG);
+  revalidatePath("/");
   revalidatePath("/admin/categories");
   revalidatePath("/products");
   return category;
@@ -80,6 +100,8 @@ export async function createCategoryAction(input: AdminCategoryInput) {
 export async function updateCategoryAction(id: string, input: AdminCategoryInput) {
   await ensureAdmin();
   const category = await categoryService.update(id, input);
+  revalidateTag(STOREFRONT_CATEGORIES_TAG);
+  revalidatePath("/");
   revalidatePath("/admin/categories");
   revalidatePath("/products");
   return category;
@@ -88,6 +110,8 @@ export async function updateCategoryAction(id: string, input: AdminCategoryInput
 export async function deleteCategoryAction(id: string) {
   await ensureAdmin();
   const ok = await categoryService.remove(id);
+  revalidateTag(STOREFRONT_CATEGORIES_TAG);
+  revalidatePath("/");
   revalidatePath("/admin/categories");
   revalidatePath("/products");
   return ok;

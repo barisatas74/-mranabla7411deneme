@@ -3,7 +3,7 @@ import ProductsCatalog from "@/components/products/ProductsCatalog";
 import ComingSoon from "@/components/ComingSoon";
 import Breadcrumb from "@/components/Breadcrumb";
 import { isCategorySlug } from "@/data/categories";
-import { productService } from "@/lib/services/server";
+import { getStorefrontProducts } from "@/lib/storefront-data";
 import { ProductFilter, ProductSort } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -35,7 +35,7 @@ function getSingleValue(value?: string | string[]) {
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
-  const products = await productService.list().catch(() => []);
+  const products = await getStorefrontProducts();
   if (products.length === 0) {
     return (
       <>

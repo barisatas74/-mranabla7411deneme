@@ -7,9 +7,12 @@ import BestSellers from "@/components/BestSellers";
 import ComingSoon from "@/components/ComingSoon";
 import BrandStory from "@/components/BrandStory";
 import TrustBadges from "@/components/TrustBadges";
-import { categoryService, productService } from "@/lib/services/server";
+import {
+  getStorefrontCategories,
+  getStorefrontProducts,
+} from "@/lib/storefront-data";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "Anasayfa",
@@ -19,8 +22,8 @@ export const metadata: Metadata = {
 
 export default async function HomePage() {
   const [allProducts, allCategories] = await Promise.all([
-    productService.list().catch(() => []),
-    categoryService.list().catch(() => []),
+    getStorefrontProducts(),
+    getStorefrontCategories(),
   ]);
   const hasProducts = allProducts.length > 0;
 

@@ -1,11 +1,14 @@
 import type { MetadataRoute } from "next";
-import { categoryService, productService } from "@/lib/services/server";
+import {
+  getStorefrontCategories,
+  getStorefrontProducts,
+} from "@/lib/storefront-data";
 import { SITE } from "@/lib/site";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const [products, categories] = await Promise.all([
-    productService.list().catch(() => []),
-    categoryService.list().catch(() => []),
+    getStorefrontProducts(),
+    getStorefrontCategories(),
   ]);
 
   const now = new Date();

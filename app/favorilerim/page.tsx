@@ -1,7 +1,7 @@
-import { productService } from "@/lib/services/server";
 import FavoritesView from "@/components/FavoritesView";
+import { getStorefrontProducts } from "@/lib/storefront-data";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export const metadata = {
   title: "Favorilerim",
@@ -9,6 +9,6 @@ export const metadata = {
 };
 
 export default async function FavoritesPage() {
-  const products = await productService.list().catch(() => []);
+  const products = await getStorefrontProducts();
   return <FavoritesView products={products} />;
 }

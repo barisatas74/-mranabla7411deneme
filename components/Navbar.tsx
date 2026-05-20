@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState, useTransition } from "react";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import { LogOut, Menu, Search, ShoppingBag, Heart, User as UserIcon } from "lucide-react";
 import Container from "./Container";
@@ -9,7 +9,7 @@ import { useCart } from "./CartContext";
 import { useWishlist } from "./WishlistContext";
 import SearchOverlay from "./SearchOverlay";
 import { cn } from "@/lib/utils";
-import { AdminCategory, Product, User } from "@/types";
+import { User } from "@/types";
 import { logoutAction } from "@/lib/actions/auth";
 
 type NavEffect = "pulse" | "stretch" | "slide" | "lift" | "moon" | "flash";
@@ -43,18 +43,28 @@ const announcements = [
   "Yeni sezon koleksiyonu şimdi yayında",
 ];
 
-type NavbarProps = {
-  categories: AdminCategory[];
-  products: Product[];
-  currentUser: User | null;
+type CurrentUserResponse = {
+  user: User | null;
 };
 
-export default function Navbar({ categories, products, currentUser }: NavbarProps) {
+export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [currentUser, setCurrentUser] = useState<User | null>(null);
   const { itemCount } = useCart();
   const { count: wishlistCount } = useWishlist();
+
+  const refreshCurrentUser = useCallback(async () => {
+    try {
+      const response = await fetch("/api/auth/me", { cache: "no-store" });
+      if (!response.ok) return;
+      const data = (await response.json()) as CurrentUserResponse;
+      setCurrentUser(data.user ?? null);
+    } catch {
+      setCurrentUser(null);
+    }
+  }, []);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
@@ -62,6 +72,13 @@ export default function Navbar({ categories, products, currentUser }: NavbarProp
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  useEffect(() => {
+    void refreshCurrentUser();
+    window.addEventListener("miss-bella-auth-changed", refreshCurrentUser);
+    return () =>
+      window.removeEventListener("miss-bella-auth-changed", refreshCurrentUser);
+  }, [refreshCurrentUser]);
 
   return (
     <>
@@ -164,7 +181,6 @@ export default function Navbar({ categories, products, currentUser }: NavbarProp
       <SearchOverlay
         open={searchOpen}
         onClose={() => setSearchOpen(false)}
-        products={products}
       />
     </>
   );
@@ -293,4 +309,3 @@ function NavLink({ item }: { item: NavItem }) {
     </Link>
   );
 }
-

@@ -46,8 +46,8 @@ export default function ProductsCatalog({
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
   const [selectedColors, setSelectedColors] = useState<string[]>([]);
-  const [priceMin, setPriceMin] = useState(String(priceBounds.min));
-  const [priceMax, setPriceMax] = useState(String(priceBounds.max));
+  const [priceMin, setPriceMin] = useState("");
+  const [priceMax, setPriceMax] = useState("");
   const [filtersOpen, setFiltersOpen] = useState(false);
 
   const deferredSearchQuery = useDeferredValue(searchQuery);
@@ -58,11 +58,6 @@ export default function ProductsCatalog({
     setSort(initialSort);
   }, [initialCategory, initialFilter, initialSort]);
 
-  useEffect(() => {
-    setPriceMin(String(priceBounds.min));
-    setPriceMax(String(priceBounds.max));
-  }, [priceBounds.max, priceBounds.min]);
-
   const filteredProducts = useMemo(
     () =>
       filterProducts({
@@ -72,8 +67,8 @@ export default function ProductsCatalog({
         query: deferredSearchQuery,
         sizes: selectedSizes,
         colors: selectedColors,
-        minPrice: parsePriceInput(priceMin, priceBounds.min),
-        maxPrice: parsePriceInput(priceMax, priceBounds.max),
+        minPrice: parsePriceInput(priceMin),
+        maxPrice: parsePriceInput(priceMax),
         products,
       }),
     [
@@ -82,8 +77,6 @@ export default function ProductsCatalog({
       deferredSearchQuery,
       priceMax,
       priceMin,
-      priceBounds.max,
-      priceBounds.min,
       products,
       selectedColors,
       selectedSizes,
@@ -95,7 +88,7 @@ export default function ProductsCatalog({
     selectedSizes.length +
     selectedColors.length +
     Number(searchQuery.trim().length > 0) +
-    Number(priceMin !== String(priceBounds.min) || priceMax !== String(priceBounds.max));
+    Number(priceMin.trim().length > 0 || priceMax.trim().length > 0);
 
   function toggleSelection(
     currentValues: string[],
@@ -113,8 +106,8 @@ export default function ProductsCatalog({
     setSearchQuery("");
     setSelectedSizes([]);
     setSelectedColors([]);
-    setPriceMin(String(priceBounds.min));
-    setPriceMax(String(priceBounds.max));
+    setPriceMin("");
+    setPriceMax("");
   }
 
   function resetAllFilters() {
@@ -168,8 +161,8 @@ export default function ProductsCatalog({
               <HeroStat label="Ürün" value={String(filteredProducts.length)} />
               <HeroStat label="Seçim" value={activeFilterLabel} />
               <HeroStat
-                label="Aralık"
-                value={`${formatPrice(priceBounds.min)}+`}
+                label="Fiyat"
+                value={`${formatPrice(priceBounds.min)} - ${formatPrice(priceBounds.max)}`}
               />
             </div>
           </div>
@@ -251,7 +244,13 @@ export default function ProductsCatalog({
                   />
                 </div>
                 <p className="mt-2 text-[11px] text-ink-600">
-                  Aralık: {formatPrice(priceBounds.min)} - {formatPrice(priceBounds.max)}
+                  {priceMin || priceMax
+                    ? `Seçili aralık: ${priceMin || formatPrice(priceBounds.min)} - ${
+                        priceMax || formatPrice(priceBounds.max)
+                      }`
+                    : `Katalog aralığı: ${formatPrice(priceBounds.min)} - ${formatPrice(
+                        priceBounds.max
+                      )}`}
                 </p>
               </FacetSection>
             </div>
@@ -305,7 +304,7 @@ export default function ProductsCatalog({
                 </div>
               </div>
 
-              <div className="mt-4 flex gap-2 overflow-x-auto pb-1 no-scrollbar">
+              <div className="-mx-1 mt-4 flex gap-2 overflow-x-auto px-1 pb-1">
                 <FilterPill
                   label="Tümü"
                   count={products.length}
@@ -550,13 +549,16 @@ function PriceInput({
         max={max}
         value={value}
         onChange={(event) => onChange(event.target.value)}
+        placeholder={label === "Min" ? formatPrice(min) : formatPrice(max)}
+        autoComplete="off"
         className="mt-1.5 w-full border border-ink-900/12 bg-bone-50 px-3 py-2.5 text-sm outline-none transition focus:border-ink-900"
       />
     </label>
   );
 }
 
-function parsePriceInput(value: string, fallback: number) {
+function parsePriceInput(value: string) {
+  if (!value.trim()) return undefined;
   const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : fallback;
+  return Number.isFinite(parsed) ? parsed : undefined;
 }

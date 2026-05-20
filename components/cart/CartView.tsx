@@ -1,16 +1,13 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { type ReactNode } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Breadcrumb from "@/components/Breadcrumb";
 import Container from "@/components/Container";
 import { useCart } from "@/components/CartContext";
-import {
-  DEFAULT_COUPON_CODE,
-  FREE_SHIPPING_LIMIT,
-  getCartSummary,
-} from "@/lib/commerce";
+import CouponCodeForm from "@/components/cart/CouponCodeForm";
+import { FREE_SHIPPING_LIMIT, getCartSummary } from "@/lib/commerce";
 import { formatPrice } from "@/lib/utils";
 import {
   ArrowRight,
@@ -19,7 +16,6 @@ import {
   RotateCcw,
   ShieldCheck,
   ShoppingBag,
-  Tag,
   Trash2,
   Truck,
   X,
@@ -34,22 +30,9 @@ export default function CartView() {
     updateItemQuantity,
     removeItem,
     clearCart,
-    applyCoupon,
-    removeCoupon,
   } = useCart();
-  const [promoCodeInput, setPromoCodeInput] = useState(couponCode ?? "");
-  const [couponFeedback, setCouponFeedback] = useState<string | null>(null);
 
   const summary = getCartSummary(lines, { couponCode });
-
-  function handleApplyCoupon() {
-    const isValid = applyCoupon(promoCodeInput);
-    setCouponFeedback(
-      isValid
-        ? `${DEFAULT_COUPON_CODE} uygulandı, %30 indirim hesaba katıldı.`
-        : "Kupon kodu geçersiz veya tanımsız."
-    );
-  }
 
   if (!isHydrated) {
     return (
@@ -231,53 +214,6 @@ export default function CartView() {
             </article>
           ))}
 
-          <div className="flex flex-col gap-3 border border-ink-900/8 bg-bone-100 px-5 py-4 sm:flex-row sm:items-center">
-            <div className="flex items-center gap-3">
-              <Tag size={16} strokeWidth={1.5} className="text-rose-600" />
-              <input
-                value={promoCodeInput}
-                onChange={(event) => {
-                  setPromoCodeInput(event.target.value);
-                  setCouponFeedback(null);
-                }}
-                placeholder={`İndirim kodu (${DEFAULT_COUPON_CODE})`}
-                className="w-full flex-1 bg-transparent text-sm outline-none placeholder:text-ink-500"
-              />
-            </div>
-            <div className="flex gap-3">
-              <button
-                type="button"
-                onClick={handleApplyCoupon}
-                className="self-start text-[10px] font-medium uppercase tracking-editorial text-ink-900 transition hover:text-rose-600 sm:self-auto"
-              >
-                Uygula
-              </button>
-              {couponCode && (
-                <button
-                  type="button"
-                  onClick={() => {
-                    removeCoupon();
-                    setPromoCodeInput("");
-                    setCouponFeedback("Kupon kaldırıldı.");
-                  }}
-                  className="self-start text-[10px] font-medium uppercase tracking-editorial text-ink-700 transition hover:text-rose-600 sm:self-auto"
-                >
-                  Kaldir
-                </button>
-              )}
-            </div>
-          </div>
-
-          {couponFeedback && (
-            <p
-              className={`px-1 text-[11px] tracking-wider ${
-                couponCode ? "text-rose-600" : "text-ink-600"
-              }`}
-            >
-              {couponFeedback}
-            </p>
-          )}
-
           <Link
             href="/products"
             className="inline-flex items-center gap-2 pt-2 text-[10px] uppercase tracking-editorial text-ink-700 transition hover:text-rose-600"
@@ -288,6 +224,8 @@ export default function CartView() {
 
         <aside className="h-fit border border-ink-900/8 bg-white p-6 shadow-card md:p-8 lg:sticky lg:top-28">
           <p className="luxe-label plain text-rose-600">Sipariş Özeti</p>
+
+          <CouponCodeForm className="mt-6" />
 
           <div className="mt-6 space-y-3.5 text-sm">
             <SummaryRow label="Ara Toplam" value={formatPrice(summary.subtotal)} />

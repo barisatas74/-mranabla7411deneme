@@ -11,7 +11,6 @@ import {
   type ReactNode,
 } from "react";
 import {
-  DEFAULT_COUPON_CODE,
   isCouponValid,
   normalizeCouponCode,
 } from "@/lib/commerce";
@@ -132,10 +131,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const parsed = raw ? JSON.parse(raw) : [];
       const normalized = normalizeStoredState(parsed);
       setItems(normalized.items);
-      setCouponCode(normalized.couponCode ?? DEFAULT_COUPON_CODE);
+      setCouponCode(normalized.couponCode);
     } catch {
       setItems([]);
-      setCouponCode(DEFAULT_COUPON_CODE);
+      setCouponCode(null);
     } finally {
       setIsHydrated(true);
     }

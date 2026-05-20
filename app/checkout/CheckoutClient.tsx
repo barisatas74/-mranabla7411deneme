@@ -6,6 +6,7 @@ import Link from "next/link";
 import Breadcrumb from "@/components/Breadcrumb";
 import { useCart } from "@/components/CartContext";
 import Container from "@/components/Container";
+import CouponCodeForm from "@/components/cart/CouponCodeForm";
 import { WhatsAppSupportButton } from "@/components/WhatsAppButton";
 import {
   getCartSummary,
@@ -797,6 +798,8 @@ export default function CheckoutClient({
               </div>
             ))}
           </div>
+
+          <CouponCodeForm className="mt-5" />
 
           <div className="mt-5 space-y-2 border-t border-rose-100 pt-5 text-sm">
             <SummaryRow label="Ara Toplam" value={formatPrice(summary.subtotal)} />

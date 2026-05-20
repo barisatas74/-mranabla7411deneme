@@ -60,13 +60,19 @@ function getTopNavCategories(categories: CategoryNavItem[]) {
   return [...preferredCategories, ...remainingCategories].slice(0, 4);
 }
 
-export default function Navbar() {
+export default function Navbar({
+  initialCategoryNavItems = fallbackCategoryNavItems,
+}: {
+  initialCategoryNavItems?: CategoryNavItem[];
+}) {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
   const [categoryNavItems, setCategoryNavItems] = useState<CategoryNavItem[]>(
-    fallbackCategoryNavItems
+    initialCategoryNavItems.length > 0
+      ? initialCategoryNavItems
+      : fallbackCategoryNavItems
   );
   const { itemCount } = useCart();
   const { count: wishlistCount } = useWishlist();

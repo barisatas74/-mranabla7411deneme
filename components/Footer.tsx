@@ -47,12 +47,16 @@ type CategoryNavResponse = {
   categories?: CategoryNavItem[];
 };
 
-export default function Footer() {
+export default function Footer({
+  initialCategoryNavItems = fallbackCategoryLinks,
+}: {
+  initialCategoryNavItems?: CategoryNavItem[];
+}) {
   const [email, setEmail] = useState("");
   const [honey, setHoney] = useState("");
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
   const [categoryLinks, setCategoryLinks] = useState<CategoryNavItem[]>(
-    fallbackCategoryLinks
+    initialCategoryNavItems.length > 0 ? initialCategoryNavItems : fallbackCategoryLinks
   );
 
   useEffect(() => {

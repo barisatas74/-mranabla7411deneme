@@ -7,6 +7,8 @@ import AppChrome from "@/components/AppChrome";
 import JsonLd from "@/components/JsonLd";
 import { SITE } from "@/lib/site";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
+import { getStorefrontCategories } from "@/lib/storefront-data";
+import { CategoryNavItem } from "@/types";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -116,11 +118,21 @@ export const viewport: Viewport = {
   colorScheme: "light",
 };
 
-export default function RootLayout({
+async function getInitialCategoryNavItems(): Promise<CategoryNavItem[]> {
+  const categories = await getStorefrontCategories();
+
+  return categories
+    .filter((category) => category.status === "active")
+    .map(({ id, name, slug }) => ({ id, name, slug }));
+}
+
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const initialCategoryNavItems = await getInitialCategoryNavItems();
+
   return (
     <html lang="tr" className={`${inter.variable} ${cormorant.variable}`}>
       <head>
@@ -130,7 +142,9 @@ export default function RootLayout({
       <body className="antialiased">
         <CartProvider>
           <WishlistProvider>
-            <AppChrome>{children}</AppChrome>
+            <AppChrome initialCategoryNavItems={initialCategoryNavItems}>
+              {children}
+            </AppChrome>
           </WishlistProvider>
         </CartProvider>
       </body>

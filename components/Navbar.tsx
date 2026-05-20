@@ -23,12 +23,13 @@ type NavItem = {
 };
 
 const fallbackCategoryNavItems: CategoryNavItem[] = [
-  { id: "sutyenler", name: "Sütyen", slug: "sutyenler" },
+  { id: "sutyenler", name: "Sütyenler", slug: "sutyenler" },
   { id: "kulotlar", name: "Külot", slug: "kulotlar" },
   { id: "takimlar", name: "Takım", slug: "takimlar" },
   { id: "gecelikler", name: "Gecelik", slug: "gecelikler" },
 ];
 
+const preferredTopCategorySlugs = ["sutyenler", "kulotlar", "takimlar", "gecelikler"];
 const categoryEffects: NavEffect[] = ["stretch", "slide", "lift", "moon"];
 
 const announcements = [
@@ -45,6 +46,19 @@ type CurrentUserResponse = {
 type CategoryNavResponse = {
   categories?: CategoryNavItem[];
 };
+
+function getTopNavCategories(categories: CategoryNavItem[]) {
+  const bySlug = new Map(categories.map((category) => [category.slug, category]));
+  const preferredCategories = preferredTopCategorySlugs
+    .map((slug) => bySlug.get(slug))
+    .filter((category): category is CategoryNavItem => Boolean(category));
+  const preferredSlugs = new Set(preferredCategories.map((category) => category.slug));
+  const remainingCategories = categories.filter(
+    (category) => !preferredSlugs.has(category.slug)
+  );
+
+  return [...preferredCategories, ...remainingCategories].slice(0, 4);
+}
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -104,7 +118,7 @@ export default function Navbar() {
     };
   }, []);
 
-  const categoryItems: NavItem[] = categoryNavItems.slice(0, 4).map((category, index) => ({
+  const categoryItems: NavItem[] = getTopNavCategories(categoryNavItems).map((category, index) => ({
     label: category.name,
     href: `/products?category=${category.slug}`,
     category: category.slug,

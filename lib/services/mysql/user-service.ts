@@ -144,6 +144,17 @@ export const mysqlUserService = {
     return { ok: true };
   },
 
+  async removeAccount(id: string): Promise<boolean> {
+    const db = getDb();
+    const existing = await mysqlUserService.getById(id);
+    if (!existing) return false;
+
+    await db.execute(`UPDATE orders SET user_id = NULL WHERE user_id = ?`, [id]);
+    await db.execute(`DELETE FROM user_addresses WHERE user_id = ?`, [id]);
+    await db.execute(`DELETE FROM users WHERE id = ?`, [id]);
+    return true;
+  },
+
   async listOrdersByUserId(userId: string) {
     const db = getDb();
     const [rows] = await db.execute<RowDataPacket[]>(

@@ -131,12 +131,6 @@ export default async function AccountPage() {
                   Profil, adres ve sipariş bilgileriniz.
                 </p>
               </div>
-              <Link
-                href="/hesabim/duzenle"
-                className="inline-flex items-center gap-1 text-[11px] uppercase tracking-luxe text-rose-600 underline-offset-2 hover:underline"
-              >
-                Düzenle <ArrowRight size={12} strokeWidth={1.5} />
-              </Link>
             </div>
 
             <dl className="mt-6 space-y-4 text-sm">

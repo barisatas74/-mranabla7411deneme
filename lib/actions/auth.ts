@@ -132,6 +132,28 @@ export async function changePasswordAction(input: {
   }
 }
 
+export async function deleteAccountAction(input: {
+  confirmation: string;
+}): Promise<ActionResult> {
+  try {
+    const current = await getCurrentUser();
+    if (!current) return { ok: false, message: "Oturum bulunamadı." };
+    if (input.confirmation.trim().toLocaleLowerCase("tr") !== "hesabımı sil") {
+      return {
+        ok: false,
+        message: 'Devam etmek için "hesabımı sil" yazmalısınız.',
+      };
+    }
+
+    const removed = await userService.removeAccount(current.id);
+    if (!removed) return { ok: false, message: "Hesap bulunamadı." };
+    await clearUserCookie();
+    return { ok: true };
+  } catch {
+    return { ok: false, message: "Hesap silinemedi." };
+  }
+}
+
 /** Sunucu tarafinda mevcut kullaniciyi don (cookie'den okur) */
 export async function getCurrentUser(): Promise<User | null> {
   try {

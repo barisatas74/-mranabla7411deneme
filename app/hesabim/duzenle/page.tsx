@@ -6,6 +6,7 @@ import Container from "@/components/Container";
 import { getCurrentUser } from "@/lib/actions/auth";
 import ProfileEditForm from "./ProfileEditForm";
 import PasswordChangeForm from "./PasswordChangeForm";
+import DeleteAccountForm from "./DeleteAccountForm";
 
 export const metadata: Metadata = {
   title: "Hesabımı Düzenle",
@@ -79,6 +80,25 @@ export default async function ProfileEditPage() {
             </div>
           </section>
         </div>
+
+        <section className="mt-8 border border-rose-200 bg-rose-50/60 p-7 shadow-card md:p-8">
+          <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-start">
+            <div>
+              <p className="text-[10px] uppercase tracking-editorial text-rose-700">
+                Hesap Güvenliği
+              </p>
+              <h2 className="mt-2 font-display text-2xl text-ink-900">
+                Hesabı Kalıcı Olarak Sil
+              </h2>
+              <p className="mt-2 max-w-2xl text-sm leading-relaxed text-ink-700">
+                Hesabınızı silerseniz profil bilgileriniz ve kayıtlı adresleriniz
+                kaldırılır. Önceki sipariş kayıtları mağaza arşivi ve yasal
+                yükümlülükler için sipariş numarasıyla saklanabilir.
+              </p>
+            </div>
+            <DeleteAccountForm />
+          </div>
+        </section>
 
         <div className="mt-8">
           <Link

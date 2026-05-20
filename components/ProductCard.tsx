@@ -48,9 +48,9 @@ export default function ProductCard({ product }: { product: Product }) {
 
   return (
     <>
-      <div className="group relative">
+      <div className="group relative border border-ink-900/8 bg-white p-2 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-card">
         <Link href={`/products/${product.slug}`} className="block">
-          <div className="relative aspect-[3/4] overflow-hidden bg-bone-100">
+          <div className="relative aspect-[3/4] overflow-hidden bg-powder-50">
             {product.images[0] ? (
               <Image
                 src={product.images[0]}
@@ -60,8 +60,16 @@ export default function ProductCard({ product }: { product: Product }) {
                 className="object-cover transition-all duration-[1200ms] ease-out group-hover:scale-[1.04]"
               />
             ) : (
-              <div className="absolute inset-0 flex items-center justify-center bg-bone-100 text-[10px] uppercase tracking-[0.25em] text-ink-700/50">
-                Görsel yok
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-gradient-to-b from-powder-100 via-bone-50 to-white px-4 text-center">
+                <span className="font-display text-2xl text-ink-900">
+                  Miss{" "}
+                  <span className="font-italic-display text-gradient-fuchsia">
+                    Bella
+                  </span>
+                </span>
+                <span className="mt-3 text-[9px] uppercase tracking-editorial text-ink-500">
+                  Görsel hazırlanıyor
+                </span>
               </div>
             )}
             {product.images[1] && (
@@ -139,7 +147,7 @@ export default function ProductCard({ product }: { product: Product }) {
             )}
           </div>
 
-          <div className="pb-1 pt-3 sm:pt-4">
+          <div className="px-1 pb-1 pt-3 sm:pt-4">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
                 <p className="mb-1.5 truncate text-[9px] uppercase tracking-[0.18em] text-rose-600 sm:text-[9.5px] sm:tracking-editorial">

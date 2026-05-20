@@ -265,12 +265,10 @@ body {
 
 /* Effect: lift — Takım */
 .nav-effect-lift {
-  border-bottom: 1px solid transparent;
   padding-bottom: 0.4rem;
 }
 .nav-effect-lift:hover {
   transform: translateY(-2px);
-  border-bottom-color: #ee2a8b;
   color: #ee2a8b;
 }
 

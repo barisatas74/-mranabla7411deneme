@@ -266,6 +266,11 @@ export type UserAddressInput = {
 export type AdminMemberSummary = User & {
   status: UserStatus;
   adminNote: string;
+  tags: string[];
+  segment: string;
+  loyaltyPoints: number;
+  privateCouponCode?: string;
+  privateCouponRate?: number;
   orderCount: number;
   totalSpent: number;
   lastOrderAt?: string;
@@ -275,6 +280,25 @@ export type AdminMemberSummary = User & {
 export type AdminMemberDetail = AdminMemberSummary & {
   addresses: UserAddress[];
   orders: AdminOrder[];
+};
+
+export type AdminMemberCrmInput = {
+  tags: string[];
+  loyaltyPoints: number;
+  privateCouponCode?: string;
+  privateCouponRate?: number;
+};
+
+export type AdminMemberManualOrderInput = {
+  productId: string;
+  quantity: number;
+  size: string;
+  color: string;
+  phone: string;
+  city: string;
+  district: string;
+  address: string;
+  note?: string;
 };
 
 export type AdminSettings = {

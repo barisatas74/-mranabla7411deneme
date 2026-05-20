@@ -40,7 +40,7 @@ export function normalizeCouponCode(code: string | null | undefined) {
 }
 
 export function isCouponValid(code: string | null | undefined) {
-  return normalizeCouponCode(code) === DEFAULT_COUPON_CODE;
+  return getCouponDiscountRate(code) > 0;
 }
 
 export function getShippingPrice(
@@ -56,10 +56,21 @@ export function getShippingPrice(
 
 export const DEFAULT_COUPON_DISCOUNT_RATE = 0.3;
 
+export function getCouponDiscountRate(code: string | null | undefined) {
+  const normalized = normalizeCouponCode(code);
+  if (normalized === DEFAULT_COUPON_CODE) return DEFAULT_COUPON_DISCOUNT_RATE;
+
+  const match = /^MB(\d{1,2})-[A-Z0-9]{4,}$/.exec(normalized);
+  if (!match) return 0;
+
+  const rate = Number(match[1]);
+  if (!Number.isFinite(rate) || rate < 5 || rate > 50) return 0;
+  return rate / 100;
+}
+
 export function getDiscountAmount(subtotal: number, couponCode?: string | null) {
-  return isCouponValid(couponCode)
-    ? Math.round(subtotal * DEFAULT_COUPON_DISCOUNT_RATE)
-    : 0;
+  const rate = getCouponDiscountRate(couponCode);
+  return rate > 0 ? Math.round(subtotal * rate) : 0;
 }
 
 export function getCartSummary(

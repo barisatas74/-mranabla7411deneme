@@ -4,6 +4,7 @@ import { generateId, parseDate } from "@/lib/services/mysql/_helpers";
 import { hashPassword, verifyPassword } from "@/lib/user-auth";
 import {
   AdminMemberDetail,
+  AdminMemberCrmInput,
   AdminMemberSummary,
   AdminOrder,
   RegisterInput,
@@ -21,6 +22,10 @@ type UserRow = RowDataPacket & {
   phone: string | null;
   status?: UserStatus;
   admin_note?: string | null;
+  customer_tags?: string | null;
+  loyalty_points?: number | null;
+  private_coupon_code?: string | null;
+  private_coupon_rate?: number | string | null;
   last_login_at?: string | null;
   created_at: string;
 };
@@ -40,7 +45,15 @@ async function ensureAdminUserColumns() {
     `SELECT COLUMN_NAME FROM INFORMATION_SCHEMA.COLUMNS
       WHERE TABLE_SCHEMA = DATABASE()
         AND TABLE_NAME = 'users'
-        AND COLUMN_NAME IN ('status', 'admin_note', 'last_login_at')`
+        AND COLUMN_NAME IN (
+          'status',
+          'admin_note',
+          'customer_tags',
+          'loyalty_points',
+          'private_coupon_code',
+          'private_coupon_rate',
+          'last_login_at'
+        )`
   );
   const existing = new Set(columns.map((column) => String(column.COLUMN_NAME)));
 
@@ -59,8 +72,66 @@ async function ensureAdminUserColumns() {
       `ALTER TABLE users ADD COLUMN last_login_at DATETIME NULL AFTER admin_note`
     );
   }
+  if (!existing.has("customer_tags")) {
+    await db.execute(`ALTER TABLE users ADD COLUMN customer_tags TEXT NULL`);
+  }
+  if (!existing.has("loyalty_points")) {
+    await db.execute(
+      `ALTER TABLE users ADD COLUMN loyalty_points INT NOT NULL DEFAULT 0`
+    );
+  }
+  if (!existing.has("private_coupon_code")) {
+    await db.execute(`ALTER TABLE users ADD COLUMN private_coupon_code VARCHAR(60) NULL`);
+  }
+  if (!existing.has("private_coupon_rate")) {
+    await db.execute(
+      `ALTER TABLE users ADD COLUMN private_coupon_rate DECIMAL(5,2) NULL`
+    );
+  }
 
   adminColumnsReady = true;
+}
+
+function parseTags(value?: string | null) {
+  if (!value) return [];
+  try {
+    const parsed = JSON.parse(value);
+    return Array.isArray(parsed)
+      ? parsed.filter((tag): tag is string => typeof tag === "string")
+      : [];
+  } catch {
+    return value
+      .split(",")
+      .map((tag) => tag.trim())
+      .filter(Boolean);
+  }
+}
+
+function normalizeTags(tags: string[]) {
+  return Array.from(
+    new Set(
+      tags
+        .map((tag) => tag.trim())
+        .filter(Boolean)
+        .slice(0, 12)
+    )
+  );
+}
+
+function getMemberSegment(row: AdminMemberRow) {
+  const orderCount = Number(row.order_count ?? 0);
+  const totalSpent = Number(row.total_spent ?? 0);
+  const lastOrderAt = row.last_order_at ? Date.parse(row.last_order_at) : 0;
+  const daysSinceLastOrder = lastOrderAt
+    ? (Date.now() - lastOrderAt) / (1000 * 60 * 60 * 24)
+    : Infinity;
+
+  if ((row.status ?? "active") === "suspended") return "Askıda";
+  if (orderCount === 0) return "Sipariş vermeyen";
+  if (totalSpent >= 5000 || orderCount >= 5) return "VIP";
+  if (orderCount >= 2) return "Tekrar alışveriş";
+  if (daysSinceLastOrder > 90) return "Pasif müşteri";
+  return "Yeni müşteri";
 }
 
 function rowToUser(row: UserRow): User {
@@ -82,6 +153,12 @@ function rowToAdminMember(row: AdminMemberRow): AdminMemberSummary {
     ...rowToUser(row),
     status: row.status ?? "active",
     adminNote: row.admin_note ?? "",
+    tags: parseTags(row.customer_tags),
+    segment: getMemberSegment(row),
+    loyaltyPoints: Number(row.loyalty_points ?? 0),
+    privateCouponCode: row.private_coupon_code ?? undefined,
+    privateCouponRate:
+      row.private_coupon_rate != null ? Number(row.private_coupon_rate) : undefined,
     orderCount: Number(row.order_count ?? 0),
     totalSpent: Number(row.total_spent ?? 0),
     lastOrderAt: row.last_order_at ? parseDate(row.last_order_at) : undefined,
@@ -234,7 +311,8 @@ export const mysqlUserService = {
     const [rows] = await db.execute<AdminMemberRow[]>(
       `SELECT
           u.id, u.email, u.password_hash, u.first_name, u.last_name, u.phone,
-          u.status, u.admin_note, u.last_login_at, u.created_at,
+          u.status, u.admin_note, u.customer_tags, u.loyalty_points,
+          u.private_coupon_code, u.private_coupon_rate, u.last_login_at, u.created_at,
           COUNT(o.id) AS order_count,
           COALESCE(SUM(o.total), 0) AS total_spent,
           MAX(o.created_at) AS last_order_at
@@ -242,7 +320,8 @@ export const mysqlUserService = {
         LEFT JOIN orders o ON o.user_id = u.id
         GROUP BY
           u.id, u.email, u.password_hash, u.first_name, u.last_name, u.phone,
-          u.status, u.admin_note, u.last_login_at, u.created_at
+          u.status, u.admin_note, u.customer_tags, u.loyalty_points,
+          u.private_coupon_code, u.private_coupon_rate, u.last_login_at, u.created_at
         ORDER BY u.created_at DESC`
     );
 
@@ -291,6 +370,39 @@ export const mysqlUserService = {
       adminNote.trim() || null,
       id,
     ]);
+    const member = await mysqlUserService.getAdminMemberById(id);
+    return member;
+  },
+
+  async updateAdminMemberCrm(
+    id: string,
+    input: AdminMemberCrmInput
+  ): Promise<AdminMemberSummary | null> {
+    await ensureAdminUserColumns();
+    const db = getDb();
+    const tags = normalizeTags(input.tags);
+    const loyaltyPoints = Math.max(0, Math.floor(Number(input.loyaltyPoints) || 0));
+    const privateCouponCode = input.privateCouponCode?.trim().toUpperCase() || null;
+    const privateCouponRate =
+      input.privateCouponRate != null && Number.isFinite(Number(input.privateCouponRate))
+        ? Math.max(5, Math.min(50, Number(input.privateCouponRate)))
+        : null;
+
+    await db.execute(
+      `UPDATE users
+        SET customer_tags = ?,
+            loyalty_points = ?,
+            private_coupon_code = ?,
+            private_coupon_rate = ?
+       WHERE id = ?`,
+      [
+        tags.length > 0 ? JSON.stringify(tags) : null,
+        loyaltyPoints,
+        privateCouponCode,
+        privateCouponRate,
+        id,
+      ]
+    );
     const member = await mysqlUserService.getAdminMemberById(id);
     return member;
   },

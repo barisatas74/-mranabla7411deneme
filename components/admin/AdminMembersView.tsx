@@ -1,15 +1,29 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useMemo, useState, useTransition } from "react";
 import Link from "next/link";
-import { BadgeCheck, Ban, Search, ShoppingBag, UsersRound } from "lucide-react";
+import {
+  BadgeCheck,
+  Ban,
+  Download,
+  Search,
+  ShoppingBag,
+  Sparkles,
+  Tags,
+  UsersRound,
+} from "lucide-react";
 import AdminEmptyState from "@/components/admin/AdminEmptyState";
 import AdminSectionHeader from "@/components/admin/AdminSectionHeader";
 import AdminStatCard from "@/components/admin/AdminStatCard";
 import AdminStatusBadge from "@/components/admin/AdminStatusBadge";
 import AdminTableCard from "@/components/admin/AdminTableCard";
+import {
+  useAdminConfirm,
+  useAdminToast,
+} from "@/components/admin/feedback/AdminFeedbackProvider";
+import { bulkUpdateMemberStatusAction } from "@/lib/actions/admin";
 import { formatAdminDate } from "@/lib/admin";
-import { formatPrice } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 import { AdminMemberSummary, UserStatus } from "@/types";
 
 const statusLabels: Record<UserStatus, string> = {
@@ -22,18 +36,32 @@ export default function AdminMembersView({
 }: {
   initialMembers: AdminMemberSummary[];
 }) {
+  const toast = useAdminToast();
+  const confirm = useAdminConfirm();
+  const [members, setMembers] = useState(initialMembers);
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<"all" | UserStatus>("all");
+  const [segment, setSegment] = useState("all");
+  const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
+  const [pending, startTransition] = useTransition();
+
+  const segments = useMemo(
+    () => Array.from(new Set(members.map((member) => member.segment))).sort(),
+    [members]
+  );
 
   const filteredMembers = useMemo(() => {
     const normalizedQuery = query.trim().toLocaleLowerCase("tr");
-    return initialMembers.filter((member) => {
+    return members.filter((member) => {
       const searchText = [
         member.firstName,
         member.lastName,
         member.email,
         member.phone,
         member.adminNote,
+        member.segment,
+        member.privateCouponCode,
+        ...member.tags,
       ]
         .join(" ")
         .toLocaleLowerCase("tr");
@@ -41,35 +69,144 @@ export default function AdminMembersView({
         ? searchText.includes(normalizedQuery)
         : true;
       const matchesStatus = status === "all" ? true : member.status === status;
-      return matchesQuery && matchesStatus;
+      const matchesSegment =
+        segment === "all" ? true : member.segment === segment;
+      return matchesQuery && matchesStatus && matchesSegment;
     });
-  }, [initialMembers, query, status]);
+  }, [members, query, segment, status]);
 
-  const activeCount = initialMembers.filter(
-    (member) => member.status === "active"
+  const filteredIds = useMemo(
+    () => filteredMembers.map((member) => member.id),
+    [filteredMembers]
+  );
+  const selectedFilteredCount = filteredIds.filter((id) =>
+    selectedIds.has(id)
   ).length;
-  const suspendedCount = initialMembers.filter(
+  const allFilteredSelected =
+    filteredIds.length > 0 && selectedFilteredCount === filteredIds.length;
+
+  const activeCount = members.filter((member) => member.status === "active").length;
+  const suspendedCount = members.filter(
     (member) => member.status === "suspended"
   ).length;
-  const totalRevenue = initialMembers.reduce(
+  const vipCount = members.filter((member) => member.segment === "VIP").length;
+  const totalRevenue = members.reduce(
     (total, member) => total + member.totalSpent,
     0
   );
+
+  function toggleAllFiltered() {
+    setSelectedIds((current) => {
+      const next = new Set(current);
+      if (allFilteredSelected) {
+        filteredIds.forEach((id) => next.delete(id));
+      } else {
+        filteredIds.forEach((id) => next.add(id));
+      }
+      return next;
+    });
+  }
+
+  function toggleMember(id: string) {
+    setSelectedIds((current) => {
+      const next = new Set(current);
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
+      return next;
+    });
+  }
+
+  async function handleBulkStatus(nextStatus: UserStatus) {
+    const ids = Array.from(selectedIds);
+    if (ids.length === 0) return;
+    const approved = await confirm({
+      title:
+        nextStatus === "suspended"
+          ? "Seçili üyeler askıya alınsın mı?"
+          : "Seçili üyeler aktif edilsin mi?",
+      description: `${ids.length} üye için hesap durumu güncellenecek.`,
+      confirmLabel: nextStatus === "suspended" ? "Askıya Al" : "Aktif Et",
+      cancelLabel: "Vazgeç",
+      tone: nextStatus === "suspended" ? "danger" : "default",
+    });
+    if (!approved) return;
+
+    startTransition(async () => {
+      const updatedMembers = await bulkUpdateMemberStatusAction(ids, nextStatus);
+      const updatedMap = new Map(updatedMembers.map((member) => [member.id, member]));
+      setMembers((current) =>
+        current.map((member) => updatedMap.get(member.id) ?? member)
+      );
+      setSelectedIds(new Set());
+      toast({
+        title: "Toplu işlem tamamlandı",
+        description: `${updatedMembers.length} üye güncellendi.`,
+        variant: "success",
+      });
+    });
+  }
+
+  function exportCsv() {
+    const rows = filteredMembers.map((member) => ({
+      ad: `${member.firstName} ${member.lastName}`,
+      email: member.email,
+      telefon: member.phone || "",
+      durum: statusLabels[member.status],
+      segment: member.segment,
+      etiketler: member.tags.join(", "),
+      siparis: member.orderCount,
+      harcama: member.totalSpent,
+      puan: member.loyaltyPoints,
+      kupon: member.privateCouponCode || "",
+      son_islem: member.lastOrderAt || member.lastLoginAt || "",
+    }));
+    const headers = Object.keys(rows[0] ?? { ad: "" });
+    const csv = [
+      headers.join(","),
+      ...rows.map((row) =>
+        headers
+          .map((header) => {
+            const value = String(row[header as keyof typeof row] ?? "");
+            return `"${value.replace(/"/g, '""')}"`;
+          })
+          .join(",")
+      ),
+    ].join("\n");
+    const blob = new Blob([`\uFEFF${csv}`], {
+      type: "text/csv;charset=utf-8;",
+    });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "miss-bella-uyeler.csv";
+    link.click();
+    URL.revokeObjectURL(url);
+  }
 
   return (
     <div className="space-y-8">
       <AdminSectionHeader
         eyebrow="Customers"
         title="Üye yönetimi"
-        description="Üyeleri, sipariş hacimlerini, notları ve hesap durumlarını tek yerden takip edin."
+        description="Üyeleri, sipariş hacimlerini, segmentleri, etiketleri ve hesap durumlarını tek yerden takip edin."
+        action={
+          <button
+            type="button"
+            onClick={exportCsv}
+            disabled={filteredMembers.length === 0}
+            className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-4 py-2.5 text-sm font-medium text-slate-950 transition hover:border-slate-950 disabled:opacity-50"
+          >
+            <Download size={15} />
+            CSV İndir
+          </button>
+        }
       />
 
-      <div className="grid gap-4 md:grid-cols-4">
-        <AdminStatCard
-          title="Toplam üye"
-          value={initialMembers.length}
-          icon={UsersRound}
-        />
+      <div className="grid gap-4 md:grid-cols-5">
+        <AdminStatCard title="Toplam üye" value={members.length} icon={UsersRound} />
         <AdminStatCard
           title="Aktif üye"
           value={activeCount}
@@ -83,6 +220,12 @@ export default function AdminMembersView({
           accent="rose"
         />
         <AdminStatCard
+          title="VIP müşteri"
+          value={vipCount}
+          icon={Sparkles}
+          accent="amber"
+        />
+        <AdminStatCard
           title="Üye cirosu"
           value={totalRevenue}
           icon={ShoppingBag}
@@ -91,7 +234,7 @@ export default function AdminMembersView({
         />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_220px]">
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_220px_220px]">
         <div className="relative">
           <Search
             size={16}
@@ -100,7 +243,7 @@ export default function AdminMembersView({
           <input
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Ad, e-posta, telefon veya not ara"
+            placeholder="Ad, e-posta, telefon, etiket veya kupon ara"
             className="w-full rounded-[24px] border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm outline-none shadow-sm transition focus:border-slate-950"
           />
         </div>
@@ -109,11 +252,49 @@ export default function AdminMembersView({
           onChange={(event) => setStatus(event.target.value as "all" | UserStatus)}
           className="rounded-[24px] border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm transition focus:border-slate-950"
         >
-          <option value="all">Tüm üyeler</option>
+          <option value="all">Tüm durumlar</option>
           <option value="active">Aktif üyeler</option>
           <option value="suspended">Askıdakiler</option>
         </select>
+        <select
+          value={segment}
+          onChange={(event) => setSegment(event.target.value)}
+          className="rounded-[24px] border border-slate-200 bg-white px-4 py-3 text-sm outline-none shadow-sm transition focus:border-slate-950"
+        >
+          <option value="all">Tüm segmentler</option>
+          {segments.map((item) => (
+            <option key={item} value={item}>
+              {item}
+            </option>
+          ))}
+        </select>
       </div>
+
+      {selectedIds.size > 0 && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-[24px] border border-rose-100 bg-rose-50 px-5 py-4">
+          <p className="text-sm font-medium text-rose-900">
+            {selectedIds.size} üye seçildi.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => handleBulkStatus("active")}
+              disabled={pending}
+              className="rounded-full bg-slate-950 px-4 py-2 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-60"
+            >
+              Aktif Et
+            </button>
+            <button
+              type="button"
+              onClick={() => handleBulkStatus("suspended")}
+              disabled={pending}
+              className="rounded-full bg-rose-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-rose-700 disabled:opacity-60"
+            >
+              Askıya Al
+            </button>
+          </div>
+        </div>
+      )}
 
       <AdminTableCard
         title="Üye listesi"
@@ -123,8 +304,17 @@ export default function AdminMembersView({
           <table className="min-w-full text-left">
             <thead className="border-b border-slate-200 text-xs uppercase tracking-[0.25em] text-slate-500">
               <tr>
+                <th className="w-12 px-6 py-4 font-medium">
+                  <input
+                    type="checkbox"
+                    checked={allFilteredSelected}
+                    onChange={toggleAllFiltered}
+                    className="h-4 w-4 rounded border-slate-300 accent-slate-950"
+                    aria-label="Tüm üyeleri seç"
+                  />
+                </th>
                 <th className="px-6 py-4 font-medium">Üye</th>
-                <th className="px-6 py-4 font-medium">İletişim</th>
+                <th className="px-6 py-4 font-medium">Segment</th>
                 <th className="px-6 py-4 font-medium">Durum</th>
                 <th className="px-6 py-4 font-medium">Sipariş</th>
                 <th className="px-6 py-4 font-medium">Harcama</th>
@@ -136,21 +326,46 @@ export default function AdminMembersView({
               {filteredMembers.map((member) => (
                 <tr
                   key={member.id}
-                  className="border-b border-slate-100 text-sm last:border-b-0"
+                  className={cn(
+                    "border-b border-slate-100 text-sm last:border-b-0",
+                    selectedIds.has(member.id) && "bg-rose-50/50"
+                  )}
                 >
+                  <td className="px-6 py-4">
+                    <input
+                      type="checkbox"
+                      checked={selectedIds.has(member.id)}
+                      onChange={() => toggleMember(member.id)}
+                      className="h-4 w-4 rounded border-slate-300 accent-slate-950"
+                      aria-label={`${member.firstName} ${member.lastName} seç`}
+                    />
+                  </td>
                   <td className="px-6 py-4">
                     <p className="font-medium text-slate-950">
                       {member.firstName} {member.lastName}
                     </p>
-                    <p className="mt-1 text-xs text-slate-500">
-                      Üyelik: {formatAdminDate(member.createdAt)}
-                    </p>
+                    <p className="mt-1 text-xs text-slate-500">{member.email}</p>
+                    <div className="mt-2 flex flex-wrap gap-1.5">
+                      {member.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className="inline-flex items-center gap-1 rounded-full bg-slate-100 px-2 py-1 text-[11px] text-slate-600"
+                        >
+                          <Tags size={11} />
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
                   </td>
                   <td className="px-6 py-4">
-                    <p className="text-slate-950">{member.email}</p>
-                    <p className="mt-1 text-xs text-slate-500">
-                      {member.phone || "Telefon yok"}
-                    </p>
+                    <span className="rounded-full bg-amber-50 px-3 py-1 text-xs font-medium text-amber-800">
+                      {member.segment}
+                    </span>
+                    {member.privateCouponCode && (
+                      <p className="mt-2 text-xs text-rose-600">
+                        {member.privateCouponCode}
+                      </p>
+                    )}
                   </td>
                   <td className="px-6 py-4">
                     <AdminStatusBadge

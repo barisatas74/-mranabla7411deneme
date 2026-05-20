@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import AdminMemberDetailView from "@/components/admin/AdminMemberDetailView";
-import { userService } from "@/lib/services/server";
+import { productService, userService } from "@/lib/services/server";
 
 export const dynamic = "force-dynamic";
 
@@ -15,8 +15,16 @@ export default async function AdminMemberDetailPage({
   params: Promise<{ id: string }>;
 }) {
   const { id } = await params;
-  const member = await userService.getAdminMemberById(id);
+  const [member, products] = await Promise.all([
+    userService.getAdminMemberById(id),
+    productService.list(),
+  ]);
   if (!member) notFound();
 
-  return <AdminMemberDetailView member={member} />;
+  return (
+    <AdminMemberDetailView
+      member={member}
+      products={products.filter((product) => product.status === "active")}
+    />
+  );
 }

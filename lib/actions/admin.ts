@@ -19,6 +19,8 @@ import {
 import { ADMIN_COOKIE_NAME } from "@/lib/admin-auth";
 import {
   AdminCategoryInput,
+  AdminMemberCrmInput,
+  AdminMemberManualOrderInput,
   AdminOrderStatusUpdate,
   AdminProductInput,
   AdminSettings,
@@ -156,6 +158,89 @@ export async function updateMemberNoteAction(id: string, adminNote: string) {
   revalidatePath("/admin/members");
   revalidatePath(`/admin/members/${id}`);
   return member;
+}
+
+export async function updateMemberCrmAction(
+  id: string,
+  input: AdminMemberCrmInput
+) {
+  await ensureAdmin();
+  const member = await userService.updateAdminMemberCrm(id, input);
+  revalidatePath("/admin/members");
+  revalidatePath(`/admin/members/${id}`);
+  return member;
+}
+
+export async function bulkUpdateMemberStatusAction(
+  ids: string[],
+  status: UserStatus
+) {
+  await ensureAdmin();
+  const uniqueIds = Array.from(new Set(ids.filter(Boolean))).slice(0, 100);
+  const members = await Promise.all(
+    uniqueIds.map((id) => userService.updateAdminMemberStatus(id, status))
+  );
+  revalidatePath("/admin/members");
+  for (const id of uniqueIds) {
+    revalidatePath(`/admin/members/${id}`);
+  }
+  return members.filter((member) => member !== null);
+}
+
+export async function createMemberManualOrderAction(
+  memberId: string,
+  input: AdminMemberManualOrderInput
+) {
+  await ensureAdmin();
+  const [member, product] = await Promise.all([
+    userService.getAdminMemberById(memberId),
+    productService.getById(input.productId),
+  ]);
+
+  if (!member) throw new Error("Üye kaydı bulunamadı.");
+  if (!product) throw new Error("Ürün bulunamadı.");
+  if (product.status !== "active") throw new Error("Bu ürün satışta değil.");
+
+  const quantity = Math.max(1, Math.floor(Number(input.quantity) || 1));
+  const subtotal = product.price * quantity;
+  const order = await orderService.create({
+    userId: member.id,
+    customer: {
+      firstName: member.firstName,
+      lastName: member.lastName,
+      email: member.email,
+      phone: input.phone.trim() || member.phone || "-",
+      city: input.city.trim(),
+      district: input.district.trim(),
+      address: input.address.trim(),
+    },
+    items: [
+      {
+        productId: product.id,
+        productName: product.name,
+        productSlug: product.slug,
+        image: product.images[0] ?? "",
+        unitPrice: product.price,
+        quantity,
+        color: input.color.trim() || product.colors[0]?.name || "",
+        size: input.size.trim() || product.sizes[0] || "",
+      },
+    ],
+    subtotal,
+    shippingFee: 0,
+    discount: 0,
+    total: subtotal,
+    note: input.note?.trim() || "Admin panelinden manuel oluşturuldu.",
+  });
+
+  revalidateTag(STOREFRONT_PRODUCTS_TAG);
+  revalidatePath("/admin/orders");
+  revalidatePath(`/admin/orders/${order.id}`);
+  revalidatePath("/admin/members");
+  revalidatePath(`/admin/members/${member.id}`);
+  revalidatePath("/products");
+  revalidatePath(`/products/${product.slug}`);
+  return order;
 }
 
 // -----------------------------------------------------------------------------

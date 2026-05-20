@@ -1,11 +1,49 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useLayoutEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { ArrowUp } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export default function ScrollToTop() {
+  const pathname = usePathname();
   const [visible, setVisible] = useState(false);
+
+  useLayoutEffect(() => {
+    const previousRestoration = window.history.scrollRestoration;
+    window.history.scrollRestoration = "manual";
+
+    function scrollToPageTop() {
+      if (window.location.hash) return;
+      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    }
+
+    function scheduleScrollToTop() {
+      scrollToPageTop();
+      requestAnimationFrame(scrollToPageTop);
+      window.setTimeout(scrollToPageTop, 80);
+    }
+
+    scheduleScrollToTop();
+    window.addEventListener("pageshow", scrollToPageTop);
+    window.addEventListener("load", scheduleScrollToTop);
+
+    return () => {
+      window.removeEventListener("pageshow", scrollToPageTop);
+      window.removeEventListener("load", scheduleScrollToTop);
+      window.history.scrollRestoration = previousRestoration;
+    };
+  }, []);
+
+  useLayoutEffect(() => {
+    if (window.location.hash) return;
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+    requestAnimationFrame(() => {
+      if (!window.location.hash) {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }
+    });
+  }, [pathname]);
 
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 600);

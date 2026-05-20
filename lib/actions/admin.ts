@@ -92,6 +92,7 @@ export async function createCategoryAction(input: AdminCategoryInput) {
   const category = await categoryService.create(input);
   revalidateTag(STOREFRONT_CATEGORIES_TAG);
   revalidatePath("/");
+  revalidatePath("/api/categories/nav");
   revalidatePath("/admin/categories");
   revalidatePath("/products");
   return category;
@@ -102,6 +103,7 @@ export async function updateCategoryAction(id: string, input: AdminCategoryInput
   const category = await categoryService.update(id, input);
   revalidateTag(STOREFRONT_CATEGORIES_TAG);
   revalidatePath("/");
+  revalidatePath("/api/categories/nav");
   revalidatePath("/admin/categories");
   revalidatePath("/products");
   return category;
@@ -112,6 +114,7 @@ export async function deleteCategoryAction(id: string) {
   const ok = await categoryService.remove(id);
   revalidateTag(STOREFRONT_CATEGORIES_TAG);
   revalidatePath("/");
+  revalidatePath("/api/categories/nav");
   revalidatePath("/admin/categories");
   revalidatePath("/products");
   return ok;

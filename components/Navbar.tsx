@@ -9,7 +9,7 @@ import { useCart } from "./CartContext";
 import { useWishlist } from "./WishlistContext";
 import SearchOverlay from "./SearchOverlay";
 import { cn } from "@/lib/utils";
-import { User } from "@/types";
+import { CategoryNavItem, User } from "@/types";
 import { logoutAction } from "@/lib/actions/auth";
 
 type NavEffect = "pulse" | "stretch" | "slide" | "lift" | "moon" | "flash";
@@ -22,19 +22,14 @@ type NavItem = {
   effect: NavEffect;
 };
 
-const navItems: NavItem[] = [
-  { label: "Yeni Sezon", href: "/products?filter=new", filter: "new", effect: "pulse" },
-  { label: "Sütyen", href: "/products?category=sutyenler", category: "sutyenler", effect: "stretch" },
-  { label: "Külot", href: "/products?category=kulotlar", category: "kulotlar", effect: "slide" },
-  { label: "Takım", href: "/products?category=takimlar", category: "takimlar", effect: "lift" },
-  {
-    label: "Gecelik",
-    href: "/products?category=gecelikler",
-    category: "gecelikler",
-    effect: "moon",
-  },
-  { label: "İndirim", href: "/products?filter=sale", filter: "sale", effect: "flash" },
+const fallbackCategoryNavItems: CategoryNavItem[] = [
+  { id: "sutyenler", name: "Sütyen", slug: "sutyenler" },
+  { id: "kulotlar", name: "Külot", slug: "kulotlar" },
+  { id: "takimlar", name: "Takım", slug: "takimlar" },
+  { id: "gecelikler", name: "Gecelik", slug: "gecelikler" },
 ];
+
+const categoryEffects: NavEffect[] = ["stretch", "slide", "lift", "moon"];
 
 const announcements = [
   "300 TL üzeri ücretsiz kargo",
@@ -47,11 +42,18 @@ type CurrentUserResponse = {
   user: User | null;
 };
 
+type CategoryNavResponse = {
+  categories?: CategoryNavItem[];
+};
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
+  const [categoryNavItems, setCategoryNavItems] = useState<CategoryNavItem[]>(
+    fallbackCategoryNavItems
+  );
   const { itemCount } = useCart();
   const { count: wishlistCount } = useWishlist();
 
@@ -79,6 +81,41 @@ export default function Navbar() {
     return () =>
       window.removeEventListener("miss-bella-auth-changed", refreshCurrentUser);
   }, [refreshCurrentUser]);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadCategories() {
+      try {
+        const response = await fetch("/api/categories/nav");
+        if (!response.ok) return;
+        const data = (await response.json()) as CategoryNavResponse;
+        if (!cancelled && data.categories?.length) {
+          setCategoryNavItems(data.categories);
+        }
+      } catch {
+        if (!cancelled) setCategoryNavItems(fallbackCategoryNavItems);
+      }
+    }
+
+    void loadCategories();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const categoryItems: NavItem[] = categoryNavItems.slice(0, 4).map((category, index) => ({
+    label: category.name,
+    href: `/products?category=${category.slug}`,
+    category: category.slug,
+    effect: categoryEffects[index] ?? "stretch",
+  }));
+  const navItems: NavItem[] = [
+    { label: "Yeni Sezon", href: "/products?filter=new", filter: "new", effect: "pulse" },
+    ...categoryItems,
+    { label: "İndirim", href: "/products?filter=sale", filter: "sale", effect: "flash" },
+  ];
+  const splitIndex = Math.min(3, navItems.length);
 
   return (
     <>
@@ -111,7 +148,7 @@ export default function Navbar() {
           </button>
 
           <div className="hidden flex-1 items-center gap-9 md:flex">
-            {navItems.slice(0, 3).map((item) => (
+            {navItems.slice(0, splitIndex).map((item) => (
               <NavLink key={item.href} item={item} />
             ))}
           </div>
@@ -126,7 +163,7 @@ export default function Navbar() {
           </Link>
 
           <div className="hidden flex-1 items-center justify-end gap-9 md:flex">
-            {navItems.slice(3).map((item) => (
+            {navItems.slice(splitIndex).map((item) => (
               <NavLink key={item.href} item={item} />
             ))}
           </div>

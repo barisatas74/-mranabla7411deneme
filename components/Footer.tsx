@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
+import { useEffect, useState, type FormEvent } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -16,6 +16,7 @@ import {
   Lock,
 } from "lucide-react";
 import Container from "./Container";
+import { CategoryNavItem } from "@/types";
 
 const SOCIAL_LINKS: { Icon: LucideIcon; href: string; label: string }[] = [
   {
@@ -35,10 +36,58 @@ const SOCIAL_LINKS: { Icon: LucideIcon; href: string; label: string }[] = [
   },
 ].filter((item) => item.href !== "");
 
+const fallbackCategoryLinks: CategoryNavItem[] = [
+  { id: "sutyenler", name: "Sütyenler", slug: "sutyenler" },
+  { id: "kulotlar", name: "Külotlar", slug: "kulotlar" },
+  { id: "takimlar", name: "Takımlar", slug: "takimlar" },
+  { id: "gecelikler", name: "Gecelikler", slug: "gecelikler" },
+];
+
+type CategoryNavResponse = {
+  categories?: CategoryNavItem[];
+};
+
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [honey, setHoney] = useState("");
   const [status, setStatus] = useState<"idle" | "success" | "error">("idle");
+  const [categoryLinks, setCategoryLinks] = useState<CategoryNavItem[]>(
+    fallbackCategoryLinks
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadCategories() {
+      try {
+        const response = await fetch("/api/categories/nav");
+        if (!response.ok) return;
+        const data = (await response.json()) as CategoryNavResponse;
+        if (!cancelled && data.categories?.length) {
+          setCategoryLinks(data.categories);
+        }
+      } catch {
+        if (!cancelled) setCategoryLinks(fallbackCategoryLinks);
+      }
+    }
+
+    void loadCategories();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  const shoppingLinks: [string, string][] = [
+    ["Yeni Sezon", "/products?filter=new"],
+    ["Tüm Ürünler", "/products"],
+    ...categoryLinks
+      .slice(0, 6)
+      .map((category): [string, string] => [
+        category.name,
+        `/products?category=${category.slug}`,
+      ]),
+    ["İndirim", "/products?filter=sale"],
+  ];
 
   async function handleSubscribe(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -217,15 +266,7 @@ export default function Footer() {
         <FooterColumn
           className="md:col-span-2"
           title="Alışveriş"
-          links={[
-            ["Yeni Sezon", "/products?filter=new"],
-            ["Tüm Ürünler", "/products"],
-            ["Sütyenler", "/products?category=sutyenler"],
-            ["Külotlar", "/products?category=kulotlar"],
-            ["Takımlar", "/products?category=takimlar"],
-            ["Gecelikler", "/products?category=gecelikler"],
-            ["İndirim", "/products?filter=sale"],
-          ]}
+          links={shoppingLinks}
         />
         <FooterColumn
           className="md:col-span-2"

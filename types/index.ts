@@ -45,6 +45,12 @@ export type Category = {
   tagline?: string;
 };
 
+export type CategoryNavItem = {
+  id: string;
+  name: string;
+  slug: string;
+};
+
 export type ProductFilter = "all" | "new" | "sale";
 
 export type ProductSort = "featured" | "new" | "price-asc" | "price-desc";

@@ -4,7 +4,6 @@ import { useDeferredValue, useEffect, useMemo, useState } from "react";
 import Breadcrumb from "@/components/Breadcrumb";
 import Container from "@/components/Container";
 import ProductCard from "@/components/ProductCard";
-import { categories } from "@/data/categories";
 import {
   filterProducts,
   getAvailableColors,
@@ -12,16 +11,17 @@ import {
 } from "@/data/products";
 import { getProductPriceBounds } from "@/lib/commerce";
 import { cn, formatPrice } from "@/lib/utils";
-import { Product, ProductCategorySlug, ProductFilter, ProductSort } from "@/types";
+import { AdminCategory, Product, ProductFilter, ProductSort } from "@/types";
 import { ChevronDown, Search, SlidersHorizontal, X } from "lucide-react";
 
-type CategoryTab = ProductCategorySlug | "all";
+type CategoryTab = string;
 
 type ProductsCatalogProps = {
   initialCategory: CategoryTab;
   initialFilter: ProductFilter;
   initialSort: ProductSort;
   products: Product[];
+  categories: AdminCategory[];
 };
 
 const filterOptions: { label: string; value: ProductFilter }[] = [
@@ -35,6 +35,7 @@ export default function ProductsCatalog({
   initialFilter,
   initialSort,
   products,
+  categories,
 }: ProductsCatalogProps) {
   const priceBounds = useMemo(() => getProductPriceBounds(products), [products]);
   const allSizes = useMemo(() => getAvailableSizes(products), [products]);

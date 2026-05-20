@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import ProductsCatalog from "@/components/products/ProductsCatalog";
 import ComingSoon from "@/components/ComingSoon";
 import Breadcrumb from "@/components/Breadcrumb";
-import { isCategorySlug } from "@/data/categories";
-import { getStorefrontProducts } from "@/lib/storefront-data";
+import { getStorefrontCategories, getStorefrontProducts } from "@/lib/storefront-data";
 import { ProductFilter, ProductSort } from "@/types";
 
 export const dynamic = "force-dynamic";
@@ -35,7 +34,10 @@ function getSingleValue(value?: string | string[]) {
 }
 
 export default async function ProductsPage({ searchParams }: ProductsPageProps) {
-  const products = await getStorefrontProducts();
+  const [products, categories] = await Promise.all([
+    getStorefrontProducts(),
+    getStorefrontCategories(),
+  ]);
   if (products.length === 0) {
     return (
       <>
@@ -49,9 +51,11 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
   const categoryParam = getSingleValue(resolvedSearchParams?.category);
   const filterParam = getSingleValue(resolvedSearchParams?.filter);
   const sortParam = getSingleValue(resolvedSearchParams?.sort);
+  const visibleCategories = categories.filter((category) => category.status === "active");
+  const categorySlugs = new Set(visibleCategories.map((category) => category.slug));
 
   const initialCategory =
-    categoryParam && isCategorySlug(categoryParam) ? categoryParam : "all";
+    categoryParam && categorySlugs.has(categoryParam) ? categoryParam : "all";
   const initialFilter =
     filterParam && validFilters.has(filterParam as ProductFilter)
       ? (filterParam as ProductFilter)
@@ -67,6 +71,7 @@ export default async function ProductsPage({ searchParams }: ProductsPageProps) 
       initialFilter={initialFilter}
       initialSort={initialSort}
       products={products}
+      categories={visibleCategories}
     />
   );
 }

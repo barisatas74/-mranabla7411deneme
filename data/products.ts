@@ -99,7 +99,7 @@ export function sortProducts(items: Product[], sort: ProductSort) {
 }
 
 export function filterProducts(args: {
-  category?: Product["category"] | "all";
+  category?: string;
   filter?: ProductFilter;
   sort?: ProductSort;
   query?: string;

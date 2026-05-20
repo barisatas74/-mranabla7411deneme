@@ -276,25 +276,20 @@ body {
 
 /* Effect: moon — Gecelik */
 .nav-effect-moon {
-  padding-right: 1rem;
+  padding-right: 0.1rem;
+  border-bottom: 0;
+  text-decoration: none;
 }
 .nav-effect-moon::after {
-  content: "☾";
-  position: absolute;
-  right: 0;
-  font-size: 13px;
-  opacity: 0;
-  transform: rotate(-20deg) scale(0.7);
-  transition: opacity 0.45s cubic-bezier(0.2, 0.6, 0.2, 1),
-    transform 0.45s cubic-bezier(0.2, 0.6, 0.2, 1);
-  color: #ee2a8b;
+  display: none;
 }
 .nav-effect-moon:hover {
-  color: #1f1f22;
+  color: #ee2a8b;
+  border-bottom: 0;
+  text-decoration: none;
 }
 .nav-effect-moon:hover::after {
-  opacity: 1;
-  transform: rotate(0) scale(1);
+  display: none;
 }
 
 /* Effect: flash — İndirim */

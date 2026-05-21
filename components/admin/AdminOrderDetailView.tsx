@@ -13,7 +13,7 @@ import {
   PAYMENT_STATUS_OPTIONS,
   SHIPPING_STATUS_OPTIONS,
 } from "@/lib/admin";
-import { updateOrderStatusAction } from "@/lib/actions/admin";
+import { cancelOrderAction, updateOrderStatusAction } from "@/lib/actions/admin";
 import { formatPrice } from "@/lib/utils";
 import { AdminOrder } from "@/types";
 
@@ -29,6 +29,52 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
     order.trackingCarrier ?? ""
   );
   const [trackingUrl, setTrackingUrl] = useState(order.trackingUrl ?? "");
+  const [cancelModalOpen, setCancelModalOpen] = useState(false);
+  const [cancelReason, setCancelReason] = useState(
+    order.cancellationReason ?? ""
+  );
+  const [cancelling, setCancelling] = useState(false);
+  const isCancelled = status === "iptal-edildi";
+
+  async function handleCancel() {
+    if (cancelReason.trim().length < 3) {
+      toast({
+        title: "Eksik bilgi",
+        description: "Lütfen en az 3 karakterlik bir iptal nedeni yazın.",
+        variant: "error",
+      });
+      return;
+    }
+
+    setCancelling(true);
+    try {
+      const updated = await cancelOrderAction(order.id, cancelReason);
+      if (!updated) {
+        toast({
+          title: "Sipariş iptal edilemedi",
+          description: "Sipariş servisi yanıt vermedi.",
+          variant: "error",
+        });
+        return;
+      }
+      setStatus(updated.status);
+      setCancelModalOpen(false);
+      toast({
+        title: "Sipariş iptal edildi",
+        description: `${order.orderNumber} iptal edildi. Müşteriye bilgilendirme e-postası gönderildi.`,
+        variant: "success",
+      });
+    } catch (error) {
+      toast({
+        title: "Sipariş iptal edilemedi",
+        description:
+          error instanceof Error ? error.message : "Beklenmeyen bir hata oluştu.",
+        variant: "error",
+      });
+    } finally {
+      setCancelling(false);
+    }
+  }
 
   async function handleSave() {
     const updatedOrder = await updateOrderStatusAction(order.id, {
@@ -185,14 +231,41 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
                 </div>
               </div>
             </div>
-            <button
-              type="button"
-              onClick={handleSave}
-              className="mt-6 rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
-            >
-              Güncellemeyi Kaydet
-            </button>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={handleSave}
+                className="rounded-full bg-slate-950 px-5 py-3 text-sm font-medium text-white transition hover:bg-slate-800"
+              >
+                Güncellemeyi Kaydet
+              </button>
+              {!isCancelled && (
+                <button
+                  type="button"
+                  onClick={() => setCancelModalOpen(true)}
+                  className="rounded-full border border-red-200 bg-white px-5 py-3 text-sm font-medium text-red-600 transition hover:border-red-400 hover:bg-red-50"
+                >
+                  Siparişi İptal Et
+                </button>
+              )}
+            </div>
           </section>
+
+          {isCancelled && order.cancellationReason && (
+            <section className="rounded-[28px] border border-red-200 bg-red-50/60 p-6">
+              <p className="text-xs font-medium uppercase tracking-[0.25em] text-red-700">
+                İptal Edildi
+              </p>
+              {order.cancelledAt && (
+                <p className="mt-1 text-xs text-red-600/80">
+                  {formatAdminDate(order.cancelledAt)}
+                </p>
+              )}
+              <p className="mt-3 text-sm leading-7 text-red-900">
+                {order.cancellationReason}
+              </p>
+            </section>
+          )}
 
           <section className="rounded-[28px] border border-slate-200 bg-white p-6 shadow-sm">
             <h2 className="text-lg font-semibold text-slate-950">Finansal özet</h2>
@@ -215,6 +288,65 @@ export default function AdminOrderDetailView({ order }: { order: AdminOrder }) {
           </section>
         </div>
       </div>
+
+      {cancelModalOpen && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4"
+          onClick={() => !cancelling && setCancelModalOpen(false)}
+        >
+          <div
+            className="w-full max-w-md rounded-[24px] bg-white p-6 shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold text-slate-950">
+              Siparişi İptal Et
+            </h3>
+            <p className="mt-2 text-sm text-slate-600">
+              <strong>{order.orderNumber}</strong> numaralı sipariş iptal
+              edilecek. Müşteriye bilgilendirme e-postası gönderilecek ve
+              stoklar geri yüklenecek.
+            </p>
+
+            <label className="mt-5 block">
+              <span className="mb-2 block text-xs font-medium uppercase tracking-[0.2em] text-slate-700">
+                İptal Nedeni *
+              </span>
+              <textarea
+                value={cancelReason}
+                onChange={(e) => setCancelReason(e.target.value)}
+                rows={4}
+                maxLength={1000}
+                placeholder="Örn: Stokta kalmadı, müşteri vazgeçti, ödeme sorunu..."
+                disabled={cancelling}
+                className="w-full resize-none rounded-2xl border border-slate-200 bg-white px-4 py-3 text-sm outline-none transition focus:border-slate-950 focus:ring-2 focus:ring-slate-950/10 disabled:opacity-60"
+                autoFocus
+              />
+              <span className="mt-1 block text-right text-[11px] text-slate-400">
+                {cancelReason.length} / 1000
+              </span>
+            </label>
+
+            <div className="mt-6 flex items-center justify-end gap-3">
+              <button
+                type="button"
+                onClick={() => setCancelModalOpen(false)}
+                disabled={cancelling}
+                className="rounded-full px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:bg-slate-100 disabled:opacity-60"
+              >
+                Vazgeç
+              </button>
+              <button
+                type="button"
+                onClick={handleCancel}
+                disabled={cancelling || cancelReason.trim().length < 3}
+                className="rounded-full bg-red-600 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-red-700 disabled:opacity-60"
+              >
+                {cancelling ? "İptal Ediliyor..." : "Siparişi İptal Et"}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

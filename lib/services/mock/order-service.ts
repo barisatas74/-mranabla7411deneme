@@ -46,4 +46,20 @@ export const mockOrderService: OrderService = {
     setOrderStore(getOrderStore().map((item) => (item.id === id ? nextOrder : item)));
     return structuredClone(nextOrder);
   },
+
+  async cancel(id, reason) {
+    const existing = getOrderStore().find((item) => item.id === id);
+    if (!existing) return null;
+
+    const nextOrder: AdminOrder = {
+      ...existing,
+      status: "iptal-edildi",
+      cancellationReason: reason.trim() || undefined,
+      cancelledAt: existing.cancelledAt ?? new Date().toISOString(),
+    };
+    setOrderStore(
+      getOrderStore().map((item) => (item.id === id ? nextOrder : item))
+    );
+    return structuredClone(nextOrder);
+  },
 };

@@ -34,6 +34,7 @@ export interface OrderService {
     id: string,
     input: AdminOrderStatusUpdate
   ): Promise<AdminOrder | null>;
+  cancel(id: string, reason: string): Promise<AdminOrder | null>;
 }
 
 export interface SettingsService {

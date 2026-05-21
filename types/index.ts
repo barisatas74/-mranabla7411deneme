@@ -187,6 +187,8 @@ export type AdminOrder = {
   trackingNumber?: string;
   trackingCarrier?: string;
   trackingUrl?: string;
+  cancellationReason?: string;
+  cancelledAt?: string;
 };
 
 export type AdminOrderStatusUpdate = Pick<

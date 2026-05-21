@@ -141,6 +141,55 @@ export async function updateOrderStatusAction(
   return order;
 }
 
+export async function cancelOrderAction(id: string, reason: string) {
+  await ensureAdmin();
+
+  const trimmedReason = reason.trim();
+  if (trimmedReason.length < 3) {
+    throw new Error("Lütfen en az 3 karakterlik bir iptal nedeni yazın.");
+  }
+  if (trimmedReason.length > 1000) {
+    throw new Error("İptal nedeni 1000 karakteri aşamaz.");
+  }
+
+  const order = await orderService.cancel(id, trimmedReason);
+  if (!order) {
+    throw new Error("Sipariş bulunamadı veya iptal edilemedi.");
+  }
+
+  // E-posta bildirimi (stub — RESEND_API_KEY yoksa sessizce loglar)
+  // İçe import: server-only modüller server action içinde yüklenebilir.
+  try {
+    const [{ sendEmail }, { orderStatusUpdateEmail }] = await Promise.all([
+      import("@/lib/email"),
+      import("@/lib/email-templates"),
+    ]);
+
+    const tpl = orderStatusUpdateEmail({
+      orderNumber: order.orderNumber,
+      customerName: `${order.customer.firstName} ${order.customer.lastName}`.trim(),
+      status: "Siparişiniz İptal Edildi",
+      message: `Siparişiniz aşağıdaki nedenle iptal edilmiştir:\n\n"${trimmedReason}"\n\nÖdemeniz alındıysa 5-10 iş günü içinde iade edilecektir. Sorularınız için bize ulaşabilirsiniz.`,
+    });
+
+    await sendEmail({
+      to: order.customer.email,
+      subject: tpl.subject,
+      html: tpl.html,
+      text: tpl.text,
+    });
+  } catch (error) {
+    // E-posta gönderimi başarısız olursa iptali geri alma — sadece logla.
+    console.error("[cancelOrderAction] e-posta gönderilemedi:", error);
+  }
+
+  revalidatePath("/admin/orders");
+  revalidatePath(`/admin/orders/${id}`);
+  revalidatePath("/hesabim");
+  revalidatePath(`/hesabim/siparis/${order.orderNumber}`);
+  return order;
+}
+
 // -----------------------------------------------------------------------------
 // Uye aksiyonlari
 // -----------------------------------------------------------------------------

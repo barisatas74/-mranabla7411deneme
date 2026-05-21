@@ -38,6 +38,8 @@ type OrderRow = RowDataPacket & {
   tracking_number: string | null;
   tracking_carrier: string | null;
   tracking_url: string | null;
+  cancellation_reason: string | null;
+  cancelled_at: string | null;
   created_at: string;
   updated_at: string;
 };
@@ -81,6 +83,8 @@ function rowToOrder(row: OrderRow, items: AdminOrderItem[]): AdminOrder {
     trackingNumber: row.tracking_number ?? undefined,
     trackingCarrier: row.tracking_carrier ?? undefined,
     trackingUrl: row.tracking_url ?? undefined,
+    cancellationReason: row.cancellation_reason ?? undefined,
+    cancelledAt: row.cancelled_at ? parseDate(row.cancelled_at) : undefined,
   };
 }
 
@@ -260,6 +264,50 @@ export const mysqlOrderService: OrderService = {
             [item.quantity, item.productId]
           );
         }
+      }
+    }
+
+    return mysqlOrderService.getById(id);
+  },
+
+  async cancel(id, reason) {
+    const db = getDb();
+
+    const existing = await mysqlOrderService.getById(id);
+    if (!existing) return null;
+
+    // Zaten iptal edilmişse — sadece sebebi güncelle, stok dokunma
+    if (existing.status === "iptal-edildi") {
+      await db.execute(
+        `UPDATE orders
+           SET cancellation_reason = ?,
+               cancelled_at = COALESCE(cancelled_at, NOW())
+         WHERE id = ?`,
+        [reason.trim() || null, id]
+      );
+      return mysqlOrderService.getById(id);
+    }
+
+    // Status'u iptal'e çek + sebep + tarih
+    const [result] = await db.execute(
+      `UPDATE orders
+         SET status = 'iptal-edildi',
+             cancellation_reason = ?,
+             cancelled_at = NOW()
+       WHERE id = ?`,
+      [reason.trim() || null, id]
+    );
+
+    const affected = (result as { affectedRows?: number }).affectedRows ?? 0;
+    if (affected === 0) return null;
+
+    // Stokları geri yükle
+    for (const item of existing.items) {
+      if (item.productId) {
+        await db.execute(
+          `UPDATE products SET stock = stock + ? WHERE id = ?`,
+          [item.quantity, item.productId]
+        );
       }
     }
 

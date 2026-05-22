@@ -210,7 +210,7 @@ export default function CheckoutClient({
     setSubmitError(null);
 
     try {
-      const created = await placeOrderAction({
+      const result = await placeOrderAction({
         customer: {
           firstName: formData.firstName,
           lastName: formData.lastName,
@@ -239,16 +239,21 @@ export default function CheckoutClient({
         shippingMethod: formData.shippingMethod,
       });
 
-      if (!created) {
-        setSubmitError(
-          "Sipariş kaydedilemedi. Lütfen tekrar deneyin veya bizimle iletişime geçin."
-        );
+      if (!result.ok) {
+        setSubmitError(result.message);
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
         return;
       }
 
       const order: PlacedOrder = {
-        orderNumber: created.orderNumber,
-        summary,
+        orderNumber: result.order.orderNumber,
+        summary: {
+          ...summary,
+          subtotal: result.order.subtotal,
+          shipping: result.order.shippingFee,
+          discount: result.order.discount,
+          total: result.order.total,
+        },
         customerName: `${formData.firstName} ${formData.lastName}`.trim(),
         lines,
       };

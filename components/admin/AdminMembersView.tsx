@@ -1,11 +1,13 @@
 "use client";
 
-import { useMemo, useState, useTransition } from "react";
+import { FormEvent, useMemo, useState, useTransition } from "react";
 import Link from "next/link";
 import {
   BadgeCheck,
   Ban,
   Download,
+  Gift,
+  Save,
   Search,
   ShoppingBag,
   Sparkles,
@@ -21,10 +23,19 @@ import {
   useAdminConfirm,
   useAdminToast,
 } from "@/components/admin/feedback/AdminFeedbackProvider";
-import { bulkUpdateMemberStatusAction } from "@/lib/actions/admin";
+import {
+  bulkUpdateMemberStatusAction,
+  updateGeneralCouponStatusAction,
+  upsertGeneralCouponAction,
+} from "@/lib/actions/admin";
 import { formatAdminDate } from "@/lib/admin";
 import { cn, formatPrice } from "@/lib/utils";
-import { AdminMemberSummary, UserStatus } from "@/types";
+import {
+  AdminCoupon,
+  AdminMemberSummary,
+  CouponStatus,
+  UserStatus,
+} from "@/types";
 
 const statusLabels: Record<UserStatus, string> = {
   active: "Aktif",
@@ -33,12 +44,20 @@ const statusLabels: Record<UserStatus, string> = {
 
 export default function AdminMembersView({
   initialMembers,
+  initialCoupons,
 }: {
   initialMembers: AdminMemberSummary[];
+  initialCoupons: AdminCoupon[];
 }) {
   const toast = useAdminToast();
   const confirm = useAdminConfirm();
   const [members, setMembers] = useState(initialMembers);
+  const [coupons, setCoupons] = useState(initialCoupons);
+  const [couponCode, setCouponCode] = useState("");
+  const [couponRate, setCouponRate] = useState("15");
+  const [couponStatus, setCouponStatus] = useState<CouponStatus>("active");
+  const [couponUsageLimit, setCouponUsageLimit] = useState("");
+  const [couponExpiresAt, setCouponExpiresAt] = useState("");
   const [query, setQuery] = useState("");
   const [status, setStatus] = useState<"all" | UserStatus>("all");
   const [segment, setSegment] = useState("all");
@@ -48,6 +67,10 @@ export default function AdminMembersView({
   const segments = useMemo(
     () => Array.from(new Set(members.map((member) => member.segment))).sort(),
     [members]
+  );
+  const generalCoupons = useMemo(
+    () => coupons.filter((coupon) => !coupon.assignedUserId),
+    [coupons]
   );
 
   const filteredMembers = useMemo(() => {
@@ -149,6 +172,98 @@ export default function AdminMembersView({
     });
   }
 
+  function handleGeneralCouponSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const code = couponCode.trim().toUpperCase();
+    if (!code) {
+      toast({
+        title: "Kupon kodu gerekli",
+        description: "Genel kupon için kullanmak istediğiniz kodu yazın.",
+        variant: "error",
+      });
+      return;
+    }
+
+    startTransition(async () => {
+      try {
+        const savedCoupon = await upsertGeneralCouponAction({
+          code,
+          discountRate: Math.floor(Number(couponRate) || 15),
+          status: couponStatus,
+          usageLimit: couponUsageLimit
+            ? Math.floor(Number(couponUsageLimit) || 0)
+            : undefined,
+          expiresAt: couponExpiresAt || undefined,
+        });
+        if (!savedCoupon) {
+          throw new Error("Kupon kaydedilemedi.");
+        }
+        setCoupons((current) => {
+          const exists = current.some((coupon) => coupon.id === savedCoupon.id);
+          if (exists) {
+            return current.map((coupon) =>
+              coupon.id === savedCoupon.id ? savedCoupon : coupon
+            );
+          }
+          return [savedCoupon, ...current];
+        });
+        setCouponCode("");
+        setCouponRate("15");
+        setCouponStatus("active");
+        setCouponUsageLimit("");
+        setCouponExpiresAt("");
+        toast({
+          title: "Genel kupon kaydedildi",
+          description: `${savedCoupon.code} artık tüm müşteriler tarafından kullanılabilir.`,
+          variant: "success",
+        });
+      } catch (error) {
+        toast({
+          title: "Kupon kaydedilemedi",
+          description:
+            error instanceof Error ? error.message : "Lütfen bilgileri kontrol edin.",
+          variant: "error",
+        });
+      }
+    });
+  }
+
+  function handleCouponEdit(coupon: AdminCoupon) {
+    setCouponCode(coupon.code);
+    setCouponRate(String(coupon.discountRate));
+    setCouponStatus(coupon.status);
+    setCouponUsageLimit(coupon.usageLimit ? String(coupon.usageLimit) : "");
+    setCouponExpiresAt(coupon.expiresAt ? coupon.expiresAt.slice(0, 10) : "");
+  }
+
+  function handleGeneralCouponStatus(coupon: AdminCoupon, status: CouponStatus) {
+    startTransition(async () => {
+      try {
+        const updatedCoupon = await updateGeneralCouponStatusAction(coupon, status);
+        if (!updatedCoupon) {
+          throw new Error("Kupon bulunamadı.");
+        }
+        setCoupons((current) =>
+          current.map((item) =>
+            item.id === updatedCoupon.id ? updatedCoupon : item
+          )
+        );
+        toast({
+          title: status === "active" ? "Kupon aktif edildi" : "Kupon durduruldu",
+          description: `${updatedCoupon.code} güncellendi.`,
+          variant: "success",
+        });
+      } catch (error) {
+        toast({
+          title: "Kupon güncellenemedi",
+          description:
+            error instanceof Error ? error.message : "Lütfen tekrar deneyin.",
+          variant: "error",
+        });
+      }
+    });
+  }
+
   function exportCsv() {
     const rows = filteredMembers.map((member) => ({
       ad: `${member.firstName} ${member.lastName}`,
@@ -233,6 +348,179 @@ export default function AdminMembersView({
           isCurrency
         />
       </div>
+
+      <section className="rounded-[28px] border border-slate-200 bg-white shadow-sm">
+        <div className="grid gap-6 p-6 xl:grid-cols-[minmax(0,420px)_minmax(0,1fr)]">
+          <div>
+            <div className="flex items-center gap-3">
+              <span className="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-rose-50 text-rose-600">
+                <Gift size={18} />
+              </span>
+              <div>
+                <h2 className="text-lg font-semibold text-slate-950">
+                  Genel kupon
+                </h2>
+                <p className="mt-1 text-sm text-slate-500">
+                  Buraya yazdığınız kodu tüm müşteriler kullanabilir.
+                </p>
+              </div>
+            </div>
+
+            <form onSubmit={handleGeneralCouponSubmit} className="mt-5 space-y-4">
+              <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_110px]">
+                <label className="space-y-2">
+                  <span className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
+                    Kod
+                  </span>
+                  <input
+                    value={couponCode}
+                    onChange={(event) => setCouponCode(event.target.value)}
+                    placeholder="Örn: MAYIS30"
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm uppercase outline-none transition focus:border-slate-950"
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
+                    İndirim %
+                  </span>
+                  <input
+                    type="number"
+                    min={5}
+                    max={50}
+                    value={couponRate}
+                    onChange={(event) => setCouponRate(event.target.value)}
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-950"
+                  />
+                </label>
+              </div>
+
+              <div className="grid gap-3 sm:grid-cols-3">
+                <label className="space-y-2">
+                  <span className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
+                    Durum
+                  </span>
+                  <select
+                    value={couponStatus}
+                    onChange={(event) =>
+                      setCouponStatus(event.target.value as CouponStatus)
+                    }
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-950"
+                  >
+                    <option value="active">Aktif</option>
+                    <option value="passive">Pasif</option>
+                  </select>
+                </label>
+                <label className="space-y-2">
+                  <span className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
+                    Limit
+                  </span>
+                  <input
+                    type="number"
+                    min={1}
+                    value={couponUsageLimit}
+                    onChange={(event) => setCouponUsageLimit(event.target.value)}
+                    placeholder="Sınırsız"
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-950"
+                  />
+                </label>
+                <label className="space-y-2">
+                  <span className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
+                    Bitiş
+                  </span>
+                  <input
+                    type="date"
+                    value={couponExpiresAt}
+                    onChange={(event) => setCouponExpiresAt(event.target.value)}
+                    className="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-950"
+                  />
+                </label>
+              </div>
+
+              <button
+                type="submit"
+                disabled={pending}
+                className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-60"
+              >
+                <Save size={15} />
+                Genel Kuponu Kaydet
+              </button>
+            </form>
+          </div>
+
+          <div className="overflow-hidden rounded-[24px] border border-slate-200">
+            <div className="border-b border-slate-200 bg-slate-50 px-5 py-4">
+              <h3 className="text-sm font-semibold text-slate-950">
+                Aktif genel kodlar
+              </h3>
+              <p className="mt-1 text-xs text-slate-500">
+                Üyeye özel olmayan kuponlar burada görünür.
+              </p>
+            </div>
+            {generalCoupons.length > 0 ? (
+              <div className="divide-y divide-slate-100">
+                {generalCoupons.slice(0, 6).map((coupon) => (
+                  <div
+                    key={coupon.id}
+                    className="flex flex-wrap items-center justify-between gap-3 px-5 py-4"
+                  >
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2">
+                        <span className="font-mono text-sm font-semibold text-slate-950">
+                          {coupon.code}
+                        </span>
+                        <AdminStatusBadge
+                          value={coupon.status}
+                          label={coupon.status === "active" ? "Aktif" : "Pasif"}
+                        />
+                      </div>
+                      <p className="mt-1 text-xs text-slate-500">
+                        %{coupon.discountRate} indirim
+                        {coupon.usageLimit
+                          ? ` · ${coupon.usedCount}/${coupon.usageLimit} kullanım`
+                          : " · sınırsız kullanım"}
+                        {coupon.expiresAt
+                          ? ` · ${formatAdminDate(coupon.expiresAt)} bitiş`
+                          : ""}
+                      </p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => handleCouponEdit(coupon)}
+                        className="rounded-full border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-700 transition hover:border-slate-950 hover:text-slate-950"
+                      >
+                        Düzenle
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          handleGeneralCouponStatus(
+                            coupon,
+                            coupon.status === "active" ? "passive" : "active"
+                          )
+                        }
+                        disabled={pending}
+                        className={cn(
+                          "rounded-full px-3 py-1.5 text-xs font-medium text-white transition disabled:opacity-60",
+                          coupon.status === "active"
+                            ? "bg-rose-600 hover:bg-rose-700"
+                            : "bg-slate-950 hover:bg-slate-800"
+                        )}
+                      >
+                        {coupon.status === "active" ? "Pasifleştir" : "Aktif Et"}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="px-5 py-8 text-sm text-slate-500">
+                Henüz genel kupon yok.
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
 
       <div className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_220px_220px]">
         <div className="relative">

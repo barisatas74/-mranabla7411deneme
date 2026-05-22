@@ -5,7 +5,6 @@ import Link from "next/link";
 import {
   BadgeCheck,
   Ban,
-  Gift,
   Mail,
   MapPin,
   PackagePlus,
@@ -45,11 +44,6 @@ const statusLabels: Record<UserStatus, string> = {
 
 const adminInputClass =
   "w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-sm outline-none transition focus:border-slate-950";
-
-function buildCouponCode(memberId: string, rate: number) {
-  const suffix = memberId.replace(/[^a-z0-9]/gi, "").slice(-6).toUpperCase();
-  return `MB${rate}-${suffix || "OZEL"}`;
-}
 
 export default function AdminMemberDetailView({
   member,
@@ -142,12 +136,6 @@ export default function AdminMemberDetailView({
         variant: "success",
       });
     });
-  }
-
-  function handleCouponGenerate() {
-    const rate = Math.max(5, Math.min(50, Math.floor(Number(couponRate) || 15)));
-    setCouponRate(String(rate));
-    setCouponCode(buildCouponCode(currentMember.id, rate));
   }
 
   function handleCrmSave() {
@@ -388,21 +376,12 @@ export default function AdminMemberDetailView({
                   />
                 </Field>
                 <Field label="Özel kupon">
-                  <div className="flex gap-2">
-                    <input
-                      value={couponCode}
-                      onChange={(event) => setCouponCode(event.target.value)}
-                      placeholder="Kupon yok"
-                      className={adminInputClass}
-                    />
-                    <button
-                      type="button"
-                      onClick={handleCouponGenerate}
-                      className="inline-flex items-center gap-2 rounded-2xl border border-slate-200 px-3 text-sm font-medium text-slate-950 transition hover:border-slate-950"
-                    >
-                      <Gift size={15} />
-                    </button>
-                  </div>
+                  <input
+                    value={couponCode}
+                    onChange={(event) => setCouponCode(event.target.value)}
+                    placeholder="Örn: VIP30"
+                    className={adminInputClass}
+                  />
                 </Field>
               </div>
             </div>

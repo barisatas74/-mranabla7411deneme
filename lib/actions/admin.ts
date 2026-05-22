@@ -20,6 +20,8 @@ import {
 import { ADMIN_COOKIE_NAME } from "@/lib/admin-auth";
 import {
   AdminCategoryInput,
+  AdminCoupon,
+  AdminCouponInput,
   AdminMemberCrmInput,
   AdminMemberManualOrderInput,
   AdminOrderStatusUpdate,
@@ -267,6 +269,64 @@ export async function bulkUpdateMemberStatusAction(
     revalidatePath(`/admin/members/${id}`);
   }
   return members.filter((member) => member !== null);
+}
+
+// -----------------------------------------------------------------------------
+// Kupon aksiyonlari
+// -----------------------------------------------------------------------------
+export async function upsertGeneralCouponAction(
+  input: Omit<AdminCouponInput, "assignedUserId">
+) {
+  await ensureAdmin();
+  const code = input.code.trim().toUpperCase();
+  if (!code) {
+    throw new Error("Kupon kodu boş olamaz.");
+  }
+
+  const couponInput: AdminCouponInput = {
+    ...input,
+    code,
+    assignedUserId: undefined,
+    usageLimit:
+      input.usageLimit != null && Number.isFinite(Number(input.usageLimit))
+        ? Math.max(1, Math.floor(Number(input.usageLimit)))
+        : undefined,
+    expiresAt: input.expiresAt?.trim() || undefined,
+  };
+  const existingCoupon = await couponService.getByCode(code);
+
+  if (existingCoupon?.assignedUserId) {
+    throw new Error("Bu kupon kodu üyeye özel tanımlanmış.");
+  }
+
+  const coupon = existingCoupon
+    ? await couponService.update(existingCoupon.id, couponInput)
+    : await couponService.create(couponInput);
+
+  revalidatePath("/admin/members");
+  return coupon;
+}
+
+export async function updateGeneralCouponStatusAction(
+  coupon: AdminCoupon,
+  status: AdminCoupon["status"]
+) {
+  await ensureAdmin();
+  if (coupon.assignedUserId) {
+    throw new Error("Üyeye özel kupon buradan güncellenemez.");
+  }
+
+  const updated = await couponService.update(coupon.id, {
+    code: coupon.code,
+    discountRate: coupon.discountRate,
+    status,
+    assignedUserId: undefined,
+    usageLimit: coupon.usageLimit,
+    expiresAt: coupon.expiresAt,
+  });
+
+  revalidatePath("/admin/members");
+  return updated;
 }
 
 export async function createMemberManualOrderAction(

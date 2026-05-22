@@ -86,7 +86,8 @@ export default function CheckoutClient({
   currentUser: User | null;
   savedAddresses?: UserAddress[];
 }) {
-  const { lines, couponCode, clearCart, isHydrated } = useCart();
+  const { lines, couponCode, couponDiscountRate, clearCart, isHydrated } =
+    useCart();
   const initialDefaultId =
     savedAddresses.find((a) => a.isDefault)?.id ?? savedAddresses[0]?.id ?? null;
   const [selectedAddressId, setSelectedAddressId] = useState<string | null>(
@@ -136,9 +137,10 @@ export default function CheckoutClient({
     () =>
       getCartSummary(lines, {
         couponCode,
+        couponDiscountRate,
         shippingMethod: formData.shippingMethod,
       }),
-    [couponCode, formData.shippingMethod, lines]
+    [couponCode, couponDiscountRate, formData.shippingMethod, lines]
   );
 
   function updateField<K extends keyof CheckoutFormData>(
@@ -606,6 +608,7 @@ export default function CheckoutClient({
               {SHIPPING_METHODS.map((method) => {
                 const shippingPrice = getCartSummary(lines, {
                   couponCode,
+                  couponDiscountRate,
                   shippingMethod: method.id,
                 }).shipping;
 

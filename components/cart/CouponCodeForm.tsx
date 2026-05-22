@@ -1,13 +1,10 @@
 "use client";
 
-import { FormEvent, useEffect, useState } from "react";
+import { FormEvent, useEffect, useState, useTransition } from "react";
 import { Tag, X } from "lucide-react";
 import { useCart } from "@/components/CartContext";
-import {
-  DEFAULT_COUPON_CODE,
-  getCouponDiscountRate,
-  normalizeCouponCode,
-} from "@/lib/commerce";
+import { validateCouponAction } from "@/lib/actions/coupons";
+import { DEFAULT_COUPON_CODE, normalizeCouponCode } from "@/lib/commerce";
 import { cn } from "@/lib/utils";
 
 export default function CouponCodeForm({
@@ -18,6 +15,7 @@ export default function CouponCodeForm({
   const { couponCode, applyCoupon, removeCoupon } = useCart();
   const [input, setInput] = useState(couponCode ?? "");
   const [feedback, setFeedback] = useState<string | null>(null);
+  const [pending, startTransition] = useTransition();
 
   useEffect(() => {
     setInput(couponCode ?? "");
@@ -26,14 +24,18 @@ export default function CouponCodeForm({
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const normalizedCode = normalizeCouponCode(input);
-    const isValid = applyCoupon(normalizedCode);
-    const rate = Math.round(getCouponDiscountRate(normalizedCode) * 100);
 
-    setFeedback(
-      isValid
-        ? `${normalizedCode} uygulandı, %${rate} indirim hesaba katıldı.`
-        : "Kupon kodu geçersiz veya tanımsız."
-    );
+    startTransition(async () => {
+      const result = await validateCouponAction(normalizedCode);
+      if (!result.ok || !result.code || !result.discountRate) {
+        removeCoupon();
+        setFeedback(result.message);
+        return;
+      }
+
+      applyCoupon(result.code, result.discountRate);
+      setFeedback(result.message);
+    });
   }
 
   function handleRemove() {
@@ -62,9 +64,10 @@ export default function CouponCodeForm({
             />
             <button
               type="submit"
+              disabled={pending}
               className="border border-ink-900 bg-ink-900 px-4 py-2.5 text-[10px] font-medium uppercase tracking-editorial text-white transition hover:bg-rose-600"
             >
-              Uygula
+              {pending ? "Kontrol" : "Uygula"}
             </button>
             {couponCode && (
               <button

@@ -59,17 +59,18 @@ export const DEFAULT_COUPON_DISCOUNT_RATE = 0.3;
 export function getCouponDiscountRate(code: string | null | undefined) {
   const normalized = normalizeCouponCode(code);
   if (normalized === DEFAULT_COUPON_CODE) return DEFAULT_COUPON_DISCOUNT_RATE;
-
-  const match = /^MB(\d{1,2})-[A-Z0-9]{4,}$/.exec(normalized);
-  if (!match) return 0;
-
-  const rate = Number(match[1]);
-  if (!Number.isFinite(rate) || rate < 5 || rate > 50) return 0;
-  return rate / 100;
+  return 0;
 }
 
-export function getDiscountAmount(subtotal: number, couponCode?: string | null) {
-  const rate = getCouponDiscountRate(couponCode);
+export function getDiscountAmount(
+  subtotal: number,
+  couponCode?: string | null,
+  couponDiscountRate?: number | null
+) {
+  const rate =
+    couponDiscountRate != null && Number.isFinite(Number(couponDiscountRate))
+      ? Number(couponDiscountRate) / 100
+      : getCouponDiscountRate(couponCode);
   return rate > 0 ? Math.round(subtotal * rate) : 0;
 }
 
@@ -77,6 +78,7 @@ export function getCartSummary(
   lines: CartLine[],
   options?: {
     couponCode?: string | null;
+    couponDiscountRate?: number | null;
     shippingMethod?: ShippingMethod;
   }
 ) {
@@ -86,7 +88,11 @@ export function getCartSummary(
   );
   const itemCount = lines.reduce((total, line) => total + line.quantity, 0);
   const shipping = getShippingPrice(subtotal, options?.shippingMethod);
-  const discount = getDiscountAmount(subtotal, options?.couponCode);
+  const discount = getDiscountAmount(
+    subtotal,
+    options?.couponCode,
+    options?.couponDiscountRate
+  );
   const total = Math.max(0, subtotal + shipping - discount);
   const remainingForFreeShipping = Math.max(0, FREE_SHIPPING_LIMIT - subtotal);
   const includedTax = Math.round((total * TAX_RATE) / (1 + TAX_RATE));

@@ -10,10 +10,7 @@ import {
   useState,
   type ReactNode,
 } from "react";
-import {
-  isCouponValid,
-  normalizeCouponCode,
-} from "@/lib/commerce";
+import { normalizeCouponCode } from "@/lib/commerce";
 import { CartItem, CartLine, Product } from "@/types";
 
 const STORAGE_KEY = "miss-bella-cart";
@@ -21,6 +18,7 @@ const STORAGE_KEY = "miss-bella-cart";
 type StoredCartState = {
   items: CartItem[];
   couponCode: string | null;
+  couponDiscountRate: number | null;
 };
 
 type ToastState = { line: CartLine } | null;
@@ -37,12 +35,13 @@ type CartContextValue = {
   itemCount: number;
   subtotal: number;
   couponCode: string | null;
+  couponDiscountRate: number | null;
   isHydrated: boolean;
   addItem: (args: AddItemArgs) => void;
   updateItemQuantity: (lineId: string, quantity: number) => void;
   removeItem: (lineId: string) => void;
   clearCart: () => void;
-  applyCoupon: (code: string) => boolean;
+  applyCoupon: (code: string, discountRate: number) => void;
   removeCoupon: () => void;
   toast: ToastState;
   dismissToast: () => void;
@@ -91,26 +90,37 @@ function normalizeStoredState(value: unknown): StoredCartState {
     return {
       items: normalizeStoredItems(value),
       couponCode: null,
+      couponDiscountRate: null,
     };
   }
 
   if (!value || typeof value !== "object") {
-    return { items: [], couponCode: null };
+    return { items: [], couponCode: null, couponDiscountRate: null };
   }
 
   const storedValue = value as {
     items?: unknown;
     couponCode?: unknown;
+    couponDiscountRate?: unknown;
   };
 
   const rawCouponCode =
     typeof storedValue.couponCode === "string"
       ? normalizeCouponCode(storedValue.couponCode)
       : "";
+  const rawDiscountRate =
+    typeof storedValue.couponDiscountRate === "number"
+      ? storedValue.couponDiscountRate
+      : 0;
+  const couponDiscountRate =
+    rawCouponCode && rawDiscountRate > 0 && rawDiscountRate <= 100
+      ? rawDiscountRate
+      : null;
 
   return {
     items: normalizeStoredItems(storedValue.items),
-    couponCode: isCouponValid(rawCouponCode) ? rawCouponCode : null,
+    couponCode: couponDiscountRate ? rawCouponCode : null,
+    couponDiscountRate,
   };
 }
 
@@ -121,6 +131,7 @@ function hydrateLines(items: CartItem[]): CartLine[] {
 export function CartProvider({ children }: { children: ReactNode }) {
   const [items, setItems] = useState<CartItem[]>([]);
   const [couponCode, setCouponCode] = useState<string | null>(null);
+  const [couponDiscountRate, setCouponDiscountRate] = useState<number | null>(null);
   const [isHydrated, setIsHydrated] = useState(false);
   const [toast, setToast] = useState<ToastState>(null);
   const toastTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -132,9 +143,11 @@ export function CartProvider({ children }: { children: ReactNode }) {
       const normalized = normalizeStoredState(parsed);
       setItems(normalized.items);
       setCouponCode(normalized.couponCode);
+      setCouponDiscountRate(normalized.couponDiscountRate);
     } catch {
       setItems([]);
       setCouponCode(null);
+      setCouponDiscountRate(null);
     } finally {
       setIsHydrated(true);
     }
@@ -148,9 +161,10 @@ export function CartProvider({ children }: { children: ReactNode }) {
     const payload: StoredCartState = {
       items,
       couponCode,
+      couponDiscountRate,
     };
     window.localStorage.setItem(STORAGE_KEY, JSON.stringify(payload));
-  }, [couponCode, isHydrated, items]);
+  }, [couponCode, couponDiscountRate, isHydrated, items]);
 
   useEffect(() => {
     return () => {
@@ -250,17 +264,19 @@ export function CartProvider({ children }: { children: ReactNode }) {
   const clearCart = useCallback(() => {
     setItems([]);
     setCouponCode(null);
+    setCouponDiscountRate(null);
   }, []);
 
-  const applyCoupon = useCallback((code: string) => {
+  const applyCoupon = useCallback((code: string, discountRate: number) => {
     const normalizedCode = normalizeCouponCode(code);
-    const isValid = isCouponValid(normalizedCode);
-    setCouponCode(isValid ? normalizedCode : null);
-    return isValid;
+    const normalizedRate = Math.max(0, Math.min(100, Number(discountRate) || 0));
+    setCouponCode(normalizedCode && normalizedRate > 0 ? normalizedCode : null);
+    setCouponDiscountRate(normalizedCode && normalizedRate > 0 ? normalizedRate : null);
   }, []);
 
   const removeCoupon = useCallback(() => {
     setCouponCode(null);
+    setCouponDiscountRate(null);
   }, []);
 
   const value = useMemo<CartContextValue>(
@@ -269,6 +285,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       itemCount,
       subtotal,
       couponCode,
+      couponDiscountRate,
       isHydrated,
       addItem,
       updateItemQuantity,
@@ -284,6 +301,7 @@ export function CartProvider({ children }: { children: ReactNode }) {
       applyCoupon,
       clearCart,
       couponCode,
+      couponDiscountRate,
       dismissToast,
       isHydrated,
       itemCount,

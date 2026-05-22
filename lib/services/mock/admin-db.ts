@@ -16,7 +16,17 @@ let productStore: AdminProduct[] = structuredClone(seedProducts);
 let categoryStore: AdminCategory[] = structuredClone(seedCategories);
 let orderStore: AdminOrder[] = structuredClone(seedOrders);
 let settingsStore: AdminSettings = structuredClone(seedSettings);
-let couponStore: AdminCoupon[] = [];
+let couponStore: AdminCoupon[] = [
+  {
+    id: "c-default-rosa30",
+    code: "ROSA30",
+    discountRate: 30,
+    status: "active",
+    usedCount: 0,
+    createdAt: new Date().toISOString(),
+    updatedAt: new Date().toISOString(),
+  },
+];
 
 export function getProductStore() {
   return productStore;

@@ -180,6 +180,11 @@ CREATE TABLE `coupons` (
   KEY `idx_coupons_expires` (`expires_at`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+INSERT INTO `coupons`
+  (`id`, `code`, `discount_rate`, `status`, `assigned_user_id`, `usage_limit`, `expires_at`)
+VALUES
+  ('c-default-rosa30', 'ROSA30', 30.00, 'active', NULL, NULL, NULL);
+
 -- -----------------------------------------------------------------------------
 -- 7) Bulten abonelikleri (opsiyonel — footer formu icin)
 -- -----------------------------------------------------------------------------

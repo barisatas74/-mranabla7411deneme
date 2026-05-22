@@ -26,13 +26,14 @@ export default function CartView() {
     lines,
     itemCount,
     couponCode,
+    couponDiscountRate,
     isHydrated,
     updateItemQuantity,
     removeItem,
     clearCart,
   } = useCart();
 
-  const summary = getCartSummary(lines, { couponCode });
+  const summary = getCartSummary(lines, { couponCode, couponDiscountRate });
 
   if (!isHydrated) {
     return (

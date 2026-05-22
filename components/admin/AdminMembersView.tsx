@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useMemo, useState, useTransition } from "react";
+import { FormEvent, useMemo, useRef, useState, useTransition } from "react";
 import Link from "next/link";
 import {
   BadgeCheck,
@@ -25,6 +25,7 @@ import {
 } from "@/components/admin/feedback/AdminFeedbackProvider";
 import {
   bulkUpdateMemberStatusAction,
+  updateGeneralCouponAction,
   updateGeneralCouponStatusAction,
   upsertGeneralCouponAction,
 } from "@/lib/actions/admin";
@@ -51,8 +52,10 @@ export default function AdminMembersView({
 }) {
   const toast = useAdminToast();
   const confirm = useAdminConfirm();
+  const generalCouponFormRef = useRef<HTMLFormElement>(null);
   const [members, setMembers] = useState(initialMembers);
   const [coupons, setCoupons] = useState(initialCoupons);
+  const [editingCouponId, setEditingCouponId] = useState<string | null>(null);
   const [couponCode, setCouponCode] = useState("");
   const [couponRate, setCouponRate] = useState("15");
   const [couponStatus, setCouponStatus] = useState<CouponStatus>("active");
@@ -186,7 +189,7 @@ export default function AdminMembersView({
 
     startTransition(async () => {
       try {
-        const savedCoupon = await upsertGeneralCouponAction({
+        const input = {
           code,
           discountRate: Math.floor(Number(couponRate) || 15),
           status: couponStatus,
@@ -194,7 +197,10 @@ export default function AdminMembersView({
             ? Math.floor(Number(couponUsageLimit) || 0)
             : undefined,
           expiresAt: couponExpiresAt || undefined,
-        });
+        };
+        const savedCoupon = editingCouponId
+          ? await updateGeneralCouponAction(editingCouponId, input)
+          : await upsertGeneralCouponAction(input);
         if (!savedCoupon) {
           throw new Error("Kupon kaydedilemedi.");
         }
@@ -212,9 +218,12 @@ export default function AdminMembersView({
         setCouponStatus("active");
         setCouponUsageLimit("");
         setCouponExpiresAt("");
+        setEditingCouponId(null);
         toast({
-          title: "Genel kupon kaydedildi",
-          description: `${savedCoupon.code} artık tüm müşteriler tarafından kullanılabilir.`,
+          title: editingCouponId
+            ? "Genel kupon güncellendi"
+            : "Genel kupon kaydedildi",
+          description: `${savedCoupon.code} tüm müşteriler tarafından kullanılabilir.`,
           variant: "success",
         });
       } catch (error) {
@@ -229,11 +238,30 @@ export default function AdminMembersView({
   }
 
   function handleCouponEdit(coupon: AdminCoupon) {
+    setEditingCouponId(coupon.id);
     setCouponCode(coupon.code);
     setCouponRate(String(coupon.discountRate));
     setCouponStatus(coupon.status);
     setCouponUsageLimit(coupon.usageLimit ? String(coupon.usageLimit) : "");
     setCouponExpiresAt(coupon.expiresAt ? coupon.expiresAt.slice(0, 10) : "");
+    window.requestAnimationFrame(() => {
+      generalCouponFormRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+      });
+      generalCouponFormRef.current
+        ?.querySelector<HTMLInputElement>("input[name='coupon-code']")
+        ?.focus();
+    });
+  }
+
+  function resetCouponForm() {
+    setEditingCouponId(null);
+    setCouponCode("");
+    setCouponRate("15");
+    setCouponStatus("active");
+    setCouponUsageLimit("");
+    setCouponExpiresAt("");
   }
 
   function handleGeneralCouponStatus(coupon: AdminCoupon, status: CouponStatus) {
@@ -358,21 +386,33 @@ export default function AdminMembersView({
               </span>
               <div>
                 <h2 className="text-lg font-semibold text-slate-950">
-                  Genel kupon
+                  {editingCouponId ? "Genel kuponu düzenle" : "Genel kupon"}
                 </h2>
                 <p className="mt-1 text-sm text-slate-500">
-                  Buraya yazdığınız kodu tüm müşteriler kullanabilir.
+                  {editingCouponId
+                    ? "Seçili kuponu güncelliyorsunuz."
+                    : "Buraya yazdığınız kodu tüm müşteriler kullanabilir."}
                 </p>
               </div>
             </div>
 
-            <form onSubmit={handleGeneralCouponSubmit} className="mt-5 space-y-4">
+            <form
+              ref={generalCouponFormRef}
+              onSubmit={handleGeneralCouponSubmit}
+              className={cn(
+                "mt-5 space-y-4 rounded-[24px] border p-4 transition",
+                editingCouponId
+                  ? "border-rose-200 bg-rose-50/50"
+                  : "border-transparent bg-transparent"
+              )}
+            >
               <div className="grid gap-3 sm:grid-cols-[minmax(0,1fr)_110px]">
                 <label className="space-y-2">
                   <span className="text-xs font-medium uppercase tracking-[0.22em] text-slate-500">
                     Kod
                   </span>
                   <input
+                    name="coupon-code"
                     value={couponCode}
                     onChange={(event) => setCouponCode(event.target.value)}
                     placeholder="Örn: MAYIS30"
@@ -436,14 +476,26 @@ export default function AdminMembersView({
                 </label>
               </div>
 
-              <button
-                type="submit"
-                disabled={pending}
-                className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-60"
-              >
-                <Save size={15} />
-                Genel Kuponu Kaydet
-              </button>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="submit"
+                  disabled={pending}
+                  className="inline-flex items-center gap-2 rounded-full bg-slate-950 px-5 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800 disabled:opacity-60"
+                >
+                  <Save size={15} />
+                  {editingCouponId ? "Kuponu Güncelle" : "Genel Kuponu Kaydet"}
+                </button>
+                {editingCouponId && (
+                  <button
+                    type="button"
+                    onClick={resetCouponForm}
+                    disabled={pending}
+                    className="rounded-full border border-slate-200 bg-white px-5 py-2.5 text-sm font-medium text-slate-700 transition hover:border-slate-950 hover:text-slate-950 disabled:opacity-60"
+                  >
+                    Vazgeç
+                  </button>
+                )}
+              </div>
             </form>
           </div>
 

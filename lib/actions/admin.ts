@@ -307,6 +307,40 @@ export async function upsertGeneralCouponAction(
   return coupon;
 }
 
+export async function updateGeneralCouponAction(
+  id: string,
+  input: Omit<AdminCouponInput, "assignedUserId">
+) {
+  await ensureAdmin();
+  const code = input.code.trim().toUpperCase();
+  if (!id || !code) {
+    throw new Error("Kupon bilgileri eksik.");
+  }
+
+  const existingCoupon = await couponService.getByCode(code);
+  if (existingCoupon && existingCoupon.id !== id) {
+    throw new Error(
+      existingCoupon.assignedUserId
+        ? "Bu kupon kodu üyeye özel tanımlanmış."
+        : "Bu kupon kodu zaten kullanılıyor."
+    );
+  }
+
+  const updated = await couponService.update(id, {
+    ...input,
+    code,
+    assignedUserId: undefined,
+    usageLimit:
+      input.usageLimit != null && Number.isFinite(Number(input.usageLimit))
+        ? Math.max(1, Math.floor(Number(input.usageLimit)))
+        : undefined,
+    expiresAt: input.expiresAt?.trim() || undefined,
+  });
+
+  revalidatePath("/admin/members");
+  return updated;
+}
+
 export async function updateGeneralCouponStatusAction(
   coupon: AdminCoupon,
   status: AdminCoupon["status"]

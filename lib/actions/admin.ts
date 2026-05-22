@@ -12,6 +12,7 @@ import { cookies } from "next/headers";
 import {
   productService,
   categoryService,
+  couponService,
   orderService,
   settingsService,
   userService,
@@ -214,6 +215,38 @@ export async function updateMemberCrmAction(
   input: AdminMemberCrmInput
 ) {
   await ensureAdmin();
+  const couponCode = input.privateCouponCode?.trim().toUpperCase();
+  const couponRate =
+    input.privateCouponRate != null && Number.isFinite(Number(input.privateCouponRate))
+      ? Math.max(5, Math.min(50, Math.floor(Number(input.privateCouponRate))))
+      : undefined;
+
+  if (couponCode && couponRate) {
+    const existingCoupon = await couponService.getByCode(couponCode);
+    if (existingCoupon?.assignedUserId && existingCoupon.assignedUserId !== id) {
+      throw new Error("Bu kupon kodu başka bir üyeye atanmış.");
+    }
+
+    if (existingCoupon) {
+      await couponService.update(existingCoupon.id, {
+        code: couponCode,
+        discountRate: couponRate,
+        status: "active",
+        assignedUserId: id,
+        usageLimit: existingCoupon.usageLimit ?? 1,
+        expiresAt: existingCoupon.expiresAt,
+      });
+    } else {
+      await couponService.create({
+        code: couponCode,
+        discountRate: couponRate,
+        status: "active",
+        assignedUserId: id,
+        usageLimit: 1,
+      });
+    }
+  }
+
   const member = await userService.updateAdminMemberCrm(id, input);
   revalidatePath("/admin/members");
   revalidatePath(`/admin/members/${id}`);

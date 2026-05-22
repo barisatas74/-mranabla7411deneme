@@ -66,7 +66,7 @@ export async function generateMetadata({
 
 const SITE_URL =
   process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-  "https://www.missbellalingree.com";
+  "https://missbellalingree.com";
 
 export default async function ProductDetailPage({ params }: ProductDetailPageProps) {
   const { slug } = await params;

@@ -15,7 +15,7 @@ export const SITE = {
   language: "tr",
   url:
     process.env.NEXT_PUBLIC_SITE_URL?.replace(/\/$/, "") ||
-    "https://www.missbellalingree.com",
+    "https://missbellalingree.com",
   twitter: "@missbella",
   email: process.env.NEXT_PUBLIC_SUPPORT_EMAIL || "",
   phone: process.env.NEXT_PUBLIC_SUPPORT_PHONE || "0530 990 71 63",

@@ -15,9 +15,9 @@ import {
 export const revalidate = 300;
 
 export const metadata: Metadata = {
-  title: "Anasayfa",
+  title: "Miss Bella | Premium İç Giyim, Gecelik ve Butik Koleksiyon",
   description:
-    "Miss Bella anasayfasında premium iç giyim koleksiyonları, yeni sezon seçimleri ve öne çıkan ürünleri keşfedin.",
+    "Miss Bella'da premium iç giyim, sütyen, gecelik, takım ve yeni sezon butik koleksiyonlarını keşfedin.",
 };
 
 export default async function HomePage() {

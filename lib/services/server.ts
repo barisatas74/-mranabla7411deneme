@@ -11,6 +11,7 @@ import "server-only";
 import { isDbEnabled } from "@/lib/db";
 import {
   CategoryService,
+  CouponService,
   DashboardService,
   OrderService,
   ProductService,
@@ -18,12 +19,14 @@ import {
 } from "@/lib/services/contracts";
 
 import { mockCategoryService } from "@/lib/services/mock/category-service";
+import { mockCouponService } from "@/lib/services/mock/coupon-service";
 import { mockDashboardService } from "@/lib/services/mock/dashboard-service";
 import { mockOrderService } from "@/lib/services/mock/order-service";
 import { mockProductService } from "@/lib/services/mock/product-service";
 import { mockSettingsService } from "@/lib/services/mock/settings-service";
 
 import { mysqlCategoryService } from "@/lib/services/mysql/category-service";
+import { mysqlCouponService } from "@/lib/services/mysql/coupon-service";
 import { mysqlDashboardService } from "@/lib/services/mysql/dashboard-service";
 import { mysqlOrderService } from "@/lib/services/mysql/order-service";
 import { mysqlProductService } from "@/lib/services/mysql/product-service";
@@ -47,6 +50,10 @@ export const categoryService: CategoryService = useMysql
 export const orderService: OrderService = useMysql
   ? mysqlOrderService
   : mockOrderService;
+
+export const couponService: CouponService = useMysql
+  ? mysqlCouponService
+  : mockCouponService;
 
 export const settingsService: SettingsService = useMysql
   ? mysqlSettingsService

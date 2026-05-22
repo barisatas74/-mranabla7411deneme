@@ -213,6 +213,30 @@ export type CreateOrderInput = {
   userId?: string;
 };
 
+export type CouponStatus = "active" | "passive";
+
+export type AdminCoupon = {
+  id: string;
+  code: string;
+  discountRate: number;
+  status: CouponStatus;
+  assignedUserId?: string;
+  usageLimit?: number;
+  usedCount: number;
+  expiresAt?: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type AdminCouponInput = {
+  code: string;
+  discountRate: number;
+  status: CouponStatus;
+  assignedUserId?: string;
+  usageLimit?: number;
+  expiresAt?: string;
+};
+
 export type User = {
   id: string;
   email: string;

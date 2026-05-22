@@ -159,7 +159,29 @@ CREATE TABLE `settings` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------
--- 6) Bulten abonelikleri (opsiyonel — footer formu icin)
+-- 6) Kuponlar
+-- -----------------------------------------------------------------------------
+DROP TABLE IF EXISTS `coupons`;
+CREATE TABLE `coupons` (
+  `id`               VARCHAR(64)   NOT NULL,
+  `code`             VARCHAR(60)   NOT NULL,
+  `discount_rate`    DECIMAL(5,2)  NOT NULL,
+  `status`           ENUM('active','passive') NOT NULL DEFAULT 'active',
+  `assigned_user_id` VARCHAR(64)   NULL,
+  `usage_limit`      INT UNSIGNED  NULL,
+  `used_count`       INT UNSIGNED  NOT NULL DEFAULT 0,
+  `expires_at`       DATETIME      NULL,
+  `created_at`       DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at`       DATETIME      NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `uniq_coupons_code` (`code`),
+  KEY `idx_coupons_status` (`status`),
+  KEY `idx_coupons_assigned_user` (`assigned_user_id`),
+  KEY `idx_coupons_expires` (`expires_at`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- -----------------------------------------------------------------------------
+-- 7) Bulten abonelikleri (opsiyonel — footer formu icin)
 -- -----------------------------------------------------------------------------
 DROP TABLE IF EXISTS `newsletter_subscribers`;
 CREATE TABLE `newsletter_subscribers` (
@@ -172,7 +194,7 @@ CREATE TABLE `newsletter_subscribers` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- -----------------------------------------------------------------------------
--- 7) Iletisim formu mesajlari (opsiyonel)
+-- 8) Iletisim formu mesajlari (opsiyonel)
 -- -----------------------------------------------------------------------------
 DROP TABLE IF EXISTS `contact_messages`;
 CREATE TABLE `contact_messages` (

@@ -1,6 +1,8 @@
 import {
   AdminCategory,
   AdminCategoryInput,
+  AdminCoupon,
+  AdminCouponInput,
   AdminDashboardData,
   AdminOrder,
   AdminOrderStatusUpdate,
@@ -35,6 +37,13 @@ export interface OrderService {
     input: AdminOrderStatusUpdate
   ): Promise<AdminOrder | null>;
   cancel(id: string, reason: string): Promise<AdminOrder | null>;
+}
+
+export interface CouponService {
+  list(): Promise<AdminCoupon[]>;
+  getByCode(code: string): Promise<AdminCoupon | null>;
+  create(input: AdminCouponInput): Promise<AdminCoupon>;
+  update(id: string, input: AdminCouponInput): Promise<AdminCoupon | null>;
 }
 
 export interface SettingsService {

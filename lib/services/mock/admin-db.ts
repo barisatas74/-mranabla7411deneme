@@ -4,12 +4,19 @@ import {
   adminProducts as seedProducts,
   adminSettings as seedSettings,
 } from "@/data/admin";
-import { AdminCategory, AdminOrder, AdminProduct, AdminSettings } from "@/types";
+import {
+  AdminCategory,
+  AdminCoupon,
+  AdminOrder,
+  AdminProduct,
+  AdminSettings,
+} from "@/types";
 
 let productStore: AdminProduct[] = structuredClone(seedProducts);
 let categoryStore: AdminCategory[] = structuredClone(seedCategories);
 let orderStore: AdminOrder[] = structuredClone(seedOrders);
 let settingsStore: AdminSettings = structuredClone(seedSettings);
+let couponStore: AdminCoupon[] = [];
 
 export function getProductStore() {
   return productStore;
@@ -41,4 +48,12 @@ export function getSettingsStore() {
 
 export function setSettingsStore(nextSettings: AdminSettings) {
   settingsStore = nextSettings;
+}
+
+export function getCouponStore() {
+  return couponStore;
+}
+
+export function setCouponStore(nextCoupons: AdminCoupon[]) {
+  couponStore = nextCoupons;
 }

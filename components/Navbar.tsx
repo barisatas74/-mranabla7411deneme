@@ -1,16 +1,18 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
+import dynamic from "next/dynamic";
 import Link from "next/link";
 import { LogOut, Menu, Search, ShoppingBag, Heart, User as UserIcon } from "lucide-react";
 import Container from "./Container";
-import MobileMenu from "./MobileMenu";
 import { useCart } from "./CartContext";
 import { useWishlist } from "./WishlistContext";
-import SearchOverlay from "./SearchOverlay";
 import { cn } from "@/lib/utils";
 import { CategoryNavItem, User } from "@/types";
 import { logoutAction } from "@/lib/actions/auth";
+
+const MobileMenu = dynamic(() => import("./MobileMenu"), { ssr: false });
+const SearchOverlay = dynamic(() => import("./SearchOverlay"), { ssr: false });
 
 type NavEffect = "pulse" | "stretch" | "slide" | "lift" | "moon" | "flash";
 
@@ -46,6 +48,31 @@ type CurrentUserResponse = {
 type CategoryNavResponse = {
   categories?: CategoryNavItem[];
 };
+
+function runWhenIdle(callback: () => void) {
+  if (typeof window === "undefined") return;
+  if ("requestIdleCallback" in window) {
+    const idleId = window.requestIdleCallback(callback, { timeout: 1800 });
+    return () => window.cancelIdleCallback(idleId);
+  }
+  const timeoutId = globalThis.setTimeout(callback, 1200);
+  return () => globalThis.clearTimeout(timeoutId);
+}
+
+function areSameCategories(
+  currentCategories: CategoryNavItem[],
+  nextCategories: CategoryNavItem[]
+) {
+  if (currentCategories.length !== nextCategories.length) return false;
+  return currentCategories.every((category, index) => {
+    const nextCategory = nextCategories[index];
+    return (
+      category.id === nextCategory.id &&
+      category.name === nextCategory.name &&
+      category.slug === nextCategory.slug
+    );
+  });
+}
 
 function getTopNavCategories(categories: CategoryNavItem[]) {
   const bySlug = new Map(categories.map((category) => [category.slug, category]));
@@ -91,15 +118,17 @@ export default function Navbar({
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 10);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   useEffect(() => {
-    void refreshCurrentUser();
+    const cancelIdle = runWhenIdle(() => void refreshCurrentUser());
     window.addEventListener("miss-bella-auth-changed", refreshCurrentUser);
-    return () =>
+    return () => {
+      cancelIdle?.();
       window.removeEventListener("miss-bella-auth-changed", refreshCurrentUser);
+    };
   }, [refreshCurrentUser]);
 
   useEffect(() => {
@@ -111,15 +140,20 @@ export default function Navbar({
         if (!response.ok) return;
         const data = (await response.json()) as CategoryNavResponse;
         if (!cancelled && data.categories?.length) {
-          setCategoryNavItems(data.categories);
+          setCategoryNavItems((currentCategories) =>
+            areSameCategories(currentCategories, data.categories ?? [])
+              ? currentCategories
+              : data.categories ?? currentCategories
+          );
         }
       } catch {
         if (!cancelled) setCategoryNavItems(fallbackCategoryNavItems);
       }
     }
 
-    void loadCategories();
+    const cancelIdle = runWhenIdle(() => void loadCategories());
     return () => {
+      cancelIdle?.();
       cancelled = true;
     };
   }, []);
@@ -227,18 +261,22 @@ export default function Navbar({
 
       </header>
 
-      <MobileMenu
-        open={open}
-        onClose={() => setOpen(false)}
-        items={navItems}
-        cartCount={itemCount}
-        currentUser={currentUser}
-      />
+      {open && (
+        <MobileMenu
+          open={open}
+          onClose={() => setOpen(false)}
+          items={navItems}
+          cartCount={itemCount}
+          currentUser={currentUser}
+        />
+      )}
 
-      <SearchOverlay
-        open={searchOpen}
-        onClose={() => setSearchOpen(false)}
-      />
+      {searchOpen && (
+        <SearchOverlay
+          open={searchOpen}
+          onClose={() => setSearchOpen(false)}
+        />
+      )}
     </>
   );
 }

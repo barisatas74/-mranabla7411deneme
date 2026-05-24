@@ -1,15 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import Link from "next/link";
 import { useCart } from "@/components/CartContext";
 import { useWishlist } from "@/components/WishlistContext";
-import QuickViewModal from "@/components/QuickViewModal";
 import { getCategoryName } from "@/data/products";
 import { formatPrice, cn } from "@/lib/utils";
 import { Product } from "@/types";
 import { Eye, Heart } from "lucide-react";
+
+const QuickViewModal = dynamic(() => import("@/components/QuickViewModal"), {
+  ssr: false,
+});
 
 export default function ProductCard({ product }: { product: Product }) {
   const { addItem } = useCart();
@@ -191,11 +195,13 @@ export default function ProductCard({ product }: { product: Product }) {
         </Link>
       </div>
 
-      <QuickViewModal
-        product={product}
-        open={quickViewOpen}
-        onClose={() => setQuickViewOpen(false)}
-      />
+      {quickViewOpen && (
+        <QuickViewModal
+          product={product}
+          open={quickViewOpen}
+          onClose={() => setQuickViewOpen(false)}
+        />
+      )}
     </>
   );
 }

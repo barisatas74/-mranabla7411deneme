@@ -1,13 +1,23 @@
 "use client";
 
+import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import FloatingWhatsApp from "@/components/WhatsAppButton";
-import AddToCartToast from "@/components/AddToCartToast";
-import CookieConsent from "@/components/CookieConsent";
-import ScrollToTop from "@/components/ScrollToTop";
 import { CategoryNavItem } from "@/types";
+
+const FloatingWhatsApp = dynamic(() => import("@/components/WhatsAppButton"), {
+  ssr: false,
+});
+const AddToCartToast = dynamic(() => import("@/components/AddToCartToast"), {
+  ssr: false,
+});
+const CookieConsent = dynamic(() => import("@/components/CookieConsent"), {
+  ssr: false,
+});
+const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"), {
+  ssr: false,
+});
 
 export default function AppChrome({
   children,

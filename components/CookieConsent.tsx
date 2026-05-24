@@ -5,23 +5,41 @@ import Link from "next/link";
 import { Cookie, X } from "lucide-react";
 
 const STORAGE_KEY = "miss-bella-cookie-consent";
+const CONSENT_DELAY_MS = 4500;
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);
   const [animate, setAnimate] = useState(false);
 
   useEffect(() => {
+    let cancelled = false;
+    let timeoutId: ReturnType<typeof setTimeout> | null = null;
+
+    function showConsent() {
+      if (cancelled) return;
+      setVisible(true);
+      timeoutId = setTimeout(() => {
+        if (!cancelled) setAnimate(true);
+      }, 50);
+    }
+
+    function scheduleConsent() {
+      timeoutId = setTimeout(showConsent, CONSENT_DELAY_MS);
+    }
+
     try {
       const stored = window.localStorage.getItem(STORAGE_KEY);
       if (!stored) {
-        setVisible(true);
-        // Slide-in animasyonu için kısa bir gecikme
-        setTimeout(() => setAnimate(true), 50);
+        scheduleConsent();
       }
     } catch {
-      setVisible(true);
-      setTimeout(() => setAnimate(true), 50);
+      scheduleConsent();
     }
+
+    return () => {
+      cancelled = true;
+      if (timeoutId) clearTimeout(timeoutId);
+    };
   }, []);
 
   function persist(value: "accepted" | "rejected") {

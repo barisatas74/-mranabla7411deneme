@@ -5,10 +5,8 @@ import { ArrowRight, Sparkles } from "lucide-react";
 export default function Hero() {
   return (
     <section className="relative overflow-hidden bg-bone-50">
-      <div className="absolute inset-0 bg-gradient-to-br from-powder-100 via-bone-50 to-powder-200/60" />
-      <div className="absolute top-1/3 -right-40 h-[600px] w-[600px] rounded-full bg-rose-400/40 blur-[140px]" />
-      <div className="absolute -bottom-40 -left-32 h-[500px] w-[500px] rounded-full bg-rose-300/50 blur-[140px]" />
-      <div className="absolute top-10 left-1/3 h-[320px] w-[320px] rounded-full bg-champagne-200/40 blur-[120px]" />
+      <div className="absolute inset-0 bg-[linear-gradient(135deg,#ffe8f1_0%,#fffafc_44%,#ffd0e5_100%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_78%_60%,rgba(238,42,139,0.22)_0%,rgba(238,42,139,0.08)_28%,transparent_60%)]" />
 
       <span className="pointer-events-none absolute left-10 top-24 hidden select-none font-display text-[200px] leading-none text-rose-600/[0.06] md:block">
         M<span className="font-italic-display">B</span>

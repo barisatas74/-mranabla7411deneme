@@ -19,7 +19,7 @@ export default function FloatingWhatsApp() {
   useEffect(() => {
     const onScroll = () => setVisible(window.scrollY > 400);
     onScroll();
-    window.addEventListener("scroll", onScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 

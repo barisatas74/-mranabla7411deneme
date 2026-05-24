@@ -33,6 +33,7 @@ const securityHeaders = [
 ];
 
 const nextConfig = {
+  poweredByHeader: false,
   images: {
     // Uzak gorsel kaynaklari. Ana domain ve hosting'in direct URL'i.
     remotePatterns: [

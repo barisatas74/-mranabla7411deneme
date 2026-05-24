@@ -1,23 +1,10 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { usePathname } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import DeferredSiteWidgets from "@/components/DeferredSiteWidgets";
 import { CategoryNavItem } from "@/types";
-
-const FloatingWhatsApp = dynamic(() => import("@/components/WhatsAppButton"), {
-  ssr: false,
-});
-const AddToCartToast = dynamic(() => import("@/components/AddToCartToast"), {
-  ssr: false,
-});
-const CookieConsent = dynamic(() => import("@/components/CookieConsent"), {
-  ssr: false,
-});
-const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"), {
-  ssr: false,
-});
 
 export default function AppChrome({
   children,
@@ -45,10 +32,7 @@ export default function AppChrome({
       <Navbar initialCategoryNavItems={initialCategoryNavItems} />
       <main id="main-content">{children}</main>
       <Footer initialCategoryNavItems={initialCategoryNavItems} />
-      <FloatingWhatsApp />
-      <ScrollToTop />
-      <AddToCartToast />
-      <CookieConsent />
+      <DeferredSiteWidgets />
     </>
   );
 }

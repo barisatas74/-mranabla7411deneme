@@ -15,18 +15,18 @@ export default function Hero() {
         Bella
       </span>
 
-      <Container className="relative grid min-h-[calc(100vh-120px)] items-center gap-10 py-16 md:py-24">
+      <Container className="relative grid min-h-[calc(100svh-126px)] items-center gap-8 py-10 md:min-h-[calc(100vh-120px)] md:gap-10 md:py-24">
         <div className="fade-up mx-auto max-w-3xl text-center">
-          <div className="mb-6 flex items-center justify-center gap-3">
-            <span className="h-px w-12 bg-rose-600/40" />
+          <div className="mb-4 flex items-center justify-center gap-2 md:mb-6 md:gap-3">
+            <span className="h-px w-8 bg-rose-600/40 md:w-12" />
             <span className="luxe-label plain text-rose-600">
               <Sparkles size={13} strokeWidth={1.5} className="text-rose-500" />
               Spring Collection 2026
             </span>
-            <span className="h-px w-12 bg-rose-600/40" />
+            <span className="h-px w-8 bg-rose-600/40 md:w-12" />
           </div>
 
-          <h1 className="font-display text-[60px] leading-[0.95] tracking-tight text-ink-900 md:text-[110px]">
+          <h1 className="font-display text-[52px] leading-[0.93] tracking-tight text-ink-900 md:text-[110px] md:leading-[0.95]">
             Zarafetin
             <br />
             <span className="font-italic-display text-gradient-fuchsia">
@@ -36,13 +36,13 @@ export default function Hero() {
             hâli.
           </h1>
 
-          <p className="mx-auto mt-9 max-w-xl text-[15px] font-light leading-[1.85] text-ink-700 md:text-[17px]">
+          <p className="mx-auto mt-6 max-w-xl text-[14px] font-light leading-[1.7] text-ink-700 md:mt-9 md:text-[17px] md:leading-[1.85]">
             Fransız danteli, yumuşak satenler ve modern siluetlerle hazırlanan
             premium iç giyim koleksiyonu. Her parça, günlük konforu zarafetle
             birleştirir.
           </p>
 
-          <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+          <div className="mt-7 flex flex-col items-center justify-center gap-3 sm:flex-row md:mt-10">
             <Link
               href="/products"
               className="btn-luxe btn-luxe-rose shadow-luxe"
@@ -58,7 +58,7 @@ export default function Hero() {
             </Link>
           </div>
 
-          <div className="mx-auto mt-14 grid max-w-2xl grid-cols-3 gap-4 md:gap-8">
+          <div className="mx-auto mt-9 grid max-w-2xl grid-cols-3 gap-3 md:mt-14 md:gap-8">
             {[
               ["Fransız", "Danteli"],
               ["El", "İşçiliği"],

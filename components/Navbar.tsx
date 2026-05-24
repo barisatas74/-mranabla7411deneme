@@ -51,11 +51,7 @@ type CategoryNavResponse = {
 
 function runWhenIdle(callback: () => void) {
   if (typeof window === "undefined") return;
-  if ("requestIdleCallback" in window) {
-    const idleId = window.requestIdleCallback(callback, { timeout: 6000 });
-    return () => window.cancelIdleCallback(idleId);
-  }
-  const timeoutId = globalThis.setTimeout(callback, 4500);
+  const timeoutId = globalThis.setTimeout(callback, 9000);
   return () => globalThis.clearTimeout(timeoutId);
 }
 

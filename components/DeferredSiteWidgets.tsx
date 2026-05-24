@@ -16,22 +16,41 @@ const ScrollToTop = dynamic(() => import("@/components/ScrollToTop"), {
   ssr: false,
 });
 
-function runAfterFirstPaint(callback: () => void) {
+function runAfterUserIntent(callback: () => void) {
   if (typeof window === "undefined") return;
-  if ("requestIdleCallback" in window) {
-    const idleId = window.requestIdleCallback(callback, { timeout: 3500 });
-    return () => window.cancelIdleCallback(idleId);
-  }
 
-  const timeoutId = globalThis.setTimeout(callback, 2500);
-  return () => globalThis.clearTimeout(timeoutId);
+  let settled = false;
+  const events = ["pointerdown", "keydown", "touchstart", "scroll"] as const;
+  const cleanup = () => {
+    events.forEach((eventName) =>
+      window.removeEventListener(eventName, settle, { capture: true })
+    );
+    globalThis.clearTimeout(timeoutId);
+  };
+  const settle = () => {
+    if (settled) return;
+    settled = true;
+    cleanup();
+    callback();
+  };
+  const timeoutId = globalThis.setTimeout(settle, 12000);
+
+  events.forEach((eventName) =>
+    window.addEventListener(eventName, settle, {
+      capture: true,
+      once: true,
+      passive: true,
+    })
+  );
+
+  return cleanup;
 }
 
 export default function DeferredSiteWidgets() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    const cancel = runAfterFirstPaint(() => setReady(true));
+    const cancel = runAfterUserIntent(() => setReady(true));
     return () => cancel?.();
   }, []);
 

@@ -16,7 +16,7 @@ export default function Hero() {
       </span>
 
       <Container className="relative grid min-h-[calc(100svh-126px)] items-center gap-8 py-10 md:min-h-[calc(100vh-120px)] md:gap-10 md:py-24">
-        <div className="fade-up mx-auto max-w-3xl text-center">
+        <div className="mx-auto max-w-3xl text-center">
           <div className="mb-4 flex items-center justify-center gap-2 md:mb-6 md:gap-3">
             <span className="h-px w-8 bg-rose-600/40 md:w-12" />
             <span className="luxe-label plain text-rose-600">

@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
 import { CartProvider } from "@/components/CartContext";
 import { WishlistProvider } from "@/components/WishlistContext";
@@ -9,21 +8,6 @@ import { SITE } from "@/lib/site";
 import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { getStorefrontCategories } from "@/lib/storefront-data";
 import { CategoryNavItem } from "@/types";
-
-const inter = Inter({
-  subsets: ["latin"],
-  display: "optional",
-  variable: "--font-body",
-  preload: true,
-});
-
-const cormorant = Cormorant_Garamond({
-  subsets: ["latin"],
-  display: "optional",
-  variable: "--font-display",
-  weight: ["400"],
-  preload: true,
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
@@ -134,7 +118,7 @@ export default async function RootLayout({
   const initialCategoryNavItems = await getInitialCategoryNavItems();
 
   return (
-    <html lang="tr" className={`${inter.variable} ${cormorant.variable}`}>
+    <html lang="tr">
       <head>
         <JsonLd data={organizationSchema()} />
         <JsonLd data={websiteSchema()} />

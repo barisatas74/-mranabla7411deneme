@@ -45,31 +45,6 @@ type CurrentUserResponse = {
   user: User | null;
 };
 
-type CategoryNavResponse = {
-  categories?: CategoryNavItem[];
-};
-
-function runWhenIdle(callback: () => void) {
-  if (typeof window === "undefined") return;
-  const timeoutId = globalThis.setTimeout(callback, 9000);
-  return () => globalThis.clearTimeout(timeoutId);
-}
-
-function areSameCategories(
-  currentCategories: CategoryNavItem[],
-  nextCategories: CategoryNavItem[]
-) {
-  if (currentCategories.length !== nextCategories.length) return false;
-  return currentCategories.every((category, index) => {
-    const nextCategory = nextCategories[index];
-    return (
-      category.id === nextCategory.id &&
-      category.name === nextCategory.name &&
-      category.slug === nextCategory.slug
-    );
-  });
-}
-
 function getTopNavCategories(categories: CategoryNavItem[]) {
   const bySlug = new Map(categories.map((category) => [category.slug, category]));
   const preferredCategories = preferredTopCategorySlugs
@@ -92,11 +67,10 @@ export default function Navbar({
   const [open, setOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState<User | null>(null);
-  const [categoryNavItems, setCategoryNavItems] = useState<CategoryNavItem[]>(
+  const categoryNavItems =
     initialCategoryNavItems.length > 0
       ? initialCategoryNavItems
-      : fallbackCategoryNavItems
-  );
+      : fallbackCategoryNavItems;
   const { itemCount } = useCart();
   const { count: wishlistCount } = useWishlist();
 
@@ -119,40 +93,25 @@ export default function Navbar({
   }, []);
 
   useEffect(() => {
-    const cancelIdle = runWhenIdle(() => void refreshCurrentUser());
-    window.addEventListener("miss-bella-auth-changed", refreshCurrentUser);
-    return () => {
-      cancelIdle?.();
-      window.removeEventListener("miss-bella-auth-changed", refreshCurrentUser);
-    };
-  }, [refreshCurrentUser]);
-
-  useEffect(() => {
-    let cancelled = false;
-
-    async function loadCategories() {
-      try {
-        const response = await fetch("/api/categories/nav");
-        if (!response.ok) return;
-        const data = (await response.json()) as CategoryNavResponse;
-        if (!cancelled && data.categories?.length) {
-          setCategoryNavItems((currentCategories) =>
-            areSameCategories(currentCategories, data.categories ?? [])
-              ? currentCategories
-              : data.categories ?? currentCategories
-          );
-        }
-      } catch {
-        if (!cancelled) setCategoryNavItems(fallbackCategoryNavItems);
-      }
+    function refreshAfterIntent() {
+      void refreshCurrentUser();
     }
 
-    const cancelIdle = runWhenIdle(() => void loadCategories());
+    window.addEventListener("miss-bella-auth-changed", refreshCurrentUser);
+    window.addEventListener("pointerdown", refreshAfterIntent, {
+      once: true,
+      passive: true,
+    });
+    window.addEventListener("keydown", refreshAfterIntent, {
+      once: true,
+      passive: true,
+    });
     return () => {
-      cancelIdle?.();
-      cancelled = true;
+      window.removeEventListener("miss-bella-auth-changed", refreshCurrentUser);
+      window.removeEventListener("pointerdown", refreshAfterIntent);
+      window.removeEventListener("keydown", refreshAfterIntent);
     };
-  }, []);
+  }, [refreshCurrentUser]);
 
   const categoryItems: NavItem[] = getTopNavCategories(categoryNavItems).map((category, index) => ({
     label: category.name,
@@ -181,10 +140,10 @@ export default function Navbar({
 
       <header
         className={cn(
-          "sticky top-0 z-40 w-full transition-all duration-500",
+          "sticky top-0 z-40 w-full border-b border-transparent transition-colors duration-300",
           scrolled
-            ? "border-b border-ink-900/8 bg-bone-50/92 py-0 backdrop-blur-md"
-            : "bg-transparent py-1"
+            ? "border-ink-900/8 bg-bone-50/92 backdrop-blur-md"
+            : "bg-transparent"
         )}
       >
         <Container className="flex h-16 items-center justify-between md:h-[76px]">

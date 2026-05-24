@@ -20,12 +20,11 @@ function runAfterUserIntent(callback: () => void) {
   if (typeof window === "undefined") return;
 
   let settled = false;
-  const events = ["pointerdown", "keydown", "touchstart", "scroll"] as const;
+  const events = ["pointerdown", "keydown", "touchstart"] as const;
   const cleanup = () => {
     events.forEach((eventName) =>
       window.removeEventListener(eventName, settle, { capture: true })
     );
-    globalThis.clearTimeout(timeoutId);
   };
   const settle = () => {
     if (settled) return;
@@ -33,7 +32,6 @@ function runAfterUserIntent(callback: () => void) {
     cleanup();
     callback();
   };
-  const timeoutId = globalThis.setTimeout(settle, 12000);
 
   events.forEach((eventName) =>
     window.addEventListener(eventName, settle, {

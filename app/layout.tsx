@@ -12,14 +12,14 @@ import { CategoryNavItem } from "@/types";
 
 const inter = Inter({
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
   variable: "--font-body",
   preload: true,
 });
 
 const cormorant = Cormorant_Garamond({
   subsets: ["latin"],
-  display: "swap",
+  display: "optional",
   variable: "--font-display",
   weight: ["400"],
   preload: true,

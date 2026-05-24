@@ -5,7 +5,7 @@ import Link from "next/link";
 import { Cookie, X } from "lucide-react";
 
 const STORAGE_KEY = "miss-bella-cookie-consent";
-const CONSENT_DELAY_MS = 8000;
+const CONSENT_DELAY_MS = 1200;
 
 export default function CookieConsent() {
   const [visible, setVisible] = useState(false);

@@ -207,6 +207,7 @@ export type CreateOrderInput = {
   shippingFee: number;
   discount: number;
   total: number;
+  couponCode?: string | null;
   note?: string;
   paymentMethod?: string;
   shippingMethod?: string;

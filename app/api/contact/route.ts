@@ -1,13 +1,24 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getDb } from "@/lib/db";
-import { randomBytes } from "node:crypto";
-
-function generateId() {
-  return `msg-${Date.now().toString(36)}${randomBytes(3).toString("hex")}`;
-}
+import { checkRateLimit, getRequestRateLimitKey } from "@/lib/rate-limit";
 
 export async function POST(req: NextRequest) {
   try {
+    const limit = checkRateLimit({
+      key: getRequestRateLimitKey("contact", req),
+      limit: 5,
+      windowMs: 10 * 60 * 1000,
+    });
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: "Çok fazla mesaj gönderildi. Lütfen biraz sonra tekrar deneyin." },
+        {
+          status: 429,
+          headers: { "Retry-After": String(limit.retryAfterSec) },
+        }
+      );
+    }
+
     const body = await req.json();
     const { name, email, phone, subject, message } = body as Record<
       string,
@@ -29,12 +40,11 @@ export async function POST(req: NextRequest) {
     }
 
     const db = await getDb();
-    const id = generateId();
     await db.execute(
-      `INSERT INTO contact_messages (id, name, email, phone, subject, message, created_at)
-       VALUES (?, ?, ?, ?, ?, ?, NOW())`,
+      `INSERT INTO contact_messages
+        (full_name, email, phone, subject, message, created_at)
+       VALUES (?, ?, ?, ?, ?, NOW())`,
       [
-        id,
         name.trim(),
         email.trim().toLowerCase(),
         phone?.trim() || null,

@@ -164,4 +164,33 @@ export const mysqlCouponService: CouponService = {
     if (affected === 0) return null;
     return mysqlCouponService.getByCode(normalized.code);
   },
+
+  async markUsed(code) {
+    await ensureCouponTable();
+    const db = getDb();
+    const [result] = await db.execute(
+      `UPDATE coupons
+       SET used_count = used_count + 1
+       WHERE code = ?
+         AND status = 'active'
+         AND (expires_at IS NULL OR expires_at >= NOW())
+         AND (usage_limit IS NULL OR used_count < usage_limit)`,
+      [normalizeCode(code)]
+    );
+    const affected = (result as { affectedRows?: number }).affectedRows ?? 0;
+    return affected > 0;
+  },
+
+  async releaseUsage(code) {
+    await ensureCouponTable();
+    const db = getDb();
+    const [result] = await db.execute(
+      `UPDATE coupons
+       SET used_count = GREATEST(used_count - 1, 0)
+       WHERE code = ?`,
+      [normalizeCode(code)]
+    );
+    const affected = (result as { affectedRows?: number }).affectedRows ?? 0;
+    return affected > 0;
+  },
 };

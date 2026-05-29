@@ -66,4 +66,46 @@ export const mockCouponService: CouponService = {
     );
     return structuredClone(nextCoupon);
   },
+
+  async markUsed(code) {
+    const normalizedCode = normalizeCode(code);
+    let changed = false;
+    const now = Date.now();
+    const nextCoupons = getCouponStore().map((coupon) => {
+      if (coupon.code !== normalizedCode) return coupon;
+      if (coupon.status !== "active") return coupon;
+      if (coupon.expiresAt && Date.parse(coupon.expiresAt) < now) return coupon;
+      if (
+        coupon.usageLimit != null &&
+        Number.isFinite(Number(coupon.usageLimit)) &&
+        coupon.usedCount >= coupon.usageLimit
+      ) {
+        return coupon;
+      }
+      changed = true;
+      return {
+        ...coupon,
+        usedCount: coupon.usedCount + 1,
+        updatedAt: new Date().toISOString(),
+      };
+    });
+    if (changed) setCouponStore(nextCoupons);
+    return changed;
+  },
+
+  async releaseUsage(code) {
+    const normalizedCode = normalizeCode(code);
+    let changed = false;
+    const nextCoupons = getCouponStore().map((coupon) => {
+      if (coupon.code !== normalizedCode) return coupon;
+      changed = true;
+      return {
+        ...coupon,
+        usedCount: Math.max(0, coupon.usedCount - 1),
+        updatedAt: new Date().toISOString(),
+      };
+    });
+    if (changed) setCouponStore(nextCoupons);
+    return changed;
+  },
 };

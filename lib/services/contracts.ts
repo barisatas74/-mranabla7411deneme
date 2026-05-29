@@ -44,6 +44,8 @@ export interface CouponService {
   getByCode(code: string): Promise<AdminCoupon | null>;
   create(input: AdminCouponInput): Promise<AdminCoupon>;
   update(id: string, input: AdminCouponInput): Promise<AdminCoupon | null>;
+  markUsed(code: string): Promise<boolean>;
+  releaseUsage(code: string): Promise<boolean>;
 }
 
 export interface SettingsService {

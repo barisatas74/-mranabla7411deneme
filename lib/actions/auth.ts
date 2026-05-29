@@ -9,6 +9,7 @@ import {
   signSession,
   verifySession,
 } from "@/lib/user-auth";
+import { checkRateLimit, getActionRateLimitKey } from "@/lib/rate-limit";
 import { LoginInput, RegisterInput, User } from "@/types";
 
 type ActionResult = {
@@ -45,6 +46,18 @@ export async function registerAction(
   input: RegisterInput
 ): Promise<ActionResult> {
   try {
+    const limit = checkRateLimit({
+      key: await getActionRateLimitKey("register"),
+      limit: 6,
+      windowMs: 60 * 60 * 1000,
+    });
+    if (!limit.allowed) {
+      return {
+        ok: false,
+        message: "Çok fazla kayıt denemesi yapıldı. Lütfen biraz sonra tekrar deneyin.",
+      };
+    }
+
     if (!isValidEmail(input.email)) {
       return { ok: false, message: "Geçerli bir e-posta girin." };
     }
@@ -70,6 +83,18 @@ export async function registerAction(
 
 export async function loginAction(input: LoginInput): Promise<ActionResult> {
   try {
+    const limit = checkRateLimit({
+      key: await getActionRateLimitKey("login"),
+      limit: 8,
+      windowMs: 15 * 60 * 1000,
+    });
+    if (!limit.allowed) {
+      return {
+        ok: false,
+        message: "Çok fazla giriş denemesi yapıldı. Lütfen biraz sonra tekrar deneyin.",
+      };
+    }
+
     if (!isValidEmail(input.email) || !input.password) {
       return { ok: false, message: "E-posta veya şifre hatalı." };
     }

@@ -1,4 +1,14 @@
 /** @type {import('next').NextConfig} */
+const isProduction = process.env.NODE_ENV === "production";
+
+const scriptSources = [
+  "'self'",
+  "'unsafe-inline'",
+  !isProduction ? "'unsafe-eval'" : "",
+  "*.vercel.app",
+  "*.vercel-insights.com",
+].filter(Boolean);
+
 const securityHeaders = [
   { key: "X-Frame-Options", value: "SAMEORIGIN" },
   { key: "X-Content-Type-Options", value: "nosniff" },
@@ -17,8 +27,9 @@ const securityHeaders = [
     key: "Content-Security-Policy",
     value: [
       "default-src 'self'",
-      // Next.js inline script'leri için unsafe-inline + Vercel domain'leri
-      "script-src 'self' 'unsafe-inline' 'unsafe-eval' *.vercel.app *.vercel-insights.com",
+      // Next.js inline script'leri icin unsafe-inline + Vercel domain'leri.
+      // unsafe-eval yalnizca gelistirmede acik kalir.
+      `script-src ${scriptSources.join(" ")}`,
       "style-src 'self' 'unsafe-inline' fonts.googleapis.com",
       "img-src 'self' data: blob: https:",
       "font-src 'self' data: fonts.gstatic.com",

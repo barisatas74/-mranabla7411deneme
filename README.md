@@ -41,6 +41,7 @@ npx tsc --noEmit    # TypeScript
 | `ADMIN_USERNAME` | Admin paneli kullanıcı adı |
 | `ADMIN_PASSWORD` | Admin paneli parolası |
 | `ADMIN_SESSION_TOKEN` | Cookie imzası için rastgele 32+ byte hex |
+| `USER_SESSION_SECRET` | Üye oturumları için ayrı rastgele 32+ byte hex |
 | `NEXT_PUBLIC_SITE_URL` | Production domain (sitemap, OG, canonical için) |
 
 ### İletişim & Sosyal Medya (opsiyonel — boş ise gizlenir)
@@ -54,9 +55,9 @@ npx tsc --noEmit    # TypeScript
 | `NEXT_PUBLIC_FACEBOOK_URL` | Footer Facebook |
 | `NEXT_PUBLIC_YOUTUBE_URL` | Footer Youtube |
 
-> ⚠️ **Önemli:** `ADMIN_PASSWORD` ve `ADMIN_SESSION_TOKEN` doldurulmadığında production'da admin koruma 503 ile reddeder. Mutlaka doldurun.
+> ⚠️ **Önemli:** `ADMIN_PASSWORD`, `ADMIN_SESSION_TOKEN` ve `USER_SESSION_SECRET` yayına çıkmadan önce mutlaka doldurulmalı.
 
-`ADMIN_SESSION_TOKEN` için güçlü bir değer üretmek:
+`ADMIN_SESSION_TOKEN` ve `USER_SESSION_SECRET` için güçlü değer üretmek:
 
 ```bash
 # Linux/macOS

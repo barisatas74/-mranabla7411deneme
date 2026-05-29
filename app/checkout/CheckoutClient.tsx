@@ -234,6 +234,7 @@ export default function CheckoutClient({
         shippingFee: summary.shipping,
         discount: summary.discount,
         total: summary.total,
+        couponCode,
         note: formData.customerNote || undefined,
         paymentMethod: formData.paymentMethod,
         shippingMethod: formData.shippingMethod,

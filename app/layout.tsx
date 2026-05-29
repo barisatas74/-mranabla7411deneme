@@ -9,6 +9,8 @@ import { organizationSchema, websiteSchema } from "@/lib/schema";
 import { getStorefrontCategories } from "@/lib/storefront-data";
 import { CategoryNavItem } from "@/types";
 
+export const dynamic = "force-dynamic";
+
 export const metadata: Metadata = {
   metadataBase: new URL(SITE.url),
   title: {

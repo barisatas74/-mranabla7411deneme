@@ -43,6 +43,7 @@ export function getDb(): Pool {
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
+    connectTimeout: 8000,
     enableKeepAlive: true,
     keepAliveInitialDelay: 10000,
     timezone: "+03:00",

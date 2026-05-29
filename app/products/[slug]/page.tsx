@@ -18,14 +18,7 @@ async function loadProductData(slug: string) {
   };
 }
 
-export const revalidate = 300;
-
-export async function generateStaticParams() {
-  const products = await getStorefrontProducts();
-  return products.map((product) => ({
-    slug: product.slug,
-  }));
-}
+export const dynamic = "force-dynamic";
 
 type ProductDetailPageProps = {
   params: Promise<{

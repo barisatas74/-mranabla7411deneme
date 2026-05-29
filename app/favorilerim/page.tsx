@@ -1,7 +1,7 @@
 import FavoritesView from "@/components/FavoritesView";
 import { getStorefrontProducts } from "@/lib/storefront-data";
 
-export const revalidate = 300;
+export const dynamic = "force-dynamic";
 
 export const metadata = {
   title: "Favorilerim",

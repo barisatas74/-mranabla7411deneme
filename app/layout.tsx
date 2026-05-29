@@ -81,9 +81,11 @@ export const metadata: Metadata = {
   icons: {
     icon: [
       { url: "/icon.svg", type: "image/svg+xml" },
-      { url: "/favicon.ico" },
+      { url: "/icon-48.png", sizes: "48x48", type: "image/png" },
+      { url: "/favicon.ico", sizes: "48x48" },
     ],
-    apple: "/apple-icon.png",
+    shortcut: "/favicon.ico",
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
   manifest: "/manifest.webmanifest",
   formatDetection: {

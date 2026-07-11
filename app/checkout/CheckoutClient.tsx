@@ -251,7 +251,7 @@ export default function CheckoutClient({
       // Kartla ödeme + Kuveyt Türk aktifse → bankanın 3D doğrulama sayfasına
       // yönlendir. Sepet, ödeme başarılı olursa sonuç sayfasında temizlenir.
       if (formData.paymentMethod === "card" && cardPaymentEnabled) {
-        redirectToBank(created.id, {
+        redirectToBank(result.order.id, {
           cardHolderName: formData.cardHolderName,
           cardNumber: formData.cardNumber,
           cardExpiry: formData.cardExpiry,

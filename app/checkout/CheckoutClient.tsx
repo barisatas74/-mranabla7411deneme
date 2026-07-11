@@ -82,9 +82,11 @@ type PlacedOrder = {
 export default function CheckoutClient({
   currentUser,
   savedAddresses = [],
+  cardPaymentEnabled = false,
 }: {
   currentUser: User | null;
   savedAddresses?: UserAddress[];
+  cardPaymentEnabled?: boolean;
 }) {
   const { lines, couponCode, couponDiscountRate, clearCart, isHydrated } =
     useCart();
@@ -246,6 +248,20 @@ export default function CheckoutClient({
         return;
       }
 
+      // Kartla ödeme + Kuveyt Türk aktifse → bankanın 3D doğrulama sayfasına
+      // yönlendir. Sepet, ödeme başarılı olursa sonuç sayfasında temizlenir.
+      if (formData.paymentMethod === "card" && cardPaymentEnabled) {
+        redirectToBank(created.id, {
+          cardHolderName: formData.cardHolderName,
+          cardNumber: formData.cardNumber,
+          cardExpiry: formData.cardExpiry,
+          cardCvc: formData.cardCvc,
+        });
+        return; // sayfa bankaya gidiyor — isSubmitting açık kalsın
+      }
+
+      // Havale / kapıda ödeme (veya POS henüz yapılandırılmadıysa):
+      // sipariş oluşturuldu, inline onay ekranını göster.
       const order: PlacedOrder = {
         orderNumber: result.order.orderNumber,
         summary: {
@@ -261,9 +277,40 @@ export default function CheckoutClient({
 
       setPlacedOrder(order);
       clearCart();
-    } finally {
+      setIsSubmitting(false);
+    } catch {
+      setSubmitError(
+        "Beklenmeyen bir hata oluştu. Lütfen tekrar deneyin veya bizimle iletişime geçin."
+      );
       setIsSubmitting(false);
     }
+  }
+
+  function redirectToBank(
+    orderId: string,
+    card: {
+      cardHolderName: string;
+      cardNumber: string;
+      cardExpiry: string;
+      cardCvc: string;
+    }
+  ) {
+    const form = document.createElement("form");
+    form.method = "POST";
+    form.action = "/api/payment/kuveytturk/initiate";
+    form.style.display = "none";
+
+    const fields: Record<string, string> = { orderId, ...card };
+    for (const [name, value] of Object.entries(fields)) {
+      const input = document.createElement("input");
+      input.type = "hidden";
+      input.name = name;
+      input.value = value;
+      form.appendChild(input);
+    }
+
+    document.body.appendChild(form);
+    form.submit();
   }
 
   if (!isHydrated) {

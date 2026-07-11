@@ -1,6 +1,7 @@
 import CheckoutClient from "./CheckoutClient";
 import { getCurrentUser } from "@/lib/actions/auth";
 import { listAddressesAction } from "@/lib/actions/addresses";
+import { isKuveytTurkConfigured } from "@/lib/payment/kuveytturk";
 
 export const dynamic = "force-dynamic";
 
@@ -11,6 +12,7 @@ export default async function CheckoutPage() {
     <CheckoutClient
       currentUser={currentUser}
       savedAddresses={savedAddresses}
+      cardPaymentEnabled={isKuveytTurkConfigured()}
     />
   );
 }
